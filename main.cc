@@ -1,6 +1,7 @@
 #include <iostream>
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
+#include "includes/stockpile.h"
 
 using namespace std;
 using namespace cv;
@@ -38,8 +39,12 @@ int main(int argc, char** argv) {
 	imshow("imgBlack", imgBlack);
 	imshow("new", Mat (imgBlack, Rect(0, 0, 2*offset, 2*offset)));
 
+	Mat bla = im::invert(imgWhite);
+	imshow("new", bla);
 
 	//Mat::clone
 	waitKey();
+
+
 
 }
