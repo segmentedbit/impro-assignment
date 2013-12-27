@@ -49,32 +49,32 @@ int main(int argc, char** argv) {
 	/*
 	 * Ardillo's testing code
 	 */
+	// BASIC CODE
 	char  *imageName = argv[1];
-
 	Mat image;
 	image = imread(imageName, 1);
-
 	if(argc !=2 || !image.data ){ //argc is het aantal parameters wat meegegeven wordt aan het programma
 		std::cout << "No image data, or not enough parameters" ;
 		return -1;
 	}
+	// EO BASIC CODE
 
 	Mat gray_image;
 	cvtColor(image, gray_image, CV_BGR2GRAY);
 
-		//self constructed method to loop through image, while looping output is shown in console
-	   std::cout << " before ptr : " << &image << std::endl;
-
-	    bool debug = false;
-		im::displayPixels(image, true, debug);
-		im::displayPixels(gray_image, false, debug);
-
+	//  TESTING SPACE
+			Mat own_gray_image = im::greyscale(image);
+	//		im::displayPixels(image, true, false);
+	//		im::displayPixels(gray_image, false, false);
+	//		im::displayPixels(own_gray_image, false, false);
 
 	namedWindow(imageName, CV_WINDOW_NORMAL);
 	namedWindow("Gray_image", CV_WINDOW_NORMAL );
+	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
 
 	imshow (imageName , image);
 	imshow( "Gray_image", gray_image);
+	imshow("own Gray_image", own_gray_image);
 
 	waitKey(0);
 

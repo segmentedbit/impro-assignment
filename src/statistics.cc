@@ -2,7 +2,7 @@
  * statistics.cc
  *
  *  Created on: Dec 11, 2013
- *      Author: segmented bit
+ *      Author: segmented bit / Ardillo
  */
 
 #include "opencv2/imgproc/imgproc.hpp"
@@ -29,7 +29,7 @@ void im::displayPixels(const cv::Mat &input, bool Color, bool debug ){
 
 
 	// loop through all pixels, row by row.
-	for (int i = 0; i < (&input)->rows; i++){
+	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){
 
 			if (Color){

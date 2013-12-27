@@ -13,6 +13,5 @@ http://docs.opencv.org/modules/core/doc/basic_structures.html#
 - [src] - accompanying source files
 - [images]
 
-27-12-2013 Ardillo
-added display pixels in statistics.cc
-also added the 'main()' to test it.
+27-12-2013 Ardillo.<br>
+added 'display pixels' and 'greyscale' in statistics.cc also added the 'main()' to test it.

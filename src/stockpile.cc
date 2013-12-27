@@ -2,7 +2,7 @@
  * stockpile.cc
  *
  *  Created on: Dec 11, 2013
- *      Author: fenrir
+ *      Author: fenrir / Ardillo
  */
 
 #include "opencv2/imgproc/imgproc.hpp"
@@ -28,6 +28,19 @@ Mat im::invert(const cv::Mat &input) {
 	return inverted;
 }
 
+Mat im::greyscale(const cv::Mat &input) {
+	Mat greyImage(input.rows, input.cols, CV_8UC1);
+	for (int i = 0; i < input.rows; i++){
+			for (int j = 0; j < input.cols; j++){
+				int B = input.at<Vec3b>(i,j)[0];
+				int G = input.at<Vec3b>(i,j)[1];
+				int R = input.at<Vec3b>(i,j)[2];
+				int grey = round((R + G + B)/3);
+				greyImage.at<uchar>(i,j) = grey;
+			}
+	}
+	return greyImage;
+}
 
 
 /* Thresholds an image. The pixels of value <threshold> and higher are converted

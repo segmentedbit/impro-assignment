@@ -2,7 +2,7 @@
  * stockpile.h
  *
  *  Created on: Dec 11, 2013
- *      Author: segmented bit
+ *      Author: segmented bit / Ardillo
  */
 
 #ifndef STOCKPILE_H_
@@ -28,6 +28,12 @@ cv::Mat invert(const cv::Mat &input);
  */
 cv::Mat threshold(const cv::Mat &input, int threshold);
 
+/* Converts a color image to a greyscale image.
+ * This sums up the different color channels and divide it by three
+ * TODO This has a deviation of exactly 1, so apparently opencv does
+ * something different with their ToGrayScale operand.
+ */
+cv::Mat greyscale(const cv::Mat &input);
 }
 
 #endif /* STOCKPILE_H_ */
