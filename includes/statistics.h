@@ -2,7 +2,7 @@
  * statistics.h
  *
  *  Created on: Dec 11, 2013
- *      Author: segmented bit
+ *      Author: segmented bit / Ardillo
  */
 
 #ifndef STATISTICS_H_
@@ -31,7 +31,17 @@ cv::Mat equalize(const cv::Mat &input);
  */
 cv::Mat enhanceConstrast(const cv::Mat &input, int left, int right, int mode);
 
+/*
+ *  Displays every pixel with its value in the console, This can be used for a grey-scale image
+ *  or a color image.
+ */
+void displayPixels(const cv::Mat &input, bool Color, bool debug );
+
 }
+
+
+
+
 
 int maxValue(const cv::Mat &input);
 
