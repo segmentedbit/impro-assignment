@@ -41,6 +41,7 @@ cv::Mat invertGray(const cv::Mat &input);
  * This sums up the different color channels and divide it by three
  * TODO This has a deviation of exactly 1, so apparently opencv does
  * something different with their ToGrayScale operand.
+ * TODO Has some other strange artifact, try to run program with checkerColor13_0_37.png?
  */
 cv::Mat grayscale(const cv::Mat &input);
 

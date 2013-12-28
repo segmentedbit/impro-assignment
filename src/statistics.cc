@@ -13,13 +13,10 @@ using namespace cv;
 using namespace im;
 
 Mat im::showHist(const cv::Mat &input) {
-	Mat histogram(256, 256, CV_8UC1);
-	histogram = 255;
-	int amount_of_pixels = input.rows * input.cols;
-	std::cout << amount_of_pixels << std::endl;
+	Mat histogram = Mat::zeros(256, 256, CV_8UC3);
 	int bins[256] = {};
 	int max;
-	//count every value and increment the associating bin
+	/* loop every value and increment the associating bin & keep count of the maximum. */
 	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){
 			int value = input.at<uchar>(i,j);
@@ -28,45 +25,11 @@ Mat im::showHist(const cv::Mat &input) {
 				max = bins[value];
 			}
 	}	}
-	//TODO stopped here... some vague auto zoom system
-	/*
-	 * it checks by modulus calculating the biggest round number
-	 * 10, 100 , 100 .... etc etc
-	 * This variable named 'iterate' is used to scale the bin-values
-	 * in the next for loop.
-	 */
-	std::cout << "max value " << max << std::endl;
-	int mystic;
-	int iterate = 10;
-	while (mystic != 0) {
-		mystic = (max/iterate)%iterate;
-		std::cout << "mystic " << mystic << std::endl;
-		iterate *= 10;
-	}
-	iterate /= 10;
-	std::cout << "iterate" << iterate << std::endl;
-
-
-	//divide every bin-value so it will fit in the hist. matrix
+	/* divide every bin-value so it will fit in the hist. matrix */
 	for (int i = 0; i < 256; i++){
-		int bin_value;
-		if (bins[i] == 0){
-			bin_value = 0;
-		}
-		else {
-			bin_value = abs(round( iterate * 1.0 / bins[i]));
-		}
-//		std::cout << i << " ) " << bin_value << std::endl;
-		// draw a black pixel on every bin-location from bottom-up
-		int x;
-		if (((histogram.rows-1) - bin_value) < 0 ) {
-			x = 0;
-		} else {
-			x = (histogram.rows-1) - bin_value;
-		}
-
-		for (int j = (histogram.rows-1); j >=x; j--) {
-			histogram.at<uchar>(j, i) = 0;
+		int bin_value = round( (bins[i]*255 / max));
+		for (int j = (histogram.rows-1); j >=(histogram.rows-1) - bin_value; j--) {
+			histogram.at<Vec3b>(j, i)[1] = 255;
 	}	}
 	return histogram;
 }

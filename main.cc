@@ -18,6 +18,7 @@ int main(int argc, char** argv) {
 	Mat imgBlack(512,512,CV_8UC1);
 	// MatimgBlack(512,512,CV_8UC1,Scalar(0)); Same
 	// imgWhite = 0; // Doesn't work for 0. Does work for 1 and above though
+	// TODO edit Ardillo... above is true, but try to initialize with Mat::zeros(512,512,CV_8UC1);
 
 	imshow("imgWhite", imgWhite);
 	imshow("imgBlack", imgBlack);
@@ -46,8 +47,8 @@ int main(int argc, char** argv) {
 
 	//Mat::clone
 	//waitKey();
-
 */
+
 
 	/*
 	 * Ardillo's testing code
@@ -62,11 +63,11 @@ int main(int argc, char** argv) {
 	}
 	// EO BASIC CODE
 
+	// OpenCV checks
 	Mat gray_image;
 	cvtColor(image, gray_image, CV_BGR2GRAY);
-
-	Mat test(image.rows, image.cols, CV_8UC1);
-	test = 200;
+	//TODO crap... checkerWithColor13_0_37.png does something
+	// different then our own grayscale converter.
 
 	//  TESTING SPACE
 			Mat own_gray_image = im::grayscale(image);
@@ -75,7 +76,7 @@ int main(int argc, char** argv) {
 			Mat adding = im::addMatrix(own_gray_image, threshold);
 			Mat substracting = im::substractMatrix(own_gray_image, threshold);
 			long int start = im::getTime();
-			Mat hist = im::showHist(threshold);
+			Mat hist = im::showHist(gray_image);
 			long int stop = im::getTime();
 	//		im::displayPixels(image, true, false);
 	//		im::displayPixels(gray_image, false, false);
