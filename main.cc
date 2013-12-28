@@ -9,6 +9,7 @@ using namespace cv;
 
 int main(int argc, char** argv) {
 
+/*
 	// Means of creating a white image
 	Mat imgWhite(512,512,CV_8UC1,Scalar(255));
 	imgWhite = 255; // Assign the value 255 to the whole image
@@ -20,7 +21,7 @@ int main(int argc, char** argv) {
 
 	imshow("imgWhite", imgWhite);
 	imshow("imgBlack", imgBlack);
-	waitKey();
+	//waitKey();
 
 	//Mat img;
 
@@ -44,7 +45,9 @@ int main(int argc, char** argv) {
 	imshow("new", bla);
 
 	//Mat::clone
-	waitKey();
+	//waitKey();
+
+*/
 
 	/*
 	 * Ardillo's testing code
@@ -62,19 +65,41 @@ int main(int argc, char** argv) {
 	Mat gray_image;
 	cvtColor(image, gray_image, CV_BGR2GRAY);
 
+	Mat test(image.rows, image.cols, CV_8UC1);
+	test = 200;
+
 	//  TESTING SPACE
-			Mat own_gray_image = im::greyscale(image);
+			Mat own_gray_image = im::grayscale(image);
+			Mat inverted_image = im::invertGray(own_gray_image);
+			Mat threshold = im::threshold(own_gray_image, 150);
+			Mat adding = im::addMatrix(own_gray_image, threshold);
+			Mat substracting = im::substractMatrix(own_gray_image, threshold);
+			long int start = im::getTime();
+			Mat hist = im::showHist(own_gray_image);
+			long int stop = im::getTime();
 	//		im::displayPixels(image, true, false);
 	//		im::displayPixels(gray_image, false, false);
 	//		im::displayPixels(own_gray_image, false, false);
 
+			std::cout << "time: " << (stop - start)/1000 << " Micro seconds"<<std::endl;
+
 	namedWindow(imageName, CV_WINDOW_NORMAL);
 	namedWindow("Gray_image", CV_WINDOW_NORMAL );
 	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
+	namedWindow("inverted_image", CV_WINDOW_NORMAL);
+	namedWindow("thresholded_image", CV_WINDOW_NORMAL);
+	namedWindow("added_image", CV_WINDOW_NORMAL);
+	namedWindow("substracted_image", CV_WINDOW_NORMAL);
+	namedWindow("histogram", CV_WINDOW_NORMAL);
 
 	imshow (imageName , image);
 	imshow( "Gray_image", gray_image);
 	imshow("own Gray_image", own_gray_image);
+	imshow("inverted_image", inverted_image);
+	imshow("thresholded_image", threshold);
+	imshow("added_image", adding);
+	imshow("substracted_image", substracting);
+	imshow("histogram", hist);
 
 	waitKey(0);
 
