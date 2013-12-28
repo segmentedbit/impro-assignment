@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
 			Mat adding = im::addMatrix(own_gray_image, threshold);
 			Mat substracting = im::substractMatrix(own_gray_image, threshold);
 			long int start = im::getTime();
-			Mat hist = im::showHist(own_gray_image);
+			Mat hist = im::showHist(threshold);
 			long int stop = im::getTime();
 	//		im::displayPixels(image, true, false);
 	//		im::displayPixels(gray_image, false, false);

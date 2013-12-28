@@ -15,3 +15,7 @@ http://docs.opencv.org/modules/core/doc/basic_structures.html#
 
 27-12-2013 Ardillo.<br>
 added 'display pixels' and 'greyscale' in statistics.cc also added the 'main()' to test it.
+
+28-12-2013 Ardillo.<br>
+added more functionality: thresholding, inverse, histogram, add, substract.
+added an auto-zoom thing (very ugly) for auto-scaling the histogram matrix output.
