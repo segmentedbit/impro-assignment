@@ -5,3 +5,17 @@ added 'display pixels' and 'greyscale' in statistics.cc also added the 'main()' 
 added more functionality: thresholding, inverse, histogram, add, substract.<br>
 added an auto-zoom thing (very ugly) for auto-scaling the histogram matrix output.<br>
 Removed auto-zoom, final histogram adjustments, works fine now.
+
+###29-12-213 Ardillo<br>
+Found some info that calculating gray-values is a bit more than just adding RGB values and divide them by 3.<br>
+There need te be some kind of factor:
+- float B = 0.1140 * input.at<Vec3b>(i,j)[0];
+- float G = 0.5870 * input.at<Vec3b>(i,j)[1];
+- float R = 0.2989 * input.at<Vec3b>(i,j)[2];
+it has something to do with the frequency space in the color spectrum. Google CIE 1931 standard of colorspaces.
+Yes.. it originates from 1931, back then already people figured this out.
+Look for more info:
+http://stackoverflow.com/questions/687261/converting-rgb-to-grayscale-intensity
+https://en.wikipedia.org/wiki/Gamma_correction
+http://www.cis.rit.edu/mcsl/research/broadbent/CIE1931_RGB.pdf
+https://en.wikipedia.org/wiki/CIE_1931_color_space

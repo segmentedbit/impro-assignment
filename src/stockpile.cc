@@ -60,10 +60,10 @@ Mat im::grayscale(const cv::Mat &input) {
 	Mat grayImage(input.rows, input.cols, CV_8UC1);
 	for (int i = 0; i < input.rows; i++){
 			for (int j = 0; j < input.cols; j++){
-				int B = input.at<Vec3b>(i,j)[0];
-				int G = input.at<Vec3b>(i,j)[1];
-				int R = input.at<Vec3b>(i,j)[2];
-				int grey = round((R + G + B)/3);
+				float B = 0.1140 * input.at<Vec3b>(i,j)[0];
+				float G = 0.5870 * input.at<Vec3b>(i,j)[1];
+				float R = 0.2989 * input.at<Vec3b>(i,j)[2];
+				int grey = round((R + G + B));
 				grayImage.at<uchar>(i,j) = grey;
 			}
 	}

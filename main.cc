@@ -76,8 +76,9 @@ int main(int argc, char** argv) {
 			Mat adding = im::addMatrix(own_gray_image, threshold);
 			Mat substracting = im::substractMatrix(own_gray_image, threshold);
 			long int start = im::getTime();
-			Mat hist = im::showHist(gray_image);
+			Mat histOpenCVGrayImage = im::showHist(gray_image);
 			long int stop = im::getTime();
+			Mat histOwnGrayImage = im::showHist(own_gray_image);
 	//		im::displayPixels(image, true, false);
 	//		im::displayPixels(gray_image, false, false);
 	//		im::displayPixels(own_gray_image, false, false);
@@ -91,7 +92,9 @@ int main(int argc, char** argv) {
 	namedWindow("thresholded_image", CV_WINDOW_NORMAL);
 	namedWindow("added_image", CV_WINDOW_NORMAL);
 	namedWindow("substracted_image", CV_WINDOW_NORMAL);
-	namedWindow("histogram", CV_WINDOW_NORMAL);
+	namedWindow("histogram: OpenCV grayImage", CV_WINDOW_NORMAL);
+	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
+
 
 	imshow (imageName , image);
 	imshow( "Gray_image", gray_image);
@@ -100,7 +103,8 @@ int main(int argc, char** argv) {
 	imshow("thresholded_image", threshold);
 	imshow("added_image", adding);
 	imshow("substracted_image", substracting);
-	imshow("histogram", hist);
+	imshow("histogram: OpenCV grayImage", histOpenCVGrayImage);
+	imshow("histogram: Own grayImage", histOwnGrayImage);
 
 	waitKey(0);
 
