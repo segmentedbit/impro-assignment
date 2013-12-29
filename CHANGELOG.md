@@ -19,3 +19,5 @@ http://stackoverflow.com/questions/687261/converting-rgb-to-grayscale-intensity
 https://en.wikipedia.org/wiki/Gamma_correction
 http://www.cis.rit.edu/mcsl/research/broadbent/CIE1931_RGB.pdf
 https://en.wikipedia.org/wiki/CIE_1931_color_space
+
+Began with making a filter with variable kernel size and padding in temporary matrix

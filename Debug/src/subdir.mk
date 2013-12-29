@@ -4,14 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CC_SRCS += \
+../src/filters.cc \
 ../src/statistics.cc \
 ../src/stockpile.cc 
 
 OBJS += \
+./src/filters.o \
 ./src/statistics.o \
 ./src/stockpile.o 
 
 CC_DEPS += \
+./src/filters.d \
 ./src/statistics.d \
 ./src/stockpile.d 
 

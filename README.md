@@ -14,4 +14,4 @@ http://docs.opencv.org/modules/core/doc/basic_structures.html#
 - [images]
 
 ###Bugs: <br>
-- None yet
+- our own grayScale converter has a disfunctioning problem (test with checkerWithColor13_0_37.png).<br>

@@ -3,6 +3,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "includes/stockpile.h"
 #include "includes/statistics.h"
+#include "includes/filters.h"
 
 using namespace std;
 using namespace cv;
@@ -57,17 +58,15 @@ int main(int argc, char** argv) {
 	char  *imageName = argv[1];
 	Mat image;
 	image = imread(imageName, 1);
-	if(argc !=2 || !image.data ){ //argc is het aantal parameters wat meegegeven wordt aan het programma
+	if(argc <2 || !image.data ){ //argc is het aantal parameters wat meegegeven wordt aan het programma
 		std::cout << "No image data, or not enough parameters" ;
 		return -1;
 	}
 	// EO BASIC CODE
 
 	// OpenCV checks
-	Mat gray_image;
-	cvtColor(image, gray_image, CV_BGR2GRAY);
-	//TODO crap... checkerWithColor13_0_37.png does something
-	// different then our own grayscale converter.
+	//		Mat gray_image;
+	//		cvtColor(image, gray_image, CV_BGR2GRAY);
 
 	//  TESTING SPACE
 			Mat own_gray_image = im::grayscale(image);
@@ -75,36 +74,37 @@ int main(int argc, char** argv) {
 			Mat threshold = im::threshold(own_gray_image, 150);
 			Mat adding = im::addMatrix(own_gray_image, threshold);
 			Mat substracting = im::substractMatrix(own_gray_image, threshold);
-			long int start = im::getTime();
-			Mat histOpenCVGrayImage = im::showHist(gray_image);
-			long int stop = im::getTime();
+	//		Mat histOpenCVGrayImage = im::showHist(gray_image);
 			Mat histOwnGrayImage = im::showHist(own_gray_image);
+			long int start = im::getTime();
+			Mat filtered = im::averageFilter(own_gray_image, 5, 5, true);
+			long int stop = im::getTime();
 	//		im::displayPixels(image, true, false);
 	//		im::displayPixels(gray_image, false, false);
 	//		im::displayPixels(own_gray_image, false, false);
 
 			std::cout << "time: " << (stop - start)/1000 << " Micro seconds"<<std::endl;
 
-	namedWindow(imageName, CV_WINDOW_NORMAL);
-	namedWindow("Gray_image", CV_WINDOW_NORMAL );
-	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
-	namedWindow("inverted_image", CV_WINDOW_NORMAL);
-	namedWindow("thresholded_image", CV_WINDOW_NORMAL);
-	namedWindow("added_image", CV_WINDOW_NORMAL);
-	namedWindow("substracted_image", CV_WINDOW_NORMAL);
-	namedWindow("histogram: OpenCV grayImage", CV_WINDOW_NORMAL);
-	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
+			namedWindow(imageName, CV_WINDOW_NORMAL);
+	//		namedWindow("Gray_image", CV_WINDOW_NORMAL );
+			namedWindow("own Gray_image", CV_WINDOW_NORMAL);
+			namedWindow("inverted_image", CV_WINDOW_NORMAL);
+			namedWindow("thresholded_image", CV_WINDOW_NORMAL);
+			namedWindow("added_image", CV_WINDOW_NORMAL);
+			namedWindow("substracted_image", CV_WINDOW_NORMAL);
+	//		namedWindow("histogram: OpenCV grayImage", CV_WINDOW_NORMAL);
+			namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
 
 
-	imshow (imageName , image);
-	imshow( "Gray_image", gray_image);
-	imshow("own Gray_image", own_gray_image);
-	imshow("inverted_image", inverted_image);
-	imshow("thresholded_image", threshold);
-	imshow("added_image", adding);
-	imshow("substracted_image", substracting);
-	imshow("histogram: OpenCV grayImage", histOpenCVGrayImage);
-	imshow("histogram: Own grayImage", histOwnGrayImage);
+			imshow (imageName , image);
+	//		imshow( "Gray_image", gray_image);
+			imshow("own Gray_image", own_gray_image);
+			imshow("inverted_image", inverted_image);
+			imshow("thresholded_image", threshold);
+			imshow("added_image", adding);
+			imshow("substracted_image", substracting);
+	//		imshow("histogram: OpenCV grayImage", histOpenCVGrayImage);
+			imshow("histogram: Own grayImage", histOwnGrayImage);
 
 	waitKey(0);
 
