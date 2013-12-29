@@ -11,7 +11,7 @@ Found some info that calculating gray-values is a bit more than just adding RGB 
 There need te be some kind of factor:
 - float B = 0.1140 * input.at<Vec3b>(i,j)[0];
 - float G = 0.5870 * input.at<Vec3b>(i,j)[1];
-- float R = 0.2989 * input.at<Vec3b>(i,j)[2];
+- float R = 0.2989 * input.at<Vec3b>(i,j)[2];<br>
 it has something to do with the frequency space in the color spectrum. Google CIE 1931 standard of colorspaces.
 Yes.. it originates from 1931, back then already people figured this out.
 Look for more info:
