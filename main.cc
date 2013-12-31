@@ -77,8 +77,11 @@ int main(int argc, char** argv) {
 	//		Mat histOpenCVGrayImage = im::showHist(gray_image);
 			Mat histOwnGrayImage = im::showHist(own_gray_image);
 			long int start = im::getTime();
-			Mat filtered = im::averageFilter(own_gray_image, 5, 5, true);
+			Mat filtered1 = im::averageFilter(own_gray_image, 9, 9, false);
+			Mat filtered2 = im::averageFilter(own_gray_image, 3, 3, false);
 			long int stop = im::getTime();
+			Mat substractAverage = im::substractMatrix(filtered1, filtered2);
+			Mat thresholdedSubstractAverage  = im::threshold(substractAverage, 15);
 	//		im::displayPixels(image, true, false);
 	//		im::displayPixels(gray_image, false, false);
 	//		im::displayPixels(own_gray_image, false, false);
@@ -94,7 +97,9 @@ int main(int argc, char** argv) {
 			namedWindow("substracted_image", CV_WINDOW_NORMAL);
 	//		namedWindow("histogram: OpenCV grayImage", CV_WINDOW_NORMAL);
 			namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
-
+			namedWindow("averageFilter", CV_WINDOW_NORMAL);
+			namedWindow("difference of averages", CV_WINDOW_NORMAL);
+			namedWindow("thresholded DO-average", CV_WINDOW_NORMAL);
 
 			imshow (imageName , image);
 	//		imshow( "Gray_image", gray_image);
@@ -105,6 +110,9 @@ int main(int argc, char** argv) {
 			imshow("substracted_image", substracting);
 	//		imshow("histogram: OpenCV grayImage", histOpenCVGrayImage);
 			imshow("histogram: Own grayImage", histOwnGrayImage);
+    		imshow("averageFilter", filtered1);
+    		imshow("difference of averages", substractAverage);
+    		imshow("thresholded DO-average", thresholdedSubstractAverage);
 
 	waitKey(0);
 

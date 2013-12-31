@@ -21,3 +21,8 @@ http://www.cis.rit.edu/mcsl/research/broadbent/CIE1931_RGB.pdf
 https://en.wikipedia.org/wiki/CIE_1931_color_space
 
 Began with making a filter with variable kernel size and padding in temporary matrix
+
+###31-12-2013 Ardillo<br>
+Finished an average filter. It is not the fastest method to use on HD wallpapers, but it works good enough for our project.<br>
+Also used earlier made functions to substract two different averaged images, then thresholded the result.
+The result is a nice edge image.
