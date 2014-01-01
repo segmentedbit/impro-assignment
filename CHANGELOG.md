@@ -26,3 +26,7 @@ Began with making a filter with variable kernel size and padding in temporary ma
 Finished an average filter. It is not the fastest method to use on HD wallpapers, but it works good enough for our project.<br>
 Also used earlier made functions to substract two different averaged images, then thresholded the result.
 The result is a nice edge image.
+
+###01-01-2014 Ardillo<br>
+Started a general filter function with a manual kernel. Does not work yet, due to problems with different data-types
+of metrices. If kernel has negative numbers some artifacts will occur.

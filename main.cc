@@ -78,15 +78,47 @@ int main(int argc, char** argv) {
 			Mat histOwnGrayImage = im::showHist(own_gray_image);
 			long int start = im::getTime();
 			Mat filtered1 = im::averageFilter(own_gray_image, 9, 9, false);
-			Mat filtered2 = im::averageFilter(own_gray_image, 3, 3, false);
 			long int stop = im::getTime();
+			Mat filtered2 = im::averageFilter(own_gray_image, 3, 3, false);
 			Mat substractAverage = im::substractMatrix(filtered1, filtered2);
 			Mat thresholdedSubstractAverage  = im::threshold(substractAverage, 15);
+
+			//testje
+			Mat kernel (3, 3, CV_8UC1);
+
+			kernel.at<schar>(0,0) = -1;
+			kernel.at<schar>(0,1) = -1;
+			kernel.at<schar>(0,2) = -1;
+			kernel.at<schar>(1,0) = -1;
+			kernel.at<schar>(1,1) = 9;
+			kernel.at<schar>(1,2) = -1;
+			kernel.at<schar>(2,0) = -1;
+			kernel.at<schar>(2,1) = -1;
+			kernel.at<schar>(2,2) = -1;
+
+			/*
+			 *
+			kernel.at<schar>(0,0) = 0;
+			kernel.at<schar>(0,1) = 0;
+			kernel.at<schar>(0,2) = 0;
+			kernel.at<schar>(1,0) = 0;
+			kernel.at<schar>(1,1) = 9;
+			kernel.at<schar>(1,2) = 0;
+			kernel.at<schar>(2,0) = 0;
+			kernel.at<schar>(2,1) = 0;
+			kernel.at<schar>(2,2) = 0;
+			 */
+
+			std::cout << kernel << std::endl;
+
+			Mat customfilter = im::filter(filtered1, kernel);
+
+
 	//		im::displayPixels(image, true, false);
 	//		im::displayPixels(gray_image, false, false);
 	//		im::displayPixels(own_gray_image, false, false);
 
-			std::cout << "time: " << (stop - start)/1000 << " Micro seconds"<<std::endl;
+			std::cout << "time: " << (stop - start)/1000 << " Micro seconds" << std::endl;
 
 			namedWindow(imageName, CV_WINDOW_NORMAL);
 	//		namedWindow("Gray_image", CV_WINDOW_NORMAL );
@@ -100,6 +132,8 @@ int main(int argc, char** argv) {
 			namedWindow("averageFilter", CV_WINDOW_NORMAL);
 			namedWindow("difference of averages", CV_WINDOW_NORMAL);
 			namedWindow("thresholded DO-average", CV_WINDOW_NORMAL);
+			namedWindow("custom Filter", CV_WINDOW_NORMAL);
+
 
 			imshow (imageName , image);
 	//		imshow( "Gray_image", gray_image);
@@ -113,6 +147,7 @@ int main(int argc, char** argv) {
     		imshow("averageFilter", filtered1);
     		imshow("difference of averages", substractAverage);
     		imshow("thresholded DO-average", thresholdedSubstractAverage);
+    		imshow("custom Filter", customfilter);
 
 	waitKey(0);
 

@@ -21,5 +21,11 @@ namespace im{
  */
 cv::Mat averageFilter(const cv::Mat &input, int width, int height, bool debug);
 
+/*
+ * Basic filter which excepts an input matrix and a custom made kernel.
+ * It automatically transposes the input to a temporary image with padding.
+ */
+cv::Mat filter(const cv::Mat &input, const cv::Mat &kernel);
+
 }
 #endif /* FILTERS_H_ */
