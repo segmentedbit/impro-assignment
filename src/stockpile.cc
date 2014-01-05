@@ -28,8 +28,6 @@ Mat im::invert(const cv::Mat &input) {
 	return inverted;
 }
 
-<<<<<<< HEAD
-=======
 Mat im::threshold(const cv::Mat &input, int threshold) {
 	Mat binary;
 	input.copyTo(binary);
@@ -124,5 +122,3 @@ long int im::getTime() {
 	long int time = get_time.tv_nsec;
 	return time;
 }
-
->>>>>>> e702741f8a1a1f2f6846dcf8b639bae4e0c99c22

@@ -55,13 +55,20 @@ int main(int argc, char** argv) {
 	 * Ardillo's testing code
 	 */
 	// BASIC CODE
-	char  *imageName = argv[1];
-	Mat image;
-	image = imread(imageName, 1);
-	if(argc <2 || !image.data ){ //argc is het aantal parameters wat meegegeven wordt aan het programma
+	if(argc <2){ //argc is het aantal parameters wat meegegeven wordt aan het programma
 		std::cout << "No image data, or not enough parameters" ;
 		return -1;
 	}
+
+	char  *imageName = argv[1];
+	Mat image;
+	image = imread(imageName, 1);
+
+	if(!image.data ){ //Image kon niet geladen worden, oid.
+		std::cout << "Failed to load image " << imageName;
+		return -1;
+	}
+
 	// EO BASIC CODE
 
 	// OpenCV checks

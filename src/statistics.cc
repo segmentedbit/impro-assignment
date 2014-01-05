@@ -7,10 +7,9 @@
 
 #include "opencv2/imgproc/imgproc.hpp"
 #include "includes/statistics.h"
-#include <cv.h>
+#include <iostream>
 
 using namespace cv;
-using namespace im;
 
 Mat im::showHist(const cv::Mat &input) {
 	Mat histogram = Mat::zeros(256, 256, CV_8UC3);

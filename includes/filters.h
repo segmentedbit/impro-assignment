@@ -10,7 +10,7 @@
 
 #include "opencv2/imgproc/imgproc.hpp"
 
-namespace im{
+namespace im {
 
 /*
  * Smooth filter with variable size. Filter width and height have to
