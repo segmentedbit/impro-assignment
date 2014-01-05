@@ -28,10 +28,3 @@ Mat im::invert(const cv::Mat &input) {
 	return inverted;
 }
 
-
-
-/* Thresholds an image. The pixels of value <threshold> and higher are converted
- * to 1, values below are converted to zero, as by convention (is this true?)
-
-cv::Mat threshold(const cv::Mat &input, int threshold);
-*/
