@@ -2,7 +2,7 @@
  * statistics.h
  *
  *  Created on: Dec 11, 2013
- *      Author: segmented bit
+ *      Author: segmented bit / Ardillo
  */
 
 #ifndef STATISTICS_H_
@@ -17,8 +17,9 @@ const int INCREASE = 1, DECREASE = 0;
 
 /* Shows histogram of given input image. Uses a plain Mat image to display the
  * height of all the bins.
+ * TODO at the moment you need a zoomlevel double to adjust the max height to fit on the screen.
  */
-cv::Mat showHist(const cv::Mat &input);
+cv::Mat showHist(const cv::Mat &input );
 
 /* Equalizes the given input image
  *
@@ -31,7 +32,17 @@ cv::Mat equalize(const cv::Mat &input);
  */
 cv::Mat enhanceConstrast(const cv::Mat &input, int left, int right, int mode);
 
+/*
+ *  Displays every pixel with its value in the console, This can be used for a grey-scale image
+ *  or a color image.
+ */
+void displayPixels(const cv::Mat &input, bool Color, bool debug );
+
 }
+
+
+
+
 
 int maxValue(const cv::Mat &input);
 
