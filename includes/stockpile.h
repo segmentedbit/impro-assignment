@@ -15,6 +15,10 @@
 // Our own namespace to be sure that our names don't cause conflicts.
 namespace im {
 
+const int PZERO = 0;
+const int PWHITE = 1;
+const int PREPLICATE = 2;
+
 /* Inverses an image. Should be able to handle both grey scale and binary
  * images.
  * The namespace 'cv' is written explicitly instead of writing 'using namespace cv'
@@ -55,12 +59,29 @@ cv::Mat addMatrix(const cv::Mat &original, const cv::Mat &input);
  * Substract two gray-scale matrices of the same size, a pixelwise ' - ' .
  * Matrices have to be of the same size, otherwise it will output  a warning.
  */
-cv::Mat substractMatrix(const cv::Mat &original, const cv::Mat &input);
+cv::Mat subtractMatrix(const cv::Mat &original, const cv::Mat &input);
 
+/*
+ * Copies an image into a new image, automatically creating the right padding
+ * which is often needed for spation operations.
+ * pType (padding type) can be one of the following constants:
+ *    - PZERO		(fill padding with zeroes)
+ *    - PWHITE		(fill padding with the max value)
+ *    - PREPLICATE	(expand the border into the padding)
+ */
+cv::Mat copyWithPadding(const cv::Mat &original, const int pWidth, const int pHeight, const int pType);
+
+/*
+ * Equal takes two images an compares them, pixelwise, for equality
+ */
+bool equal(const cv::Mat &first, const cv::Mat &second);
 /*
  * Get time in nano seconds
  */
 long int getTime();
+
+cv::Mat addMatrixOld(const cv::Mat &original, const cv::Mat &input);
+cv::Mat subtractMatrixOld(const cv::Mat &original, const cv::Mat &input);
 
 }
 #endif /* STOCKPILE_H_ */

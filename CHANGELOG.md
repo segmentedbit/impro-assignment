@@ -30,3 +30,13 @@ The result is a nice edge image.
 ###01-01-2014 Ardillo<br>
 Started a general filter function with a manual kernel. Does not work yet, due to problems with different data-types
 of metrices. If kernel has negative numbers some artifacts will occur.
+
+###08-01-2013 segmentedbit<br>
+Cleaned ip averageFilter. Introduced a C++11 way of measuring time, which may be better. Introduced an header file that can be used to
+set global variables, like debugging yes/no. Also added a function 'copyWithPadding', which allows for copying and adding padding at the same time.
+This function still needs some work though.
+
+###08-01-2013 segmentedbit<br>
+Checked all functions in stockpile.cc. Didn't check filter(), remains TODO for when we need it.<br>
+Test code in main in separated now. Added a function 'equal' to check whether images are equal, which is useful for checking if refactorings don't break code.
+
