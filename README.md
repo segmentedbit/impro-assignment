@@ -14,7 +14,8 @@ Using the Mat class causes quite some overhead because OpenCV offers a lot more 
 
 ###Interesting links:
 
-http://docs.opencv.org/modules/core/doc/basic_structures.html#
+- Basic information: http://docs.opencv.org/modules/core/doc/basic_structures.html#
+- On types: http://stackoverflow.com/questions/10167534/how-to-find-out-what-type-of-a-mat-object-is-with-mattype-in-opencv
 
 
 

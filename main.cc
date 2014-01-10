@@ -4,6 +4,7 @@
 #include "includes/stockpile.h"
 #include "includes/statistics.h"
 #include "includes/filters.h"
+#include "includes/morphology.h"
 
 #include <chrono>
 #include <stdlib.h>
@@ -29,17 +30,31 @@ int main(int argc, char** argv) {
 
 int segmentedbit() {
 	Mat image;
-	String imageName = "images/Gray_image.jpg";
-	image = imread("images/Gray_image.jpg", 1);
+	String imageName = "images/Gray_image.png";
+	image = imread(imageName, 1);
 	if(!image.data ){
 		std::cout << "Failed to load image " << imageName;
 		exit(1);
 	}
 
+	Mat defaultElement = im::defaultElement();
+	namedWindow("structuring element", CV_WINDOW_NORMAL);
+	imshow("structuring element", defaultElement);
+	im::displayPixels(defaultElement, false, false, im::DISPLAY_MATRIX);
+
 	Mat own_gray_image = im::grayscale(image);
 
-	////////////////////////// Test correctness refactored averageFilter function
+	namedWindow("original", CV_WINDOW_NORMAL);
+	namedWindow("dilated", CV_WINDOW_NORMAL);
 
+	Mat dilated = im::morphDilate(own_gray_image);
+	imshow("original", own_gray_image);
+	imshow("dilated", dilated);
+    im::displayPixels(dilated, false, false, im::DISPLAY_MATRIX);
+	waitKey(0);
+
+	////////////////////////// Test correctness refactored averageFilter function
+	/*
 	namedWindow(imageName, CV_WINDOW_NORMAL);
 	namedWindow("old", CV_WINDOW_NORMAL);
 	namedWindow("new", CV_WINDOW_NORMAL);
@@ -67,6 +82,7 @@ int segmentedbit() {
 	//im::displayPixels(im::subtractMatrix(oldIm,newIm), false, false, im::DISPLAY_MATRIX);
 
 	waitKey(0);
+	*/
 
 	////////////////////////// Test correctness refactored add and subtract functions
 	/*
@@ -92,77 +108,36 @@ int segmentedbit() {
 
 	////////////////////////// Speed test invert functions
 	/*
-		waitKey(0);
-		Mat averaged = im::averageFilter(own_gray_image, 5, 5, im::PWHITE);
+	waitKey(0);
+	Mat averaged = im::averageFilter(own_gray_image, 5, 5, im::PWHITE);
 
-		namedWindow(imageName, CV_WINDOW_NORMAL);
-		imshow(imageName,own_gray_image);
+	namedWindow(imageName, CV_WINDOW_NORMAL);
+	imshow(imageName,own_gray_image);
 
-		namedWindow(imageName + " averaged", CV_WINDOW_NORMAL);
-		imshow(imageName + " averaged",averaged);
-
-
-		Mat invertedImage;
-		auto s1 = highc::now();
-		invertedImage = im::invert(own_gray_image);
-		auto e1 = highc::now();
-
-		auto s2 = highc::now();
-		invertedImage = im::invertGray(own_gray_image);
-		auto e2 = highc::now();
+	namedWindow(imageName + " averaged", CV_WINDOW_NORMAL);
+	imshow(imageName + " averaged",averaged);
 
 
-		auto timetaken1 = e1 - s1;
-		auto timetaken2 = e2 - s2;
-		cout << "Duration1: " << timetaken1.count() << endl <<
-				"Duration2: " << timetaken2.count() << endl;
+	Mat invertedImage;
+	auto s1 = highc::now();
+	invertedImage = im::invert(own_gray_image);
+	auto e1 = highc::now();
 
-		// Check
-		// http://stackoverflow.com/questions/14373934/iterator-loop-vs-index-loop
-		// http://stackoverflow.com/questions/776624/whats-faster-iterating-an-stl-vector-with-vectoriterator-or-with-at
+	auto s2 = highc::now();
+	invertedImage = im::invertGray(own_gray_image);
+	auto e2 = highc::now();
+
+
+	auto timetaken1 = e1 - s1;
+	auto timetaken2 = e2 - s2;
+	cout << "Duration1: " << timetaken1.count() << endl <<
+			"Duration2: " << timetaken2.count() << endl;
+
+	// Check
+	// http://stackoverflow.com/questions/14373934/iterator-loop-vs-index-loop
+	// http://stackoverflow.com/questions/776624/whats-faster-iterating-an-stl-vector-with-vectoriterator-or-with-at
 	*/
 
-
-
-	/*
-		// Means of creating a white image
-		Mat imgWhite(512,512,CV_8UC1,Scalar(255));
-		imgWhite = 255; // Assign the value 255 to the whole image
-
-		// Means of creating a black image
-		Mat imgBlack(512,512,CV_8UC1);
-		// MatimgBlack(512,512,CV_8UC1,Scalar(0)); Same
-		// imgWhite = 0; // Doesn't work for 0. Does work for 1 and above though
-		// TODO edit Ardillo... above is true, but try to initialize with Mat::zeros(512,512,CV_8UC1);
-
-		imshow("imgWhite", imgWhite);
-		imshow("imgBlack", imgBlack);
-		//waitKey();
-
-		//Mat img;
-
-
-		//img1.create(100,100,CV_8UC1);
-
-		int offset = 25;
-		imgBlack.row(offset) = 255; // Assigns the value 255 to the +offset row
-		imgBlack.col(offset) = 255; // Assigns the value 255 to the +offset column
-		imgBlack.row(imgBlack.size().width -1 -offset) = 255; // Assigns the value 255 to the -offset row (note the extra -1)
-		imgBlack.col(imgBlack.size().height -1 -offset) = 255; // Assigns the value 255 to the -offset column (note the extra -1)
-
-		imgBlack.col(1).copyTo(imgWhite.col(20));
-		// imgBlack.col(1).copyTo(imgWhite.row(20)); Assertion failure. Don't try
-
-		imshow("imgWhite", imgWhite);
-		imshow("imgBlack", imgBlack);
-		imshow("new", Mat (imgBlack, Rect(0, 0, 2*offset, 2*offset)));
-
-		Mat bla = im::invert(imgWhite);
-		imshow("new", bla);
-
-		//Mat::clone
-		//waitKey();
-	*/
 	return 0;
 }
 

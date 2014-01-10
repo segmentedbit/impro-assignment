@@ -55,7 +55,6 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 					middlePixel += temp.at<uchar>(i+x, j+y);
 				}
 			}
-			cout << middlePixel << endl;
 			//  calculate the final result
 			output.at<uchar>(i,j) = round(static_cast<float>(middlePixel) / kPixels);
 

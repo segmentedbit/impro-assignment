@@ -189,6 +189,20 @@ Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadd
 	return output;
 }
 
+int im::validateKernel(const Mat &kernel, const int flags) {
+	int status = 0;
+
+	// Check if kernel width and height are uneven
+
+	if(flags & im::UNEVEN) {
+		if (!(kernel.rows % 2 == 1 && kernel.cols % 2 == 1)){
+			if (config::DEBUG)
+				cerr << "averageFilter: width and/or height have to be odd, in order to make a correct matrix" << endl;
+			status += im::UNEVEN;
+		}
+	}
+	return status;
+}
 
 bool im::equal(const Mat &first, const Mat &second) {
 	// Size check; fail when first and second are not equally sized.

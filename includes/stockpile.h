@@ -19,6 +19,8 @@ const int PZERO = 0;
 const int PWHITE = 1;
 const int PREPLICATE = 2;
 
+const int UNEVEN = 1;
+
 /* Inverses an image. Should be able to handle both grey scale and binary
  * images.
  * The namespace 'cv' is written explicitly instead of writing 'using namespace cv'
@@ -80,8 +82,12 @@ bool equal(const cv::Mat &first, const cv::Mat &second);
  */
 long int getTime();
 
+int validateKernel(const cv::Mat &kernel, int flags);
+
 cv::Mat addMatrixOld(const cv::Mat &original, const cv::Mat &input);
 cv::Mat subtractMatrixOld(const cv::Mat &original, const cv::Mat &input);
+
+
 
 }
 #endif /* STOCKPILE_H_ */

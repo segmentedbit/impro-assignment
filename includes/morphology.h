@@ -13,16 +13,21 @@
 namespace im {
 
 /*
+ * Returns a 3x3, "+" shaped, structuring element.
+ */
+cv::Mat defaultElement();
+
+/*
  * Dilation function. Takes an optional Mat &kernel parameter, which can be of
  * any size. When not provided, the function will assume an 3x3 "+" kernel
  */
-cv::Mat morphDilate(const cv::Mat &input, const cv::Mat &kernel);
+cv::Mat morphDilate(const cv::Mat &input, const cv::Mat &kernel=defaultElement());
 
 /*
  * Erosion function. Takes an optional Mat &kernel parameter, which can be of
  * any size. When not provided, the function will assume an 3x3 "+" kernel
  */
-cv::Mat morphErode(const cv::Mat &input, const cv::Mat &kernel);
+cv::Mat morphErode(const cv::Mat &input, const cv::Mat &kernel=defaultElement());
 
 /*
  * Opening function. Takes two optional parameters for the structuring
@@ -30,7 +35,9 @@ cv::Mat morphErode(const cv::Mat &input, const cv::Mat &kernel);
  * supplied, both elements assume a 3x3 "+" structuring element.
  * Note that the order of element parameters differs from morphClose()
  */
-cv::Mat morphOpen(const cv::Mat &input, const cv::Mat &erosionElement, const cv::Mat &dilationElement);
+cv::Mat morphOpen(const cv::Mat &input,
+		const cv::Mat &erosionElement=defaultElement(),
+		const cv::Mat &dilationElement=defaultElement());
 
 /*
  * Opening function. Takes two optional parameters for the structuring
@@ -38,7 +45,9 @@ cv::Mat morphOpen(const cv::Mat &input, const cv::Mat &erosionElement, const cv:
  * supplied, both elements assume a 3x3 "+" structuring element.
  * Note that the order of element parameters differs from morphOpen()
  */
-cv::Mat morpClose(const cv::Mat &input, const cv::Mat &dilationElement, const cv::Mat &erosionElement);
+cv::Mat morpClose(const cv::Mat &input,
+		const cv::Mat &dilationElement=defaultElement(),
+		const cv::Mat &erosionElement=defaultElement());
 
 /*
  * Finds the skeleton of a given image.
