@@ -16,7 +16,7 @@ using namespace std;
 using namespace cv;
 
 
-// Unused; invertGray does the same but quicker
+// Don't use. invertGray does the same but quicker
 Mat im::invert(const cv::Mat &input) {
 	Mat inverted;
 	input.copyTo(inverted);

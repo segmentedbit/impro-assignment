@@ -9,7 +9,7 @@
 #define CONFIG_H_
 
 namespace config {
-const bool DEBUG = true;
+const bool DEBUG = false;
 }
 
 

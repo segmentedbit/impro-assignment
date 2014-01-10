@@ -40,3 +40,5 @@ This function still needs some work though.
 Checked all functions in stockpile.cc. Didn't check filter(), remains TODO for when we need it.<br>
 Test code in main in separated now. Added a function 'equal' to check whether images are equal, which is useful for checking if refactorings don't break code.
 
+###10-01-2013 segmentedbit<br>
+Fixed minor rounding bug in averageFilter. Slightly changed displayPixels() to accept an extra, optional, parameter on how to print the pixels. Also added blueprints for some morphology functions.

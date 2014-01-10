@@ -13,6 +13,10 @@
 // Our own namespace to be sure that our names don't cause conflicts.
 namespace im {
 
+const int DISPLAY_MATRIX = 0;
+const int DISPLAY_LIST = 1;
+const int DISPLAY_BOTH = 2;
+
 const int INCREASE = 1, DECREASE = 0;
 
 /* Shows histogram of given input image. Uses a plain Mat image to display the
@@ -34,9 +38,11 @@ cv::Mat enhanceConstrast(const cv::Mat &input, int left, int right, int mode);
 
 /*
  *  Displays every pixel with its value in the console, This can be used for a grey-scale image
- *  or a color image.
+ *  or a color image. dType defaults to DISPLAY_BOTH. Other constants are
+ *  DISPLAY_MATRIX and DISPLAY_LIST; which only print the matrix form or list
+ *  form, respectively.
  */
-void displayPixels(const cv::Mat &input, bool Color, bool debug );
+void displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType=DISPLAY_BOTH );
 
 }
 

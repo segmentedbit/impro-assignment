@@ -10,6 +10,7 @@
 #include <iostream>
 
 using namespace cv;
+using namespace std;
 
 Mat im::showHist(const cv::Mat &input) {
 	Mat histogram = Mat::zeros(256, 256, CV_8UC3);
@@ -33,42 +34,49 @@ Mat im::showHist(const cv::Mat &input) {
 	return histogram;
 }
 
-void im::displayPixels(const cv::Mat &input, bool Color, bool debug ){
-	std::cout << " in function ptr : " << &input << std::endl;
+void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType){
+	cout << " in function ptr : " << &input << endl;
 
-	int count = 0;
-	// print all pixels in console for comparison
-	if(Color){
-		std::cout << std::endl << std::endl << "Matrix color (BGR notation !!!) = " << std::endl << input << std::endl << std::endl;
+	// print all pixels in console, as a matrix
+	if (dType == im::DISPLAY_BOTH || dType == im::DISPLAY_MATRIX) {
+		if(Color){
+			cout << endl << endl << "Matrix color (BGR notation !!!) = " << endl << input << endl << endl;
+		}
+		else{
+			cout << endl << endl << "Matrix grey-scale = " << endl << input << endl << endl;
+		}
 	}
-	else{
-		std::cout << std::endl << std::endl << "Matrix grey-scale = " << std::endl << input << std::endl << std::endl;
-	}
-	std::cout << std::endl << " Pixel iteration -->" << std::endl <<std::endl;
 
-	// loop through all pixels, row by row.
-	for (int i = 0; i < input.rows; i++){
-		for (int j = 0; j < input.cols; j++){
-			if (Color){
-				int B = input.at<Vec3b>(i,j)[0];
-				int G = input.at<Vec3b>(i,j)[1];
-				int R = input.at<Vec3b>(i,j)[2];
-				std::cout << count << ")  pixel at (" << i << "," << j << ") =" << " R:" << R << " G:" << G << " B:" << B ;
+	// Print the pixel in the console, list-wise
+	if (dType == im::DISPLAY_BOTH || dType == im::DISPLAY_LIST) {
+		int count = 0;
+
+		cout << endl << " Pixel iteration -->" << endl <<endl;
+
+		// loop through all pixels, row by row.
+		for (int i = 0; i < input.rows; i++){
+			for (int j = 0; j < input.cols; j++){
+				if (Color){
+					int B = input.at<Vec3b>(i,j)[0];
+					int G = input.at<Vec3b>(i,j)[1];
+					int R = input.at<Vec3b>(i,j)[2];
+					cout << count << ")  pixel at (" << i << "," << j << ") =" << " R:" << R << " G:" << G << " B:" << B ;
+				}
+				else{
+					int grayValue = input.at<uchar>(i,j);
+					cout << count << ")  pixel at (" << i << "," << j << ") =" << " value:" << grayValue ;
+				}
+				if (debug){
+					//no idea what this does, Point2f? unsignedChar?
+					Point2f point = input.at<Point2f>(i,j);
+					uchar value = input.at<uchar>(i,j);
+					cout << count << " --> DEBUG INFO = point:"<< point << "  value:" << value << endl;
+				}
+				else{
+					cout << endl;
+				}
+				count++;
 			}
-			else{
-				int grayValue = input.at<uchar>(i,j);
-				std::cout << count << ")  pixel at (" << i << "," << j << ") =" << " value:" << grayValue ;
-			}
-			if (debug){
-				//no idea what this does, Point2f? unsignedChar?
-				Point2f point = input.at<Point2f>(i,j);
-				uchar value = input.at<uchar>(i,j);
-				std::cout << count << " --> DEBUG INFO = point:"<< point << "  value:" << value << std::endl;
-			}
-			else{
-				std::cout << std::endl;
-			}
-		    count++;
 		}
 	}
 }

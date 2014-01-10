@@ -38,6 +38,37 @@ int segmentedbit() {
 
 	Mat own_gray_image = im::grayscale(image);
 
+	////////////////////////// Test correctness refactored averageFilter function
+
+	namedWindow(imageName, CV_WINDOW_NORMAL);
+	namedWindow("old", CV_WINDOW_NORMAL);
+	namedWindow("new", CV_WINDOW_NORMAL);
+
+	// Check is new addMatrix function does the same
+	Mat oldIm = im::averageFilterDebug(own_gray_image, 3, 3, false);
+	Mat newIm = im::averageFilter(own_gray_image, 3, 3, im::PZERO);
+	cout << "Add functions are: " << ((im::equal(oldIm, newIm)) ? "equal" : "unequal") << endl;
+
+	imshow(imageName,own_gray_image);
+	imshow("old", oldIm);
+	imshow("new", newIm);
+
+	cout << "original" << endl;
+	im::displayPixels(own_gray_image, false, false, im::DISPLAY_MATRIX);
+
+	cout << "old version of averageFilter" << endl;
+	im::displayPixels(oldIm, false, false, im::DISPLAY_MATRIX);
+
+	cout << "new version of averageFilter" << endl;
+	im::displayPixels(newIm, false, false, im::DISPLAY_MATRIX);
+
+	//cout << "" << endl;
+	//im::displayPixels(im::subtractMatrix(newIm,oldIm), false, false, im::DISPLAY_MATRIX);
+	//im::displayPixels(im::subtractMatrix(oldIm,newIm), false, false, im::DISPLAY_MATRIX);
+
+	waitKey(0);
+
+	////////////////////////// Test correctness refactored add and subtract functions
 	/*
 	namedWindow(imageName, CV_WINDOW_NORMAL);
 	namedWindow("added", CV_WINDOW_NORMAL);
@@ -59,6 +90,8 @@ int segmentedbit() {
 	imshow("subtracted", subtracted1);
 	 */
 
+	////////////////////////// Speed test invert functions
+	/*
 		waitKey(0);
 		Mat averaged = im::averageFilter(own_gray_image, 5, 5, im::PWHITE);
 
@@ -87,6 +120,9 @@ int segmentedbit() {
 		// Check
 		// http://stackoverflow.com/questions/14373934/iterator-loop-vs-index-loop
 		// http://stackoverflow.com/questions/776624/whats-faster-iterating-an-stl-vector-with-vectoriterator-or-with-at
+	*/
+
+
 
 	/*
 		// Means of creating a white image
