@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	// returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
 	return returnValue;
 }
@@ -156,100 +156,32 @@ int ardillo(int argc, char** argv) {
 	Mat image;
 	image = imread(imageName, 1);
 
-	if(!image.data ){ //Image kon niet geladen worden, oid.
+	if(!image.data ){
 		std::cout << "Failed to load image " << imageName;
 		return -1;
 	}
 
 	// EO BASIC CODE
 
-	// OpenCV checks
-	//		Mat gray_image;
-	//		cvtColor(image, gray_image, CV_BGR2GRAY);
-
 	//  TESTING SPACE
+			namedWindow(imageName, CV_WINDOW_NORMAL);
+			imshow (imageName , image);
+
 			Mat own_gray_image = im::grayscale(image);
-			Mat inverted_image = im::invertGray(own_gray_image);
-			Mat threshold = im::threshold(own_gray_image, 150);
-			Mat adding = im::addMatrix(own_gray_image, threshold);
-			Mat substracting = im::subtractMatrix(own_gray_image, threshold);
+			namedWindow("own Gray_image", CV_WINDOW_NORMAL);
+			imshow("own Gray_image", own_gray_image);
+
 	//		Mat histOpenCVGrayImage = im::showHist(gray_image);
 			Mat histOwnGrayImage = im::showHist(own_gray_image);
+			namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
+			imshow("histogram: Own grayImage", histOwnGrayImage);
+
 			long int start = im::getTime();
-			Mat filtered1 = im::averageFilter(own_gray_image, 9, 9, im::PWHITE);
 			long int stop = im::getTime();
-			Mat filtered2 = im::averageFilter(own_gray_image, 3, 3, im::PWHITE);
-			Mat substractAverage = im::subtractMatrix(filtered1, filtered2);
-			Mat thresholdedSubstractAverage  = im::threshold(substractAverage, 15);
-
-			//testje
-			Mat kernel (3, 3, CV_8UC1);
-
-			kernel.at<schar>(0,0) = -1;
-			kernel.at<schar>(0,1) = -1;
-			kernel.at<schar>(0,2) = -1;
-			kernel.at<schar>(1,0) = -1;
-			kernel.at<schar>(1,1) = 9;
-			kernel.at<schar>(1,2) = -1;
-			kernel.at<schar>(2,0) = -1;
-			kernel.at<schar>(2,1) = -1;
-			kernel.at<schar>(2,2) = -1;
-
-			/*
-			 *
-			kernel.at<schar>(0,0) = 0;
-			kernel.at<schar>(0,1) = 0;
-			kernel.at<schar>(0,2) = 0;
-			kernel.at<schar>(1,0) = 0;
-			kernel.at<schar>(1,1) = 9;
-			kernel.at<schar>(1,2) = 0;
-			kernel.at<schar>(2,0) = 0;
-			kernel.at<schar>(2,1) = 0;
-			kernel.at<schar>(2,2) = 0;
-
-
-			std::cout << kernel << std::endl;
-
-			Mat customfilter = im::filter(filtered1, kernel);
-
-
-	//		im::displayPixels(image, true, false);
-	//		im::displayPixels(gray_image, false, false);
-	//		im::displayPixels(own_gray_image, false, false);
 
 			std::cout << "time: " << (stop - start)/1000 << " Micro seconds" << std::endl;
 
-			namedWindow(imageName, CV_WINDOW_NORMAL);
-	//		namedWindow("Gray_image", CV_WINDOW_NORMAL );
-			namedWindow("own Gray_image", CV_WINDOW_NORMAL);
-			namedWindow("inverted_image", CV_WINDOW_NORMAL);
-			namedWindow("thresholded_image", CV_WINDOW_NORMAL);
-			namedWindow("added_image", CV_WINDOW_NORMAL);
-			namedWindow("substracted_image", CV_WINDOW_NORMAL);
-	//		namedWindow("histogram: OpenCV grayImage", CV_WINDOW_NORMAL);
-			namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
-			namedWindow("averageFilter", CV_WINDOW_NORMAL);
-			namedWindow("difference of averages", CV_WINDOW_NORMAL);
-			namedWindow("thresholded DO-average", CV_WINDOW_NORMAL);
-			namedWindow("custom Filter", CV_WINDOW_NORMAL);
-
-
-			imshow (imageName , image);
-	//		imshow( "Gray_image", gray_image);
-			imshow("own Gray_image", own_gray_image);
-			imshow("inverted_image", inverted_image);
-			imshow("thresholded_image", threshold);
-			imshow("added_image", adding);
-			imshow("substracted_image", substracting);
-	//		imshow("histogram: OpenCV grayImage", histOpenCVGrayImage);
-			imshow("histogram: Own grayImage", histOwnGrayImage);
-    		imshow("averageFilter", filtered1);
-    		imshow("difference of averages", substractAverage);
-    		imshow("thresholded DO-average", thresholdedSubstractAverage);
-    		imshow("custom Filter", customfilter);
-
-
 	waitKey(0);
-	*/
+
 	return 0;
 }
