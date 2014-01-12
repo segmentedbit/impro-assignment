@@ -113,6 +113,62 @@ Mat im::morphClose(const Mat &input, const Mat &dilationElement, const Mat &eros
 	return output;
 }
 
+// To a great extend, the code is the same as for morphDilate, except for
+// the while loop and some small other changes. This is done deliberately though,
+// as calling morphDilate would force us to create a second loop over the image
+// to calculate the minimum of the output image and control image.
+Mat im::morphGeodesicDilate(const Mat &input, const Mat &control, const Mat &element, int nTimes) {
+	int status = validateKernel(element, im::UNEVEN);
+	if (status != 0) {
+		cerr << "morphDilate: Structuring element does not validate" << endl;
+		exit(1);
+	}
+	im::displayPixels(input, false, false, im::DISPLAY_MATRIX);
+
+	Mat output = input.clone();
+	int eWidth = element.rows;
+	int eHeight = element.cols;
+
+	int loops = 0;
+	// Loop until nTimes = 0, or
+	while (nTimes != 0) {
+		Mat tempDilate = im::copyWithPadding(output, eWidth/2, eHeight/2, im::PZERO);
+		Mat tempGeo = output.clone();
+		// Iterate over all of inputs pixels
+		for (int i = 0; i < output.rows; i++) {
+			for (int j = 0; j < output.cols; j++) {
+				int highestNeighbor = 0;
+
+				// Check for the highest neighbor, where 'neighbor' is any pixel
+				// that is contained in both the structuring element and the original
+				// image.
+				for (int x=0; x<eWidth; x++) {
+					for (int y=0; y<eHeight; y++) {
+						int neighbor = element.at<uchar>(x, y) * tempDilate.at<uchar>(i+x, j+y);
+
+						if (neighbor > highestNeighbor) {
+							highestNeighbor = neighbor;
+						}
+					}
+				}
+				//  calculate the final result
+				output.at<uchar>(i,j) = min(highestNeighbor, static_cast<int>(control.at<uchar>(i,j)));
+
+			}
+		}
+		if (im::equal(output, tempGeo)) {
+			break;
+		}
+		nTimes--;
+	}
+	return output;
+}
+
+Mat im::morphGeodesicErode(const Mat &input, const Mat &control, const Mat &element, const int nTimes) {
+	return input;
+}
+
+
 Mat im::morphSkeleton(const Mat &input) {
 	Mat output(input.size(), CV_8UC1);
 	return output;

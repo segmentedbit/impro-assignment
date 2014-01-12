@@ -50,6 +50,24 @@ cv::Mat morphClose(const cv::Mat &input,
 		const cv::Mat &erosionElement=defaultElement());
 
 /*
+ * Geodesic dilation. Takes two Mat images: the to-be-dilated image and the
+ * control image. The function keeps dilating and comparing the target image
+ * with the control image, unless an optional nTime parameter is supplied,
+ * which will be the maximum amount of loops to be run. The default structuring
+ * element is a 3x3 "+" shaped element.
+ */
+cv::Mat morphGeodesicDilate(const cv::Mat &input, const cv::Mat &control, const cv::Mat &element, int nTimes=-1);
+
+/*
+ * Geodesic erosion. Takes two Mat images: the to-be-eroded image and the
+ * control image. The function keeps eroding and comparing the target image
+ * with the control image, unless an optional nTime parameter is supplied,
+ * which will be the maximum amount of loops to be run. The default structuring
+ * element is a 3x3 "+" shaped element.
+ */
+cv::Mat morphGeodesicErode(const cv::Mat &input, const cv::Mat &control, const cv::Mat &element, int nTimes=-1);
+
+/*
  * Finds the skeleton of a given image.
  */
 cv::Mat morphSkeleton(const cv::Mat &input);

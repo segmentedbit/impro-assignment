@@ -38,6 +38,33 @@ int segmentedbit() {
 		exit(1);
 	}
 
+
+	////////////////////////// Test morphGeodesicDilate()
+	Mat element = Mat::ones(7,7, CV_8UC1);
+	Mat defaultElement = im::defaultElement();
+
+	Mat gray = imread("images/Gray_image.png", 1);
+	gray = im::grayscale(gray);
+	Mat grayEroded = im::morphErode(gray);
+	Mat grayGeoDil = im::morphGeodesicDilate(grayEroded, gray, defaultElement);
+
+
+
+	namedWindow("original", CV_WINDOW_NORMAL);
+	namedWindow("grayEroded", CV_WINDOW_NORMAL);
+	namedWindow("grayGeoDil", CV_WINDOW_NORMAL);
+
+
+	imshow("original", gray);
+	imshow("grayEroded", grayEroded);
+	imshow("grayGeoDil", grayGeoDil);
+
+	cout << "images are: " << ((im::equal(grayGeoDil, gray)) ? "equal" : "unequal") << endl;
+
+	waitKey(0);
+
+
+	/*
 	////////////////////////// Test morphErode()
 	Mat own_gray_image = im::grayscale(image);
 	Mat element = Mat::ones(7,7, CV_8UC1);
@@ -55,6 +82,7 @@ int segmentedbit() {
 	imshow("closed", closed);
 
 	waitKey(0);
+	 */
 
 	/*
 	////////////////////////// Test morphErode()
