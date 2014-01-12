@@ -34,6 +34,48 @@ Mat im::showHist(const cv::Mat &input) {
 	return histogram;
 }
 
+Mat im::equalize(const cv::Mat &input) {
+	Mat output(input.rows, input.cols, CV_8UC1);
+
+	// check for used matrix data type, only CV_8U is currently supported.
+	if (!(input.depth() == 0)){
+		cout << "At the moment only images with values 0...255 are supported\n"
+				"Your image does not have the correct matrix type." << endl;
+		exit(1);
+	}
+
+	// Copied from histogram function
+	// Calculate every bin value
+	int bins[256] = {};
+	for (int i = 0; i < input.rows; i++){
+		for (int j = 0; j < input.cols; j++){
+			int value = input.at<uchar>(i,j);
+			bins[value]++;
+	}	}
+
+	// remapping algorithm, see page 60 of reader
+	// make a remapping array to refactor every found graylevel to
+	float alpha = (input.rows * input.cols) / 256;
+	int remapper[256];
+	int cummulative = 0;
+	for (int x = 0; x < 256; x++){
+		cummulative += bins[x];
+		remapper[x] = round(cummulative / alpha) - 1;
+		if (remapper[x] < 0){
+			remapper[x] = 0;
+		}
+	}
+
+	// loop again through the image and remaps every value
+	for (int i = 0; i < input.rows; i++){
+			for (int j = 0; j < input.cols; j++){
+				int value = input.at<uchar>(i,j);
+				output.at<uchar>(i,j) = remapper[value];
+		}	}
+
+	return output;
+}
+
 void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType){
 	cout << " in function ptr : " << &input << endl;
 

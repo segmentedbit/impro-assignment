@@ -45,3 +45,7 @@ Fixed minor rounding bug in averageFilter. Slightly changed displayPixels() to a
 
 ###10-01-2014 segmentedbit<br>
 Added morphDilate() and helper function defaultElement() which creates a 3x3 "+" shaped structuring element. Also added a validateKernel() function to streamline validating kernels. Changed and therefore improved the quality of the checkboard image into png format, which avoids the compression noise jpeg introduces.
+
+###12-01-2014 Ardillo<br>
+Made a histogram equalize function, found some information about matrix data types: http://docs.opencv.org/modules/core/doc/basic_structures.html#mat-depth<br>
+
