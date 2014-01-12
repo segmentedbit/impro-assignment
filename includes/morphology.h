@@ -45,7 +45,7 @@ cv::Mat morphOpen(const cv::Mat &input,
  * supplied, both elements assume a 3x3 "+" structuring element.
  * Note that the order of element parameters differs from morphOpen()
  */
-cv::Mat morpClose(const cv::Mat &input,
+cv::Mat morphClose(const cv::Mat &input,
 		const cv::Mat &dilationElement=defaultElement(),
 		const cv::Mat &erosionElement=defaultElement());
 

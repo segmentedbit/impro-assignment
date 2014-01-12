@@ -102,12 +102,14 @@ Mat im::morphErode(const Mat &input, const Mat &element) {
 }
 
 Mat im::morphOpen(const Mat &input, const Mat &erosionElement, const Mat &dilationElement) { //TODO implement
-	Mat output(input.size(), CV_8UC1);
+	Mat output = morphErode(input, erosionElement);
+	output = morphDilate(output, dilationElement);
 	return output;
 }
 
-Mat im::morpClose(const Mat &input, const Mat &dilationElement, const Mat &erosionElement) { //TODO implement
-	Mat output(input.size(), CV_8UC1);
+Mat im::morphClose(const Mat &input, const Mat &dilationElement, const Mat &erosionElement) { //TODO implement
+	Mat output = morphDilate(input, dilationElement);
+	output = morphErode(output, erosionElement);
 	return output;
 }
 

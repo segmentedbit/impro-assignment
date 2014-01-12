@@ -38,7 +38,25 @@ int segmentedbit() {
 		exit(1);
 	}
 
+	////////////////////////// Test morphErode()
+	Mat own_gray_image = im::grayscale(image);
+	Mat element = Mat::ones(7,7, CV_8UC1);
+	Mat defaultElement = im::defaultElement();
 
+	namedWindow("original", CV_WINDOW_NORMAL);
+	namedWindow("opened", CV_WINDOW_NORMAL);
+	namedWindow("closed", CV_WINDOW_NORMAL);
+
+	Mat opened = im::morphOpen(own_gray_image, element, element);
+	Mat closed = im::morphClose(own_gray_image, element, element);
+
+	imshow("original", own_gray_image);
+	imshow("opened", opened);
+	imshow("closed", closed);
+
+	waitKey(0);
+
+	/*
 	////////////////////////// Test morphErode()
 	Mat own_gray_image = im::grayscale(image);
 	Mat element = Mat::ones(7,7, CV_8UC1);
@@ -58,7 +76,7 @@ int segmentedbit() {
 	im::displayPixels(defaultElement, false, false, im::DISPLAY_MATRIX);
 	im::displayPixels(eroded, false, false, im::DISPLAY_MATRIX);
 	waitKey(0);
-
+	*/
 
 	/*
 	////////////////////////// Test for morphDilate()
