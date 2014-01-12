@@ -171,12 +171,23 @@ int ardillo(int argc, char** argv) {
 			namedWindow("own Gray_image", CV_WINDOW_NORMAL);
 			imshow("own Gray_image", own_gray_image);
 
-	//		Mat histOpenCVGrayImage = im::showHist(gray_image);
-			Mat histOwnGrayImage = im::showHist(own_gray_image);
+			Mat histOwnGrayImage = im::showHist(image);
 			namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
 			imshow("histogram: Own grayImage", histOwnGrayImage);
 
+			Mat hist;
+			int hsize[] = { 1 };
+			float range[] = { 0, 255 };
+			const float *ranges[] = { range };
+			int chnls[] = {0};
+			calcHist(&image, 1, chnls, Mat(), hist,1,hsize,ranges);
+			namedWindow("histogram OpenCV test", CV_WINDOW_NORMAL);
+			imshow("histogram OpenCV test", hist);
+
+			//cvtColor()
+
 			long int start = im::getTime();
+			Mat equalized = im::equalize(own_gray_image);
 			long int stop = im::getTime();
 
 			std::cout << "time: " << (stop - start)/1000 << " Micro seconds" << std::endl;
