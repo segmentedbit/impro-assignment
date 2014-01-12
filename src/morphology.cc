@@ -9,6 +9,7 @@
 #include <iostream>
 #include "includes/morphology.h"
 #include "includes/stockpile.h"
+#include "includes/statistics.h"
 
 using namespace std;
 using namespace cv;
@@ -38,30 +39,65 @@ Mat im::morphDilate(const Mat &input, const Mat &element) {
 	// Iterate over all of inputs pixels
 	for (int i = 0; i < input.rows; i++) {
 		for (int j = 0; j < input.cols; j++) {
-			int highestNeighbour = 0;
+			int highestNeighbor = 0;
 
-			// Check for the highest neighbour, where 'neighbour' is any pixel
+			// Check for the highest neighbor, where 'neighbor' is any pixel
 			// that is contained in both the structuring element and the original
 			// image.
 			for (int x=0; x<eWidth; x++) {
 				for (int y=0; y<eHeight; y++) {
-					int neighbour = element.at<uchar>(x, y) * temp.at<uchar>(i+x, j+y);
+					int neighbor = element.at<uchar>(x, y) * temp.at<uchar>(i+x, j+y);
 
-					if (neighbour > highestNeighbour) {
-						highestNeighbour = neighbour;
+					if (neighbor > highestNeighbor) {
+						highestNeighbor = neighbor;
 					}
 				}
 			}
 			//  calculate the final result
-			output.at<uchar>(i,j) = highestNeighbour;
+			output.at<uchar>(i,j) = highestNeighbor;
 		}
 	}
 
 	return output;
 }
 
-Mat im::morphErode(const Mat &input, const Mat &kernel) { //TODO implement
+Mat im::morphErode(const Mat &input, const Mat &element) {
+	int status = validateKernel(element, im::UNEVEN);
+	if (status != 0) {
+		cerr << "morphErode: Structuring element does not validate" << endl;
+		exit(1);
+	}
+
 	Mat output(input.size(), CV_8UC1);
+
+	int eWidth = element.rows;
+	int eHeight = element.cols;
+
+	Mat temp = im::copyWithPadding(input, eWidth/2, eHeight/2, im::PWHITE);
+
+	// Iterate over all of inputs pixels
+	for (int i = 0; i < input.rows; i++) {
+		for (int j = 0; j < input.cols; j++) {
+			int lowestNeighbor = 255;
+
+			// Check for the lowest neighbor, where 'neighbor' is any pixel
+			// that is contained in both the structuring element and the original
+			// image.
+ 			for (int x=0; x<eWidth; x++) {
+				for (int y=0; y<eHeight; y++) {
+					if (element.at<uchar>(x,y) == 1) {
+						int neighbor = temp.at<uchar>(i+x, j+y);
+						if (neighbor < lowestNeighbor) {
+							lowestNeighbor = neighbor;
+						}
+
+					}
+				}
+			}			//  calculate the final result
+			output.at<uchar>(i,j) = lowestNeighbor;
+		}
+	}
+
 	return output;
 }
 

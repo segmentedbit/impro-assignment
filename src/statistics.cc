@@ -38,7 +38,7 @@ Mat im::equalize(const cv::Mat &input) {
 	Mat output(input.rows, input.cols, CV_8UC1);
 
 	// check for used matrix data type, only CV_8U is currently supported.
-	if (!(input.depth() == 0)){
+	if (input.depth() != CV_8U){
 		cout << "At the moment only images with values 0...255 are supported\n"
 				"Your image does not have the correct matrix type." << endl;
 		exit(1);

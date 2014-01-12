@@ -22,21 +22,46 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	// returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
 	return returnValue;
 }
 
 int segmentedbit() {
 	Mat image;
-	String imageName = "images/Gray_image.png";
+	//String imageName = "images/Gray_image.png";
+	String imageName = "images/lena.jpg";
 	image = imread(imageName, 1);
 	if(!image.data ){
 		std::cout << "Failed to load image " << imageName;
 		exit(1);
 	}
 
+
+	////////////////////////// Test morphErode()
+	Mat own_gray_image = im::grayscale(image);
+	Mat element = Mat::ones(7,7, CV_8UC1);
+	Mat defaultElement = im::defaultElement();
+
+	namedWindow("structuring element", CV_WINDOW_NORMAL);
+	namedWindow("original", CV_WINDOW_NORMAL);
+	namedWindow("eroded", CV_WINDOW_NORMAL);
+
+	Mat eroded = im::morphErode(own_gray_image, element);
+
+	imshow("structuring element", defaultElement);
+	imshow("original", own_gray_image);
+	imshow("eroded", eroded);
+
+	im::displayPixels(own_gray_image, false, false, im::DISPLAY_MATRIX);
+	im::displayPixels(defaultElement, false, false, im::DISPLAY_MATRIX);
+	im::displayPixels(eroded, false, false, im::DISPLAY_MATRIX);
+	waitKey(0);
+
+
+	/*
+	////////////////////////// Test for morphDilate()
 	Mat element = Mat::ones(5,5, CV_8UC1);
 
 	Mat defaultElement = im::defaultElement();
@@ -54,6 +79,7 @@ int segmentedbit() {
 	imshow("dilated", dilated);
     im::displayPixels(dilated, false, false, im::DISPLAY_MATRIX);
 	waitKey(0);
+	*/
 
 	////////////////////////// Test correctness refactored averageFilter function
 	/*
