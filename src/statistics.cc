@@ -44,8 +44,34 @@ Mat im::equalize(const cv::Mat &input) {
 		exit(1);
 	}
 
+	// Copied from histogram function
+	// Calculate every bin value
+	int bins[256] = {};
+	for (int i = 0; i < input.rows; i++){
+		for (int j = 0; j < input.cols; j++){
+			int value = input.at<uchar>(i,j);
+			bins[value]++;
+	}	}
 
+	// remapping algorithm, see page 60 of reader
+	// make a remapping array to refactor every found graylevel to
 	float alpha = (input.rows * input.cols) / 256;
+	int remapper[256];
+	int cummulative = 0;
+	for (int x = 0; x < 256; x++){
+		cummulative += bins[x];
+		remapper[x] = round(cummulative / alpha) - 1;
+		if (remapper[x] < 0){
+			remapper[x] = 0;
+		}
+	}
+
+	// loop again through the image and remaps every value
+	for (int i = 0; i < input.rows; i++){
+			for (int j = 0; j < input.cols; j++){
+				int value = input.at<uchar>(i,j);
+				output.at<uchar>(i,j) = remapper[value];
+		}	}
 
 	return output;
 }
