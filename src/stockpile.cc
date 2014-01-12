@@ -16,23 +16,6 @@ using namespace std;
 using namespace cv;
 
 
-// Don't use. invertGray does the same but quicker
-Mat im::invert(const cv::Mat &input) {
-	Mat inverted;
-	input.copyTo(inverted);
-	MatIterator_<u_char> it = inverted.begin<u_char>();
-	MatIterator_<u_char> it_end = inverted.end<u_char>();
-	int i = 0;
-	for(; it != it_end; ++it) {
-
-		*it = 255 - *it;
-	}
-	std::cout << i;
-
-	return inverted;
-}
-
-
 Mat im::threshold(const cv::Mat &input, int threshold) {
 	Mat binary;
 	input.copyTo(binary);

@@ -49,3 +49,5 @@ Added morphDilate() and helper function defaultElement() which creates a 3x3 "+"
 ###12-01-2014 Ardillo<br>
 Made a histogram equalize function, found some information about matrix data types: http://docs.opencv.org/modules/core/doc/basic_structures.html#mat-depth<br>
 
+###12-01-2014 segmentedbit<br>
+Created morphErode(), morphOpen(), morphClose() and morphGeodesicDilate(). Also removed some old code
