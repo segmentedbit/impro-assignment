@@ -34,6 +34,22 @@ Mat im::showHist(const cv::Mat &input) {
 	return histogram;
 }
 
+Mat im::equalize(const cv::Mat &input) {
+	Mat output(input.rows, input.cols, CV_8UC1);
+
+	// check for used matrix data type, only CV_8U is currently supported.
+	if (!(input.depth() == 0)){
+		cout << "At the moment only images with values 0...255 are supported\n"
+				"Your image does not have the correct matrix type." << endl;
+		exit(1);
+	}
+
+
+	float alpha = (input.rows * input.cols) / 256;
+
+	return output;
+}
+
 void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType){
 	cout << " in function ptr : " << &input << endl;
 
