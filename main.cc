@@ -37,6 +37,8 @@ int segmentedbit() {
 		exit(1);
 	}
 
+	Mat element = Mat::ones(5,5, CV_8UC1);
+
 	Mat defaultElement = im::defaultElement();
 	namedWindow("structuring element", CV_WINDOW_NORMAL);
 	imshow("structuring element", defaultElement);
@@ -47,7 +49,7 @@ int segmentedbit() {
 	namedWindow("original", CV_WINDOW_NORMAL);
 	namedWindow("dilated", CV_WINDOW_NORMAL);
 
-	Mat dilated = im::morphDilate(own_gray_image);
+	Mat dilated = im::morphDilate(own_gray_image, element);
 	imshow("original", own_gray_image);
 	imshow("dilated", dilated);
     im::displayPixels(dilated, false, false, im::DISPLAY_MATRIX);
