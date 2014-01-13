@@ -41,6 +41,9 @@ Mat im::morphDilate(const Mat &input, const Mat &element) {
 		for (int j = 0; j < input.cols; j++) {
 			int highestNeighbor = 0;
 
+			/*
+
+
 			// Check for the highest neighbor, where 'neighbor' is any pixel
 			// that is contained in both the structuring element and the original
 			// image.
@@ -51,6 +54,21 @@ Mat im::morphDilate(const Mat &input, const Mat &element) {
 					if (neighbor > highestNeighbor) {
 						highestNeighbor = neighbor;
 					}
+				}
+			}
+			*/
+			/*
+			 * Ardillo... speed check
+			 */
+			for (int q = 0; q < 3; q++){
+				int neighbor = element.at<uchar>(q,1) * temp.at<uchar>(i+q, j+1);
+				if (neighbor > highestNeighbor) {
+					highestNeighbor = neighbor;
+				}
+			}for (int q = 2; q >= 0; q -= 2){
+				int neighbor = element.at<uchar>(1,q) * temp.at<uchar>(i+1, j+q);
+				if (neighbor > highestNeighbor) {
+					highestNeighbor = neighbor;
 				}
 			}
 			//  calculate the final result
