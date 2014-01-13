@@ -245,22 +245,6 @@ int ardillo(int argc, char** argv) {
 			namedWindow("own Gray_image", 0);
 			imshow("own Gray_image", own_gray_image);
 
-			Mat kernel = im::defaultElement();
-			Mat dilate;
-			own_gray_image.copyTo(dilate);
-
-			long int start = im::getTime();
-			for (int i = 0; i < 10; i++){
-				dilate = im::morphDilate(dilate, kernel);
-			}
-			long int stop = im::getTime();
-
-			for (int i = 0; i < 10; i++){
-				dilate = im::morphErode(dilate, kernel);
-			}
-			namedWindow("Dilated", 0);
-			imshow("Dilated", dilate);
-
 			Mat histOwnGrayImage = im::showHist(image);
 			namedWindow("histogram: Own grayImage", 0);
 			imshow("histogram: Own grayImage", histOwnGrayImage);
