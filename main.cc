@@ -257,7 +257,7 @@ int ardillo(int argc, char** argv) {
 			namedWindow("histogram: equalized", 0);
 			imshow("histogram: equalized", histOwnGrayImage2);
 
-			std::cout << "time: " << (stop - start)/1000 << " Micro seconds" << std::endl;
+			//std::cout << "time: " << (stop - start)/1000 << " Micro seconds" << std::endl;
 
 	waitKey(0);
 
