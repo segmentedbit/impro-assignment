@@ -1,23 +1,52 @@
 1. BoltsNuts.jpg
 ================
 Herkennen van 6-hoekige bouten en tellen
+- skeleton
+- eindes van skeleton
+- c bepalen van background -> vergelijken met c van openingen in moeren/ringen ++
 
 2. Balloons.jpg
 ===============
 Tellen van ballonnen
+- to gray level
+- x-derivative filter to detect vertical lining on the balloons
+- SKIZ
++ separate air part from the rest of the picture
 
 3. Giraffe.jpg
 ==============
 Giraf scheiden van achtergrond.
+- median
+- gauss (pre-defined 3x3 5x5 7x7)
+- verdelen grijswaarden (lower color depth)
+  quantization van gray levels
 
 4. Balls.jpg
 ============
 Haal de hart-vormige stress-balls er uit
+- opening
+- labeling
 
 5. Cheese.jpg
 =============
 Tellen van gaten in de kaas
+- SKIZ ++
+- lower envelop
 
 6. xray.jpg
 ===========
 filteren van wapens in beeld
+- segmentatie
+- inverse
+of
+- smooth
+- closing op poppetje
+- geodesic dilate op achtergrond
+- AND / OR / XOR op wat over is... conclusie wapens blijven over.
+- edge van persoon bepalen, wat laten groeien
+- achtergrond geodesic dilaten (rand van vorig punt zorgt voor scheiding pistool) // rand zorgt voor control image
+
+7. Letters ???
+==============
+- feature extraction van skeleton, (intersection, endpoints)
+- dit van afzonderlijke letters en van sekeltons in beeld.
