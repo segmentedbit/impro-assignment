@@ -76,6 +76,12 @@ Mat im::equalize(const cv::Mat &input) {
 	return output;
 }
 
+Mat im::binaryLabel(const cv::Mat &input){
+	Mat output;
+	input.copyTo(output);
+	return output;
+}
+
 void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType){
 	cout << " in function ptr : " << &input << endl;
 
