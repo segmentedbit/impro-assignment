@@ -241,7 +241,7 @@ int ardillo(int argc, char** argv) {
 	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
 	imshow("own Gray_image", own_gray_image);
 
-	Mat histOwnGrayImage = im::showHist(image);
+	Mat histOwnGrayImage = im::showHist(own_gray_image, false);
 	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
 	imshow("histogram: Own grayImage", histOwnGrayImage);
 
@@ -249,15 +249,19 @@ int ardillo(int argc, char** argv) {
 	namedWindow("equalized", CV_WINDOW_NORMAL);
 	imshow("equalized", equalized);
 
-	Mat histOwnGrayImage2 = im::showHist(equalized);
+	Mat histOwnGrayImage2 = im::showHist(equalized, false);
 	namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
 	imshow("histogram: equalized", histOwnGrayImage2);
 
 	Mat kernel = ( Mat_<double>(1,5) << 1, -8, 0, 8, -1);
+	cout << kernel << endl << endl;
 
-	Mat customFilter = im::filter(own_gray_image, kernel);
-	namedWindow("custom Filter", CV_WINDOW_NORMAL);
-	imshow("custom Filter", customFilter);
+	//Mat customFilter = im::filter(own_gray_image, kernel);
+	// Mat customFilter(own_gray_image.rows, own_gray_image.cols, CV_32S);
+	// own_gray_image.copyTo(customFilter);
+	// cout << customFilter << endl << endl;
+	//namedWindow("custom Filter", CV_WINDOW_NORMAL);
+	//imshow("custom Filter", customFilter);
 
 	//std::cout << "time: " << (stop - start)/1000 << " Micro seconds" << std::endl;
 

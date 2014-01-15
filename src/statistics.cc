@@ -12,10 +12,10 @@
 using namespace cv;
 using namespace std;
 
-Mat im::showHist(const cv::Mat &input) {
+Mat im::showHist(const cv::Mat &input, const bool debug) {
 	Mat histogram = Mat::zeros(256, 256, CV_8UC3);
 	int bins[256] = {};
-	int max;
+	int max =0 ;
 	/* loop every value and increment the associating bin & keep count of the maximum. */
 	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){
@@ -25,6 +25,15 @@ Mat im::showHist(const cv::Mat &input) {
 				max = bins[value];
 			}
 	}	}
+	// print every bin value in the console followed by the found maximum
+	if (debug) {
+		cout << "Bins" << endl;
+		for (int ii = 0; ii < 256; ii++){
+			cout <<bins[ii] << ", ";
+		}
+		cout << endl << "Max: " << max << endl << endl;
+	}
+
 	/* divide every bin-value so it will fit in the hist. matrix */
 	for (int i = 0; i < 256; i++){
 		int bin_value = round( (bins[i]*255 / max));

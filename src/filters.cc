@@ -71,13 +71,39 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 //TODO does not work completely
 Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
 	// kernel-size check has to be done in the process of making the kernel.
-	Mat output(input.rows, input.cols, CV_8UC1);
+	Mat output(input.rows, input.cols, CV_32S);
 
 	int pWidth = round(kernel.cols/2);
 	int pHeight = round(kernel.rows/2);
+	Mat temp = im::copyWithPadding(input, 2, 2, PZERO);
 
-	Mat temp = im::copyWithPadding(input, pWidth, pHeight, PREPLICATE);
 
+	 //int horizontal_padding = round(kernel.cols/2);
+	 //int vertical_padding = round(kernel.rows/2);
+	 /*
+	  * First make temporary matrix with extra padding
+	  * TODO could be changed in other padding types.
+	  */
+	/*
+	 Mat temp( input.rows+(vertical_padding*2), input.cols+(horizontal_padding*2), CV_32SC1);
+	 for (int i = 0; i < temp.rows; i++){
+	   if (i < vertical_padding || i > (input.rows+vertical_padding-1)){        //adding padding in vertical way
+	     temp.row(i) = round(0);
+	   }
+	   else {
+	     for (int j = 0; j < temp.cols; j++){
+	       if ( j < horizontal_padding || j > (input.cols+horizontal_padding-1) ) {    //adding padding in horizontal way
+	         temp.col(j) = round(0);
+	       }
+	       else {
+	         temp.at<uchar>(i,j) = input.at<uchar>(i - vertical_padding , j - horizontal_padding);
+	       }
+	     }
+	   }
+	 }
+	 */
+
+	cout << temp << endl;
 	/*
 	 *  calculate every value overlapping temporary matrix and the kernel,
 	 *  place the ending result in the middle pixel of interest.
