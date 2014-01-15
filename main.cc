@@ -260,14 +260,17 @@ int ardillo(int argc, char** argv) {
 		1, -8, 0, 8, -1);
 		float divide_fact = 12;
 
+	///////////// y-Derivative ////////////////////
+	Mat kernel = ( Mat_<float>(5,1) <<
+		1, -8, 0, 8, -1);
+		float divide_fact = 12;
+
 	//////////////// sharpen //////////////////////
 	Mat kernel = ( Mat_<float>(3,3) <<
 		0, -1, 0,
 		-1, 5, -1,
 		0, -1, 0);
 		float divide_fact = 12;
-
-	*/
 
 	////////////// Gaussian kernel /////////////////
 	Mat kernel = ( Mat_<float>(5,5) <<
@@ -277,6 +280,13 @@ int ardillo(int argc, char** argv) {
 		4, 16, 26, 16, 4,
 		1, 4, 7, 4, 1);
 		float divide_fact = 273;
+
+	*/
+
+	///////////// y-Derivative ////////////////////
+	Mat kernel = ( Mat_<float>(5,1) <<
+		1, -8, 0, 8, -1);
+		float divide_fact = 12;
 
 	auto t1 = highc::now();
 	Mat customFilter = im::filter(equalized, kernel, divide_fact);
