@@ -253,20 +253,14 @@ int ardillo(int argc, char** argv) {
 	namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
 	imshow("histogram: equalized", histOwnGrayImage2);
 
-	Mat kernel = ( Mat_<double>(1,5) << 1, -8, 0, 8, -1);
-	cout << kernel << endl << endl;
+	Mat kernel = ( Mat_<float>(1,5) << 1, -8, 0, 8, -1);
 
 	auto t1 = highc::now();
-	auto t2 = highc::now();
-
-	auto timetaken1 = t1 - t2;
-
-	cout << "time taken:" << timetaken1.count() << endl;
-
 	Mat customFilter = im::filter(own_gray_image, kernel);
-	// Mat customFilter(own_gray_image.rows, own_gray_image.cols, CV_32S);
-	// own_gray_image.copyTo(customFilter);
-	// cout << customFilter << endl << endl;
+	auto t2 = highc::now();
+	auto timetaken1 = t2 - t1;
+	cout << "time taken: " << timetaken1.count() << endl;
+
 	namedWindow("custom Filter", CV_WINDOW_NORMAL);
 	imshow("custom Filter", customFilter);
 

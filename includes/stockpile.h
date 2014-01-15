@@ -77,8 +77,22 @@ cv::Mat copyWithPadding(const cv::Mat &original, const int pWidth, const int pHe
  * Equal takes two images an compares them, pixelwise, for equality
  */
 bool equal(const cv::Mat &first, const cv::Mat &second);
+
+/*
+ * converts CV_8U matrix to CV_32F matrix
+ * from chars(0..255) to float
+ */
+cv::Mat matUcharToFloat(const cv::Mat &input);
+
+/*
+ * converts CV_32F matrix to CV_8U
+ * from float to chars(0..255)
+ */
+cv::Mat matFloatToUchar(const cv::Mat &input);
+
 /*
  * Get time in nano seconds
+ * TODO DO NOT USE THIS
  */
 long int getTime();
 

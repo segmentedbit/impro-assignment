@@ -71,17 +71,20 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 //TODO does not work completely
 Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
 	// kernel-size check has to be done in the process of making the kernel.
-	Mat output(input.rows, input.cols, CV_32S);
+	Mat output(input.rows, input.cols, CV_32FC1);
 
 	int pWidth = round(kernel.cols/2);
 	int pHeight = round(kernel.rows/2);
-	Mat temp = im::copyWithPadding(input, pWidth, pHeight, PZERO);
 
-	Mat temp_float(temp.rows, temp.cols, CV_32SC1);
-	temp.copyTo(temp_float);
+	Mat temp = im::copyWithPadding(input, pWidth, pHeight, PZERO);
+	Mat temp_float = im::matUcharToFloat(temp);
 
 	if (config::DEBUG) {
-		cout << temp_float << endl << endl;
+		cout << "kernel: " << endl << kernel << endl << endl;
+		cout << "matrix with padding: " << endl << temp_float << endl << endl;
+
+		namedWindow("DEBUG - temp", CV_WINDOW_NORMAL);
+		imshow("DEBUG - temp", temp_float);
 	}
 	/*
 	 *  calculate every value overlapping temporary matrix and the kernel,
@@ -89,15 +92,18 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
 	 */
 	for ( int i = 0; i < (input.rows); i++) {
 		for (int j = 0; j < (input.cols); j++) {
-			int middlePixel = 0; //debug
+			int middlePixel = 0;
 			for ( int x = 0; x < kernel.rows; x++) {
 				for (int y = 0; y < kernel.cols; y ++) {
-					middlePixel += temp.at<uchar>(i+x, j+y) * kernel.at<uchar>(x,y);
+					middlePixel += temp_float.at<float>(i+x, j+y) * kernel.at<float>(x,y);
 				}
 			}
-			//cout <<"pixel: " << middlePixel <<endl;
-			output.at<uchar>(i,j) = middlePixel; //  calculate the final result
+			output.at<float>(i,j) = middlePixel/12.0; //  calculate the final result
 		}
 	}
+	if(config::DEBUG){
+		cout << "output : " << endl << output << endl << endl;
+	}
+
 	return output;
 }
