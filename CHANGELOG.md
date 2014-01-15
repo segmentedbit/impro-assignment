@@ -74,7 +74,13 @@ how to registrate the objects which I've already scanned. Maybe do some reading
 first. I adjusted im::filter to the latest standard functions, I will rewrite 
 this im::filter function to calculate the x / y derivative.
 
-###15-01-2014 segmentedbit<br>
+###15-01-2014 
+##segmentedbit<br>
 Enhanced morpGeodesicDilate(), issue 17. The function lost the parameter for the
 structuring element. Also added error catching in copyWithPadding, to ease 
 debugging.
+
+##Ardillo<br>
+Adjusted im::filter so it will work with custom kernels.<br>
+Made function im::matUcharToFloat <br>
+Made function im::matFloatToUchar -- and fixed a bug <br>
