@@ -21,9 +21,10 @@ const int INCREASE = 1, DECREASE = 0;
 
 /* Shows histogram of given input image. Uses a plain Mat image to display the
  * height of all the bins.
- * TODO at the moment you need a zoomlevel double to adjust the max height to fit on the screen.
+ * The debug boolean  prints the found bin values in the console followed by the found
+ * maximum bin value.
  */
-cv::Mat showHist(const cv::Mat &input );
+cv::Mat showHist(const cv::Mat &input, const bool debug );
 
 /* Equalizes the given input image
  *
