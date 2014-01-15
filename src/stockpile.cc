@@ -123,7 +123,6 @@ Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadd
 			    "\toutput Width: " << output.size().width << endl <<
 			    "\toutput Height: " << output.size().height << endl << endl;
 	}
-=======
 	try {
 		Mat output(original.rows + 2*hPadding, original.cols + 2*vPadding, CV_8UC1);
 		if (config::DEBUG) {
@@ -133,7 +132,6 @@ Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadd
 					"\thPadding: " << hPadding << endl <<
 					"\tvPadding: " << vPadding << endl << endl;
 		}
->>>>>>> 9672bd82dfdaaa4b7c8a75b2111c2b9a3233cb7d
 
 		original.copyTo(output(Rect(cv::Point(hPadding, vPadding), Size(oWidth,oHeight))));
 		switch (pType) {
