@@ -256,15 +256,13 @@ int ardillo(int argc, char** argv) {
 	Mat kernel = ( Mat_<float>(1,5) << 1, -8, 0, 8, -1);
 
 	auto t1 = highc::now();
-	Mat customFilter = im::filter(own_gray_image, kernel);
+	Mat customFilter = im::filter(equalized, kernel);
 	auto t2 = highc::now();
-	auto timetaken1 = t2 - t1;
-	cout << "time taken: " << timetaken1.count() << endl;
-
 	namedWindow("custom Filter", CV_WINDOW_NORMAL);
 	imshow("custom Filter", customFilter);
 
-	//std::cout << "time: " << (stop - start)/1000 << " Micro seconds" << std::endl;
+	auto timetaken1 = t2 - t1;
+	cout << "time taken: " << timetaken1.count() << endl;
 
 	waitKey(0);
 

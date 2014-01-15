@@ -101,9 +101,13 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
 			output.at<float>(i,j) = middlePixel/12.0; //  calculate the final result
 		}
 	}
+
+	Mat output_uchar(input.rows, input.cols, CV_8UC1);
+	output_uchar = im::matFloatToUchar(output);
 	if(config::DEBUG){
 		cout << "output : " << endl << output << endl << endl;
+		cout << "output_char: " << endl << output_uchar << endl << endl;
 	}
 
-	return output;
+	return output_uchar;
 }

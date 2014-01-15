@@ -231,11 +231,15 @@ Mat im::matUcharToFloat(const cv::Mat &input) {
 Mat im::matFloatToUchar(const cv::Mat &input) {
 	// code below is necessary,  converting does not have influence
 	// pixel values
-	Mat output = input;
-	output.convertTo(output, CV_8U);
-	for ( int i = 0; i < (output.rows); i++) {
-		for (int j = 0; j < (output.cols); j++) {
-			output.at<float>(i,j) = round(output.at<float>(i,j) * 255);
+	// this is done with 2 if checks, to prevent strange white spaces.
+	Mat temp = input;
+	Mat output(input.rows, input.cols, CV_8U);
+	for ( int i = 0; i < (temp.rows); i++) {
+		for (int j = 0; j < (temp.cols); j++) {
+			int value = round(temp.at<float>(i,j) * 255);
+			if (value > 255) { value = 255; }
+			if (value < 0 ) { value = 0; }
+			output.at<uchar>(i,j) = value;
 	}	}
 	return output;
 }
