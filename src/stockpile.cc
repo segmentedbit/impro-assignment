@@ -15,6 +15,22 @@
 using namespace std;
 using namespace cv;
 
+Mat im::segmentize(const Mat &input, int threshold) {
+	Mat output = input.clone();
+	for (int i = 0; i < input.rows; i++){
+		for (int j = 0; j < input.cols; j++){
+			int value = input.at<uchar>(i,j);
+			if (value >= threshold) {
+				output.at<uchar>(i,j) = 1;
+			}
+			else {
+				output.at<uchar>(i,j) = 0;
+			}
+		}
+	}
+	return output;
+}
+
 
 Mat im::threshold(const cv::Mat &input, int threshold) {
 	Mat binary;

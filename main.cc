@@ -22,22 +22,41 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
-	return returnValue;
+ 	return returnValue;
 }
 
 int segmentedbit() {
 	Mat image;
 	//String imageName = "images/Gray_image.png";
 	String imageName = "images/lena.jpg";
-	image = imread(imageName, 1);
+	image = imread(imageName, 15);
 	if (!image.data) {
 		std::cout << "Failed to load image " << imageName;
 		exit(1);
 	}
 
+	////////////////////////// Test morphSkeleton()
+	Mat gray = imread("images/white.png", 1);
+	gray = im::grayscale(gray);
+
+	namedWindow("original", CV_WINDOW_NORMAL);
+	namedWindow("skeleton", CV_WINDOW_NORMAL);
+	namedWindow("segmentized", CV_WINDOW_NORMAL);
+
+	Mat segmentized = im::segmentize(gray, 30);
+
+	Mat skeleton = im::morphSkeleton(segmentized);
+	im::displayPixels(segmentized, false, false, im::DISPLAY_MATRIX);
+	im::displayPixels(skeleton, false, false, im::DISPLAY_MATRIX);
+	imshow("original", gray);
+	imshow("skeleton", skeleton);
+	imshow("segmentized", segmentized);
+	waitKey(0);
+
+	/*
 	////////////////////////// Test morphGeodesicDilate()
 	Mat element = Mat::ones(7, 7, CV_8UC1);
 	Mat defaultElement = im::defaultElement();
@@ -59,6 +78,7 @@ int segmentedbit() {
 			: "unequal") << endl;
 
 	waitKey(0);
+	 */
 
 	/*
 	 ////////////////////////// Test morphErode()
@@ -249,9 +269,9 @@ int ardillo(int argc, char** argv) {
 	namedWindow("equalized", CV_WINDOW_NORMAL);
 	imshow("equalized", equalized);
 
-	Mat histOwnGrayImage2 = im::showHist(equalized);
+	//Mat histOwnGrayImage2 = im::showHist(equalized);
 	namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
-	imshow("histogram: equalized", histOwnGrayImage2);
+	//imshow("histogram: equalized", histOwnGrayImage2);
 
 	Mat kernel = ( Mat_<double>(1,5) << 1, -8, 0, 8, -1);
 	cout << kernel << endl << endl;

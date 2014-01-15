@@ -78,3 +78,6 @@ this im::filter function to calculate the x / y derivative.
 Enhanced morpGeodesicDilate(), issue 17. The function lost the parameter for the
 structuring element. Also added error catching in copyWithPadding, to ease 
 debugging.
+
+###15-01-2014 segmentedbit<br>
+Added skeleton and several helper functions. Skeleton doesn't work yet, though.

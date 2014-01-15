@@ -100,7 +100,7 @@ void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int d
 			cout << endl << endl << "Matrix color (BGR notation !!!) = " << endl << input << endl << endl;
 		}
 		else{
-			cout << endl << endl << "Matrix grey-scale = " << endl << input << endl << endl;
+			cout << endl << endl << "Matrix grey-scale =\n " << input << endl << endl;
 		}
 	}
 
