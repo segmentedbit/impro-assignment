@@ -31,7 +31,7 @@ cv::Mat averageFilterDebug(const cv::Mat &input, int width, int height, bool deb
  * Basic filter which excepts an input matrix and a custom made kernel.
  * It automatically transposes the input to a temporary image with padding.
  */
-cv::Mat filter(const cv::Mat &input, const cv::Mat &kernel);
+cv::Mat filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor);
 
 }
 #endif /* FILTERS_H_ */

@@ -232,6 +232,33 @@ bool im::equal(const Mat &first, const Mat &second) {
 	return true;
 }
 
+Mat im::matUcharToFloat(const cv::Mat &input) {
+	// code below is necessary,  converting does not have influence
+	// pixel values
+	Mat output = input;
+	output.convertTo(output, CV_32F);
+	for ( int i = 0; i < (output.rows); i++) {
+		for (int j = 0; j < (output.cols); j++) {
+			output.at<float>(i,j) = output.at<float>(i,j) / 255;
+	}	}
+	return output;
+}
+
+Mat im::matFloatToUchar(const cv::Mat &input) {
+	// code below is necessary,  converting does not have influence
+	// pixel values
+	// this is done with 2 if checks, to prevent strange white spaces.
+	Mat temp = input;
+	Mat output(input.rows, input.cols, CV_8U);
+	for ( int i = 0; i < (temp.rows); i++) {
+		for (int j = 0; j < (temp.cols); j++) {
+			int value = round(temp.at<float>(i,j) * 255);
+			if (value > 255) { value = 255; }
+			if (value < 0 ) { value = 0; }
+			output.at<uchar>(i,j) = value;
+	}	}
+	return output;
+}
 
 long int im::getTime() {
 	struct timespec get_time;

@@ -68,57 +68,48 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 	return output;
 }
 
-//TODO does not work completely
-Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
-	// kernel-size check has to be done in the process of making the kernel.
-	Mat output(input.rows, input.cols, CV_32S);
+Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor) {
 
+	// TODO kernel check
 	int pWidth = round(kernel.cols/2);
 	int pHeight = round(kernel.rows/2);
-	Mat temp = im::copyWithPadding(input, 2, 0, PZERO);
 
+	Mat temp;
 
-	 //int horizontal_padding = round(kernel.cols/2);
-	 //int vertical_padding = round(kernel.rows/2);
-	 /*
-	  * First make temporary matrix with extra padding
-	  * TODO could be changed in other padding types.
-	  */
-	/*
-	 Mat temp( input.rows+(vertical_padding*2), input.cols+(horizontal_padding*2), CV_32SC1);
-	 for (int i = 0; i < temp.rows; i++){
-	   if (i < vertical_padding || i > (input.rows+vertical_padding-1)){        //adding padding in vertical way
-	     temp.row(i) = round(0);
-	   }
-	   else {
-	     for (int j = 0; j < temp.cols; j++){
-	       if ( j < horizontal_padding || j > (input.cols+horizontal_padding-1) ) {    //adding padding in horizontal way
-	         temp.col(j) = round(0);
-	       }
-	       else {
-	         temp.at<uchar>(i,j) = input.at<uchar>(i - vertical_padding , j - horizontal_padding);
-	       }
-	     }
-	   }
-	 }
-	 */
+	// Copy matrix and convert it to Floating point notation
+	temp = im::copyWithPadding(input, pWidth, pHeight, PZERO);
+	Mat temp_float = im::matUcharToFloat(temp);
 
-	cout << temp << endl;
+	if (config::DEBUG) {
+		cout << "kernel: " << endl << kernel << endl << endl;
+		cout << "matrix with padding: " << endl << temp_float << endl << endl;
+		//namedWindow("DEBUG - temp", CV_WINDOW_NORMAL);
+		//imshow("DEBUG - temp", temp_float);
+	}
+
 	/*
 	 *  calculate every value overlapping temporary matrix and the kernel,
 	 *  place the ending result in the middle pixel of interest.
 	 */
+	temp = Mat::zeros(input.rows, input.cols, CV_32FC1);
 	for ( int i = 0; i < (input.rows); i++) {
 		for (int j = 0; j < (input.cols); j++) {
-			int middlePixel = 0; //debug
+			int middlePixel = 0;
 			for ( int x = 0; x < kernel.rows; x++) {
 				for (int y = 0; y < kernel.cols; y ++) {
-					middlePixel += temp.at<uchar>(i+x, j+y) * kernel.at<uchar>(x,y);
+					middlePixel += temp_float.at<float>(i+x, j+y) * kernel.at<float>(x,y);
 				}
 			}
-			//cout <<"pixel: " << middlePixel <<endl;
-			output.at<uchar>(i,j) = middlePixel; //  calculate the final result
+			temp.at<float>(i,j) = middlePixel/divide_factor;
 		}
 	}
-	return output;
+
+	Mat output_uchar(input.rows, input.cols, CV_8UC1);
+	output_uchar = im::matFloatToUchar(temp);
+	if(config::DEBUG){
+		cout << "temp : " << endl << temp << endl << endl;
+		cout << "output_char: " << endl << output_uchar << endl << endl;
+	}
+
+	return output_uchar;
 }

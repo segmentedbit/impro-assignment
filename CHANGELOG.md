@@ -29,7 +29,7 @@ Finished an average filter. It is not the fastest method to use on HD wallpapers
 but it works good enough for our project.<br>
 Also used earlier made functions to substract two different averaged images, then
 thresholded the result.
-The result is a nice edge image.
+The result is a nice edge image.<br>
 
 ###01-01-2014 Ardillo<br>
 Started a general filter function with a manual kernel. Does not work yet, due 
@@ -41,24 +41,24 @@ Cleaned ip averageFilter. Introduced a C++11 way of measuring time, which may be
 better. Introduced an header file that can be used to set global variables, 
 like debugging yes/no. Also added a function 'copyWithPadding', which allows 
 for copying and adding padding at the same time.
-This function still needs some work though.
+This function still needs some work though.<br>
 
 ###08-01-2014 segmentedbit<br>
 Checked all functions in stockpile.cc. Didn't check filter(), remains TODO for 
 when we need it.<br>
 Test code in main in separated now. Added a function 'equal' to check whether 
-images are equal, which is useful for checking if refactorings don't break code.
+images are equal, which is useful for checking if refactorings don't break code.<br>
 
 ###10-01-2014 segmentedbit<br>
 Fixed minor rounding bug in averageFilter. Slightly changed displayPixels() to 
 accept an extra, optional, parameter on how to print the pixels. Also added 
-blueprints for some morphology functions.
+blueprints for some morphology functions.<br>
 
 ###10-01-2014 segmentedbit<br>
 Added morphDilate() and helper function defaultElement() which creates a 3x3 "+" 
 shaped structuring element. Also added a validateKernel() function to streamline 
 validating kernels. Changed and therefore improved the quality of the checkboard 
-image into png format, which avoids the compression noise jpeg introduces.
+image into png format, which avoids the compression noise jpeg introduces.<br>
 
 ###12-01-2014 Ardillo<br>
 Made a histogram equalize function, found some information about matrix data 
@@ -66,7 +66,7 @@ types: http://docs.opencv.org/modules/core/doc/basic_structures.html#mat-depth<b
 
 ###12-01-2014 segmentedbit<br>
 Created morphErode(), morphOpen(), morphClose() and morphGeodesicDilate(). Also 
-removed some old code
+removed some old code.<br>
 
 ###14-01-2014 Ardillo<br>
 Started a binaryLabel function. I'm not far with this because of the problem 
@@ -79,5 +79,10 @@ Enhanced morpGeodesicDilate(), issue 17. The function lost the parameter for the
 structuring element. Also added error catching in copyWithPadding, to ease 
 debugging.
 
+###15-01-2014 Ardillo<br>
+Adjusted im::filter so it will work with custom kernels. -- added float divide_factor<br>
+Made function im::matUcharToFloat <br>
+Made function im::matFloatToUchar -- and fixed a bug <br>
+
 ###15-01-2014 segmentedbit<br>
-Added skeleton and several helper functions. Skeleton doesn't work yet, though.
+Added skeleton and several helper functions. Skeleton doesn't work yet, though.<br>
