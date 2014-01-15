@@ -241,7 +241,7 @@ int ardillo(int argc, char** argv) {
 	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
 	imshow("own Gray_image", own_gray_image);
 
-	Mat histOwnGrayImage = im::showHist(own_gray_image, false);
+	Mat histOwnGrayImage = im::showHist(own_gray_image);
 	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
 	imshow("histogram: Own grayImage", histOwnGrayImage);
 
@@ -255,6 +255,13 @@ int ardillo(int argc, char** argv) {
 
 	Mat kernel = ( Mat_<double>(1,5) << 1, -8, 0, 8, -1);
 	cout << kernel << endl << endl;
+
+	auto t1 = highc::now();
+	auto t2 = highc::now();
+
+	auto timetaken1 = t1 - t2;
+
+	cout << "time taken:" << timetaken1.count() << endl;
 
 	Mat customFilter = im::filter(own_gray_image, kernel);
 	// Mat customFilter(own_gray_image.rows, own_gray_image.cols, CV_32S);
