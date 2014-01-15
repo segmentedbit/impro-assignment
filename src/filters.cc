@@ -68,28 +68,30 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 	return output;
 }
 
-//TODO does not work completely
-Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
-	// kernel-size check has to be done in the process of making the kernel.
-	Mat output(input.rows, input.cols, CV_32FC1);
+Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor) {
 
+	// TODO kernel check
 	int pWidth = round(kernel.cols/2);
 	int pHeight = round(kernel.rows/2);
 
-	Mat temp = im::copyWithPadding(input, pWidth, pHeight, PZERO);
+	Mat temp;
+
+	// Copy matrix and convert it to Floating point notation
+	temp = im::copyWithPadding(input, pWidth, pHeight, PZERO);
 	Mat temp_float = im::matUcharToFloat(temp);
 
 	if (config::DEBUG) {
 		cout << "kernel: " << endl << kernel << endl << endl;
 		cout << "matrix with padding: " << endl << temp_float << endl << endl;
-
-		namedWindow("DEBUG - temp", CV_WINDOW_NORMAL);
-		imshow("DEBUG - temp", temp_float);
+		//namedWindow("DEBUG - temp", CV_WINDOW_NORMAL);
+		//imshow("DEBUG - temp", temp_float);
 	}
+
 	/*
 	 *  calculate every value overlapping temporary matrix and the kernel,
 	 *  place the ending result in the middle pixel of interest.
 	 */
+	temp = Mat::zeros(input.rows, input.cols, CV_32FC1);
 	for ( int i = 0; i < (input.rows); i++) {
 		for (int j = 0; j < (input.cols); j++) {
 			int middlePixel = 0;
@@ -98,14 +100,14 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
 					middlePixel += temp_float.at<float>(i+x, j+y) * kernel.at<float>(x,y);
 				}
 			}
-			output.at<float>(i,j) = middlePixel/12.0; //  calculate the final result
+			temp.at<float>(i,j) = middlePixel/divide_factor;
 		}
 	}
 
 	Mat output_uchar(input.rows, input.cols, CV_8UC1);
-	output_uchar = im::matFloatToUchar(output);
+	output_uchar = im::matFloatToUchar(temp);
 	if(config::DEBUG){
-		cout << "output : " << endl << output << endl << endl;
+		cout << "temp : " << endl << temp << endl << endl;
 		cout << "output_char: " << endl << output_uchar << endl << endl;
 	}
 

@@ -253,10 +253,13 @@ int ardillo(int argc, char** argv) {
 	namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
 	imshow("histogram: equalized", histOwnGrayImage2);
 
-	Mat kernel = ( Mat_<float>(1,5) << 1, -8, 0, 8, -1);
+	//Mat kernel = ( Mat_<float>(1,5) << 1, -8, 0, 8, -1);
+	Mat kernel = ( Mat_<float>(3,3) << 0, -1, 0,
+															  -1, 5, -1,
+															   0, -1, 0);
 
 	auto t1 = highc::now();
-	Mat customFilter = im::filter(equalized, kernel);
+	Mat customFilter = im::filter(equalized, kernel, 9);
 	auto t2 = highc::now();
 	namedWindow("custom Filter", CV_WINDOW_NORMAL);
 	imshow("custom Filter", customFilter);
