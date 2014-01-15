@@ -112,6 +112,7 @@ Mat im::subtractMatrix(const cv::Mat &first, const cv::Mat &second) {
 Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadding, const int pType) {
 	int oWidth = original.size().width;
 	int oHeight = original.size().height;
+<<<<<<< HEAD
 	Mat output(original.rows + 2*hPadding, original.cols + 2*vPadding, CV_8UC1);
 	if (config::DEBUG) {
 		cout << "copyWithPadding debug information:" << endl <<
@@ -122,56 +123,77 @@ Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadd
 			    "\toutput Width: " << output.size().width << endl <<
 			    "\toutput Height: " << output.size().height << endl << endl;
 	}
+=======
+	try {
+		Mat output(original.rows + 2*hPadding, original.cols + 2*vPadding, CV_8UC1);
+		if (config::DEBUG) {
+			cout << "copyWithPadding debug information:" << endl <<
+					"\toWidth: " << oWidth << endl <<
+					"\toHeight: " << oHeight << endl <<
+					"\thPadding: " << hPadding << endl <<
+					"\tvPadding: " << vPadding << endl << endl;
+		}
+>>>>>>> 9672bd82dfdaaa4b7c8a75b2111c2b9a3233cb7d
 
-	original.copyTo(output(Rect(cv::Point(hPadding, vPadding), Size(oWidth,oHeight))));
-	switch (pType) {
-		case PZERO:
-			for (int i=0; i<hPadding; i++) {
-				output.col(i) = 0.0;
-			}
-			for (int i=0; i<vPadding; i++) {
-				output.row(i) = 0.0;
-			}
-			for (int i=oWidth+hPadding; i<oWidth+2*hPadding; i++) {
-				output.col(i) = 0.0;
-			}
-			for (int i=oHeight+vPadding; i<oHeight+2*vPadding; i++) {
-				output.row(i) = 0.0;
-			}
-			break;
-		case PWHITE:
-			for (int i=0; i<hPadding; i++) {
-				output.col(i) = 255;
-			}
-			for (int i=0; i<vPadding; i++) {
-				output.row(i) = 255;
-			}
-			for (int i=oWidth+hPadding; i<oWidth+2*hPadding; i++) {
-				output.col(i) = 255;
-			}
-			for (int i=oHeight+vPadding; i<oHeight+2*vPadding; i++) {
-				output.row(i) = 255;
-			}
-			break;
-		case PREPLICATE:
-			for (int i=0; i<hPadding; i++) {
-				output.col(i) = original.col(0);
-			}
-			for (int i=0; i<vPadding; i++) {
-				output.row(i) = original.row(0);
-			}
-			for (int i=oWidth+hPadding; i<oWidth+2*hPadding; i++) {
-				output.col(i) = original.col(oWidth-1);
-			}
-			for (int i=oWidth+vPadding; i<oHeight+2*vPadding; i++) {
-				output.row(i) = original.row(oHeight-1);
-			}
-			//TODO corners
-			break;
-		default: ;
+		original.copyTo(output(Rect(cv::Point(hPadding, vPadding), Size(oWidth,oHeight))));
+		switch (pType) {
+			case PZERO:
+				for (int i=0; i<hPadding; i++) {
+					output.col(i) = 0.0;
+				}
+				for (int i=0; i<vPadding; i++) {
+					output.row(i) = 0.0;
+				}
+				for (int i=oWidth+hPadding; i<oWidth+2*hPadding; i++) {
+					output.col(i) = 0.0;
+				}
+				for (int i=oHeight+vPadding; i<oHeight+2*vPadding; i++) {
+					output.row(i) = 0.0;
+				}
+				break;
+			case PWHITE:
+				for (int i=0; i<hPadding; i++) {
+					output.col(i) = 255;
+				}
+				for (int i=0; i<vPadding; i++) {
+					output.row(i) = 255;
+				}
+				for (int i=oWidth+hPadding; i<oWidth+2*hPadding; i++) {
+					output.col(i) = 255;
+				}
+				for (int i=oHeight+vPadding; i<oHeight+2*vPadding; i++) {
+					output.row(i) = 255;
+				}
+				break;
+			case PREPLICATE:
+				for (int i=0; i<hPadding; i++) {
+					output.col(i) = original.col(0);
+				}
+				for (int i=0; i<vPadding; i++) {
+					output.row(i) = original.row(0);
+				}
+				for (int i=oWidth+hPadding; i<oWidth+2*hPadding; i++) {
+					output.col(i) = original.col(oWidth-1);
+				}
+				for (int i=oWidth+vPadding; i<oHeight+2*vPadding; i++) {
+					output.row(i) = original.row(oHeight-1);
+				}
+				//TODO corners
+				break;
+			default: ;
 
+		}
+		return output;
+	} catch (Exception& e) {
+		const char* err_msg = e.what();
+		cerr << "Exception in copyWithPadding:" << endl <<
+				"\toWidth: " << oWidth << endl <<
+				"\toHeight: " << oHeight << endl <<
+				"\thPadding: " << hPadding << endl <<
+				"\tvPadding: " << vPadding << endl <<
+				err_msg << "exit" << endl;
+		exit(1);
 	}
-	return output;
 }
 
 int im::validateKernel(const Mat &kernel, const int flags) {

@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
 	return returnValue;
 }
@@ -45,7 +45,7 @@ int segmentedbit() {
 	Mat gray = imread("images/Gray_image.png", 1);
 	gray = im::grayscale(gray);
 	Mat grayEroded = im::morphErode(gray);
-	Mat grayGeoDil = im::morphGeodesicDilate(grayEroded, gray, defaultElement);
+	Mat grayGeoDil = im::morphGeodesicDilate(grayEroded, gray);
 
 	namedWindow("original", CV_WINDOW_NORMAL);
 	namedWindow("grayEroded", CV_WINDOW_NORMAL);
