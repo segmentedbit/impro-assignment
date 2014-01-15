@@ -115,10 +115,12 @@ Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadd
 	Mat output(original.rows + 2*hPadding, original.cols + 2*vPadding, CV_8UC1);
 	if (config::DEBUG) {
 		cout << "copyWithPadding debug information:" << endl <<
-				"\toWidth: " << oWidth << endl <<
-				"\toHeight: " << oHeight << endl <<
-				"\toWidth: " << oWidth << endl <<
-				"\toWidth: " << oWidth << endl << endl;
+				"Original size:" << endl <<
+				"\toriginal Width: "   << oWidth  << endl <<
+				"\toriginal Height: " << oHeight << endl <<
+			    "With padding size:" <<  endl <<
+			    "\toutput Width: " << output.size().width << endl <<
+			    "\toutput Height: " << output.size().height << endl << endl;
 	}
 
 	original.copyTo(output(Rect(cv::Point(hPadding, vPadding), Size(oWidth,oHeight))));

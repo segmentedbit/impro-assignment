@@ -24,7 +24,7 @@ const int INCREASE = 1, DECREASE = 0;
  * The debug boolean  prints the found bin values in the console followed by the found
  * maximum bin value.
  */
-cv::Mat showHist(const cv::Mat &input, const bool debug );
+cv::Mat showHist(const cv::Mat &input);
 
 /* Equalizes the given input image
  *

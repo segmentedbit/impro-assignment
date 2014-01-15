@@ -8,11 +8,12 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "includes/statistics.h"
 #include <iostream>
+#include "config.h"
 
 using namespace cv;
 using namespace std;
 
-Mat im::showHist(const cv::Mat &input, const bool debug) {
+Mat im::showHist(const cv::Mat &input) {
 	Mat histogram = Mat::zeros(256, 256, CV_8UC3);
 	int bins[256] = {};
 	int max =0 ;
@@ -26,7 +27,7 @@ Mat im::showHist(const cv::Mat &input, const bool debug) {
 			}
 	}	}
 	// print every bin value in the console followed by the found maximum
-	if (debug) {
+	if (config::DEBUG) {
 		cout << "Bins" << endl;
 		for (int ii = 0; ii < 256; ii++){
 			cout <<bins[ii] << ", ";
@@ -55,6 +56,7 @@ Mat im::equalize(const cv::Mat &input) {
 
 	// Copied from histogram function
 	// Calculate every bin value
+	// TODO maybe change this in a more modular function
 	int bins[256] = {};
 	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){

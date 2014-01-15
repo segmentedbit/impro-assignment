@@ -75,7 +75,8 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
 
 	int pWidth = round(kernel.cols/2);
 	int pHeight = round(kernel.rows/2);
-	Mat temp = im::copyWithPadding(input, 2, 2, PZERO);
+	cout << pWidth << " " << pHeight << endl << endl;
+	Mat temp = im::copyWithPadding(input, 2, 0, PZERO);
 
 
 	 //int horizontal_padding = round(kernel.cols/2);
