@@ -56,7 +56,7 @@ cv::Mat morphClose(const cv::Mat &input,
  * which will be the maximum amount of loops to be run. The default structuring
  * element is a 3x3 "+" shaped element.
  */
-cv::Mat morphGeodesicDilate(const cv::Mat &input, const cv::Mat &control, const cv::Mat &element, int nTimes=-1);
+cv::Mat morphGeodesicDilate(const cv::Mat &input, const cv::Mat &control, int nTimes=-1);
 
 /*
  * Geodesic erosion. Takes two Mat images: the to-be-eroded image and the

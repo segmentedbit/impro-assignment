@@ -73,3 +73,8 @@ Started a binaryLabel function. I'm not far with this because of the problem
 how to registrate the objects which I've already scanned. Maybe do some reading
 first. I adjusted im::filter to the latest standard functions, I will rewrite 
 this im::filter function to calculate the x / y derivative.
+
+###15-01-2014 segmentedbit<br>
+Enhanced morpGeodesicDilate(), issue 17. The function lost the parameter for the
+structuring element. Also added error catching in copyWithPadding, to ease 
+debugging.
