@@ -81,6 +81,6 @@ structuring element. Also added error catching in copyWithPadding, to ease
 debugging.
 
 ####Ardillo<br>
-Adjusted im::filter so it will work with custom kernels.<br>
+Adjusted im::filter so it will work with custom kernels. -- added float divide_factor<br>
 Made function im::matUcharToFloat <br>
 Made function im::matFloatToUchar -- and fixed a bug <br>
