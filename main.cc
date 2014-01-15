@@ -255,7 +255,7 @@ int ardillo(int argc, char** argv) {
 
 	/*
 
-	///////////// x-Derivatve ////////////////////
+	///////////// x-Derivative ////////////////////
 	Mat kernel = ( Mat_<float>(1,5) <<
 		1, -8, 0, 8, -1);
 		float divide_fact = 12;
