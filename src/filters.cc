@@ -9,7 +9,6 @@
 #include "opencv2/highgui/highgui.hpp"	// TODO only for debugging
 #include "includes/filters.h"
 #include "includes/stockpile.h"
-#include "includes/statistics.h"
 #include <vector>
 #include <iostream>
 #include "config.h"
@@ -76,7 +75,6 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel) {
 
 	int pWidth = round(kernel.cols/2);
 	int pHeight = round(kernel.rows/2);
-	im::displayPixels(kernel, false, false, im::DISPLAY_MATRIX);
 	Mat temp = im::copyWithPadding(input, 2, 0, PZERO);
 
 

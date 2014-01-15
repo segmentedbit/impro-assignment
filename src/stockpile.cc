@@ -112,6 +112,7 @@ Mat im::subtractMatrix(const cv::Mat &first, const cv::Mat &second) {
 Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadding, const int pType) {
 	int oWidth = original.size().width;
 	int oHeight = original.size().height;
+
 	try {
 		Mat output(original.rows + 2*vPadding, original.cols + 2*hPadding, CV_8UC1);
 
