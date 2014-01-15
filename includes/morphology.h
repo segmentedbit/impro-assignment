@@ -70,7 +70,7 @@ cv::Mat morphGeodesicErode(const cv::Mat &input, const cv::Mat &control, const c
 /*
  * Finds the skeleton of a given image.
  */
-cv::Mat morphSkeleton(const cv::Mat &input);
+cv::Mat morphSkeleton(const cv::Mat &input, int nTimes=-1);
 
 } // end namespace im
 

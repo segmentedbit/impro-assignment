@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	//returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
 	return returnValue;
 }
@@ -256,7 +256,7 @@ int ardillo(int argc, char** argv) {
 	Mat kernel = ( Mat_<double>(1,5) << 1, -8, 0, 8, -1);
 	cout << kernel << endl << endl;
 
-	//Mat customFilter = im::filter(own_gray_image, kernel);
+	Mat customFilter = im::filter(own_gray_image, kernel);
 	// Mat customFilter(own_gray_image.rows, own_gray_image.cols, CV_32S);
 	// own_gray_image.copyTo(customFilter);
 	// cout << customFilter << endl << endl;

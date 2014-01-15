@@ -116,11 +116,9 @@ Mat im::morphClose(const Mat &input, const Mat &dilationElement, const Mat &eros
 Mat im::morphGeodesicDilate(const Mat &input, const Mat &control, int nTimes) {
 	Mat output = input.clone();
 
-	int loops = 0;
 	// Loop until nTimes = 0, or
 	while (nTimes != 0) {
 		Mat tempDilate = im::copyWithPadding(output, 1, 1, im::PZERO);
-		cout << "HI" << endl;
 		Mat tempGeo = output.clone();
 		// Iterate over all of inputs pixels
 		for (int i = 0; i < output.rows; i++) {
@@ -141,7 +139,6 @@ Mat im::morphGeodesicDilate(const Mat &input, const Mat &control, int nTimes) {
 				}
 				//  calculate the final result
 				output.at<uchar>(i,j) = min(highestNeighbor, static_cast<int>(control.at<uchar>(i,j)));
-
 			}
 		}
 		if (im::equal(output, tempGeo)) {
@@ -156,8 +153,54 @@ Mat im::morphGeodesicErode(const Mat &input, const Mat &control, const Mat &elem
 	return input;
 }
 
+// Skeleton using thinning, with L Golay element
 
-Mat im::morphSkeleton(const Mat &input) {
+Mat im::morphSkeleton(const Mat &input, int nTimes) {
 	Mat output(input.size(), CV_8UC1);
+
+	//Mat golay[8] = createGolay();
+
+	while (nTimes != 0) {
+		// Update temp and tempPrev (which is the control image used to
+		// determine if the final skeleton has been found) at every loop.
+		Mat temp = im::copyWithPadding(output, 1, 1, im::PZERO);
+		Mat tempPrev = output.clone();
+
+		// For every pixel in temp, figure out if Hit-or-Miss has a fix on it,
+		// using the 8 L Golay elements. If so, subtract from output.
+		for (int i = 0; i < output.rows; i++) {
+			for (int j = 0; j < output.cols; j++) {
+
+
+
+			}
+		}
+
+		if (im::equal(output, tempPrev)) {
+					break;
+				}
+		nTimes--;
+	}
+
 	return output;
+}
+
+Mat* createGolay() {
+	Mat golay[8];
+
+	// Create the 8 3x3 Mat elements
+	for (int i=0; i<8; i++) {
+		golay[i] = Mat(3, 3, CV_8UC1);
+	}
+
+	// Create golay element 0
+	golay[0].row(0) = 1;
+
+	golay[2].col(2) = 1;
+
+	golay[4].row(2) = 1;
+
+	golay[6].col(0) = 1;
+
+	return golay;
 }
