@@ -31,6 +31,11 @@ const int UNEVEN = 1;
  */
 cv::Mat invert(const cv::Mat &input);
 
+/* Segments an image into pixelvalues of either 1 or 0. The pixels of value
+ * <threshold> and higher are convertedto 1, values below are converted to zero.
+ */
+cv::Mat segmentize(const cv::Mat &input, int threshold);
+
 /* Thresholds an image. The pixels of value <threshold> and higher are converted
  * to 1, values below are converted to zero, as by convention (is this true?)
  * TODO Ardillo: changed it in 0 or 255 instead of 1, this is easier to use with the 'Mat'

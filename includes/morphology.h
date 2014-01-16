@@ -72,6 +72,12 @@ cv::Mat morphGeodesicErode(const cv::Mat &input, const cv::Mat &control, const c
  */
 cv::Mat morphSkeleton(const cv::Mat &input, int nTimes=-1);
 
+/*
+ * Creates a 2-dimensional Mat vector containing the 8 L Golay elements
+ */
+std::vector<std::vector<cv::Mat>> createGolay();
+
+
 } // end namespace im
 
 #endif /* MORPHOLOGY_H_ */

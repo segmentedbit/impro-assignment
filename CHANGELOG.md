@@ -86,3 +86,6 @@ Made function im::matUcharToFloat <br>
 Made function im::matFloatToUchar -- and fixed a bug <br>
 Made some standard filter kernels <br>
 Started with Quantization -- Work in progress still <br>
+
+###15-01-2014 segmentedbit<br>
+Added skeleton and several helper functions. Skeleton doesn't work yet, though.<br>

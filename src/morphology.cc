@@ -14,6 +14,9 @@
 using namespace std;
 using namespace cv;
 
+const int BG = 0;
+const int FG = 1;
+
 Mat im::defaultElement() {
 	Mat output = Mat::zeros(3, 3, CV_8UC1);
 	output.row(1) = 1;
@@ -156,51 +159,143 @@ Mat im::morphGeodesicErode(const Mat &input, const Mat &control, const Mat &elem
 // Skeleton using thinning, with L Golay element
 
 Mat im::morphSkeleton(const Mat &input, int nTimes) {
-	Mat output(input.size(), CV_8UC1);
-
+	Mat output = input.clone();
+	output.col(0) = 0.0;
+	output.row(0) = 0.0;
+	output.col(output.cols - 1) = 0.0;
+	output.row(output.rows - 1) = 0.0;
 	//Mat golay[8] = createGolay();
+
+	int hitCount = 0;
 
 	while (nTimes != 0) {
 		// Update temp and tempPrev (which is the control image used to
 		// determine if the final skeleton has been found) at every loop.
-		Mat temp = im::copyWithPadding(output, 1, 1, im::PZERO);
+		Mat temp = output.clone();
 		Mat tempPrev = output.clone();
 
-		// For every pixel in temp, figure out if Hit-or-Miss has a fix on it,
-		// using the 8 L Golay elements. If so, subtract from output.
-		for (int i = 0; i < output.rows; i++) {
-			for (int j = 0; j < output.cols; j++) {
+		vector< vector<Mat> > golay = createGolay();
 
+		// Go over all 8 L Golay elements
+		for (int g=0; g<8; g++) {
+			Mat fg = golay[g][FG];
+			Mat bg = golay[g][BG];
 
+			// For every pixel in temp, figure out if Hit-or-Miss has a fix on it,
+			// using the current Golay element. If so, subtract from output.
+			for (int i = 1; i < output.cols - 1; i++) {
+				for (int j = 1; j < output.rows - 1; j++) {
 
+					bool hit = true;
+					// Convolute both BG and FG, checking if all pixels match
+					for (int x=0; x<3; x++) {
+						for (int y=0; y<3; y++) {
+							// Store temporary values
+							uchar t_char = temp.at<uchar>(x+i, y+j);
+							uchar fg_char = fg.at<uchar>(x,y);
+							uchar bg_char = bg.at<uchar>(x,y);
+
+							// The foreground of the golay element should hit
+							// the foreground of the image;
+							if (fg_char != t_char * fg_char) {
+								hit = false;
+								break;
+							}
+
+							// The foreground of the golay element should hit
+							// the foreground of the image;
+							if (bg_char != (1-t_char) * bg_char) {
+								hit = false;
+								break;
+							}
+
+						}
+						if (hit == false) {
+							break;
+						}
+					} // end nested golay element for-loop
+
+					if (hit) {
+						output.at<uchar>(i,j) = 0;
+						cout << "got a hit!" << endl;
+					}
+				}
 			}
-		}
+
+		} // end 8 golay for-loop
 
 		if (im::equal(output, tempPrev)) {
-					break;
-				}
+			break;
+		}
 		nTimes--;
 	}
 
 	return output;
 }
 
-Mat* createGolay() {
-	Mat golay[8];
+
+
+vector<vector<Mat>> im::createGolay() {
+	vector< vector<Mat> > golay(8, vector<Mat>(2));
 
 	// Create the 8 3x3 Mat elements
 	for (int i=0; i<8; i++) {
-		golay[i] = Mat(3, 3, CV_8UC1);
+		for (int j=0; j<2; j++) {
+			golay.at(i).at(j) = Mat::zeros(3, 3, CV_8UC1);
+		}
 	}
 
 	// Create golay element 0
-	golay[0].row(0) = 1;
+	golay[0][BG].row(0) = 1;
+	golay[0][FG].row(2) = 1;
+	golay[0][FG].at<uchar>(1,1) = 1;
 
-	golay[2].col(2) = 1;
+	// Create golay element 1
+	golay[1][BG].at<uchar>(1,0) = 1;
+	golay[1][BG].at<uchar>(2,1) = 1;
+	golay[1][FG].at<uchar>(0,1) = 1;
+	golay[1][FG].at<uchar>(0,2) = 1;
+	golay[1][FG].at<uchar>(1,1) = 1;
+	golay[1][FG].at<uchar>(1,2) = 1;
 
-	golay[4].row(2) = 1;
+	// Create golay element 2
+	golay[2][BG].col(2) = 1;
+	golay[2][FG].col(0) = 1;
+	golay[2][FG].at<uchar>(1,1) = 1;
 
-	golay[6].col(0) = 1;
+	// Create golay element 3
+	golay[3][BG].at<uchar>(1,2) = 1;
+	golay[3][BG].at<uchar>(2,1) = 1;
+	golay[3][FG].at<uchar>(0,0) = 1;
+	golay[3][FG].at<uchar>(0,1) = 1;
+	golay[3][FG].at<uchar>(1,0) = 1;
+	golay[3][FG].at<uchar>(1,1) = 1;
+
+	// Create golay element 4
+	golay[4][BG].row(2) = 1;
+	golay[4][FG].row(0) = 1;
+	golay[4][FG].at<uchar>(1,1) = 1;
+
+	// Create golay element 5
+	golay[5][BG].at<uchar>(0,1) = 1;
+	golay[5][BG].at<uchar>(1,2) = 1;
+	golay[5][FG].at<uchar>(1,0) = 1;
+	golay[5][FG].at<uchar>(1,1) = 1;
+	golay[5][FG].at<uchar>(2,0) = 1;
+	golay[5][FG].at<uchar>(2,1) = 1;
+
+	// Create golay element 6
+	golay[6][BG].col(0) = 1;
+	golay[6][FG].col(2) = 1;
+	golay[6][FG].at<uchar>(1,1) = 1;
+
+	// Create golay element 7
+	golay[7][BG].at<uchar>(0,1) = 1;
+	golay[7][BG].at<uchar>(1,0) = 1;
+	golay[7][FG].at<uchar>(1,1) = 1;
+	golay[7][FG].at<uchar>(1,2) = 1;
+	golay[7][FG].at<uchar>(2,1) = 1;
+	golay[7][FG].at<uchar>(2,2) = 1;
 
 	return golay;
 }
