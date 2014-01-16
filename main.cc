@@ -269,13 +269,12 @@ int ardillo(int argc, char** argv) {
 	namedWindow("equalized", CV_WINDOW_NORMAL);
 	imshow("equalized", equalized);
 
-<<<<<<< HEAD
-=======
+
 	//Mat histOwnGrayImage2 = im::showHist(equalized);
 	namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
 	//imshow("histogram: equalized", histOwnGrayImage2);
 
->>>>>>> 8716d6b6ce07c142a2a963d4f228555b56148c44
+
 	/*
 
 	///////////// x-Derivative ////////////////////
