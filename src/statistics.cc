@@ -150,8 +150,6 @@ float im::maxFloatValue(const cv::Mat &input){
 				max = value;
 			}
 	}	}
-	// little more, is less error sensitive
-	max += 0.000001;
 	return max;
 }
 

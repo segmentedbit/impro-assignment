@@ -166,17 +166,16 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 	output.row(0) = 0.0;
 	output.col(output.cols - 1) = 0.0;
 	output.row(output.rows - 1) = 0.0;
-	//Mat golay[8] = createGolay();
+	vector< vector<Mat> > golay = createGolay();
 
 	int hitCount = 0;
 
 	while (nTimes != 0) {
 		// Update temp and tempPrev (which is the control image used to
 		// determine if the final skeleton has been found) at every loop.
-		Mat temp = output.clone();
+		Mat temp = output.clone(); // kan weg
 		Mat tempPrev = output.clone();
 
-		vector< vector<Mat> > golay = createGolay();
 
 		// Go over all 8 L Golay elements
 		for (int g=0; g<8; g++) {
@@ -231,11 +230,11 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 		}
 		nTimes--;
 	}
-
+	cout << "finished";
 	return output;
 }
 
-
+/**/
 
 vector<vector<Mat>> im::createGolay() {
 	vector< vector<Mat> > golay(8, vector<Mat>(2));

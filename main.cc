@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -38,6 +38,14 @@ int segmentedbit() {
 		exit(1);
 	}
 
+	Mat gray = imread("images/orca.png", 1);
+	gray = im::grayscale(gray);
+
+	Mat quant = im::quantization(gray, 2);
+	namedWindow("quant", CV_WINDOW_NORMAL);
+	imshow("quant", quant);
+
+	/*
 	////////////////////////// Test morphSkeleton()
 	Mat gray = imread("images/white.png", 1);
 	gray = im::grayscale(gray);
@@ -55,6 +63,7 @@ int segmentedbit() {
 	imshow("skeleton", skeleton);
 	imshow("segmentized", segmentized);
 	waitKey(0);
+	*/
 
 	/*
 	////////////////////////// Test morphGeodesicDilate()
