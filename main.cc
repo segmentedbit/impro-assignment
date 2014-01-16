@@ -302,11 +302,11 @@ int ardillo(int argc, char** argv) {
 		4, 16, 26, 16, 4,
 		1, 4, 7, 4, 1);
 		float divide_fact = 273;
-equalized
+
 	*/
 
 	auto t1 = highc::now();
-	Mat quant = im::quantization(own_gray_image, 30);
+	Mat quant = im::quantization(own_gray_image, 8);
 	auto t2 = highc::now();
 	namedWindow("Quantization", CV_WINDOW_NORMAL);
 	imshow("Quantization", quant);
