@@ -49,6 +49,18 @@ void displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType
  *  Label a binary image
  */
 cv::Mat binaryLabel(const cv::Mat &input);
+
+/*
+ * Returns a maximum found pixel value in a floating point matrix
+ */
+float maxFloatValue(const cv::Mat &input);
+
+/*
+ * Returns a minimal found pixel value in a floating point matrix
+ */
+float minFloatValue(const cv::Mat &input);
+
+
 }
 
 int maxValue(const cv::Mat &input);

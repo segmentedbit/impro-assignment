@@ -34,8 +34,15 @@ cv::Mat averageFilterDebug(const cv::Mat &input, int width, int height, bool deb
 cv::Mat filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor);
 
 /*
- * Quantiziation of a image. Divide the pixel space of 256 different values in a
- * by the programmer given amount of levels en. It looks like a kind of binning.
+ * Quantiziation of a image. Converts an image to floating point notation.
+ * Then searches the max and min value of the image, using this info it
+ * will calculate the pixel delta and divide them into equal spaces.
+ * It then loops over the floating point matrix and gives a pixel the corresponding
+ * middle space value of the space it belongs to.
+ * After that it converts the floating point matrix back to uchar matrix, which acts as
+ * the output image.
+ * This is tested and found stable till +/- 40 levels. Using around 40 levels gives an image
+ * very corresponding to the input image with to little difference to see with naked eye.
  */
 cv::Mat quantization(const cv::Mat &input, const int levels);
 

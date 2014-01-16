@@ -89,3 +89,8 @@ Started with Quantization -- Work in progress still <br>
 
 ###15-01-2014 segmentedbit<br>
 Added skeleton and several helper functions. Skeleton doesn't work yet, though.<br>
+
+###16-01-2014 Ardillo<br>
+Made function im::maxFloatValue to find max value in floating point matrix
+Made function im::minFloatValue to find min value in floating point matrix
+Finished Quantization function, found stable till +/- 40 levels of quantizing.<br>

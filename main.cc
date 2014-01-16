@@ -271,7 +271,7 @@ int ardillo(int argc, char** argv) {
 
 
 	//Mat histOwnGrayImage2 = im::showHist(equalized);
-	namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
+	//namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
 	//imshow("histogram: equalized", histOwnGrayImage2);
 
 
@@ -306,7 +306,7 @@ equalized
 	*/
 
 	auto t1 = highc::now();
-	Mat quant = im::quantization(own_gray_image, 6);
+	Mat quant = im::quantization(own_gray_image, 30);
 	auto t2 = highc::now();
 	namedWindow("Quantization", CV_WINDOW_NORMAL);
 	imshow("Quantization", quant);
@@ -315,8 +315,10 @@ equalized
 	cout << "time taken: " << timetaken1.count() << endl;
 
 	Mat histOwnGrayImage2 = im::showHist(quant);
-		namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
-		imshow("histogram: equalized", histOwnGrayImage2);
+	namedWindow("histogram: quantized", CV_WINDOW_NORMAL);
+	imshow("histogram: quantized", histOwnGrayImage2);
+
+
 
 	waitKey(0);
 

@@ -115,95 +115,72 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_f
 }
 
 Mat im::quantization(const cv::Mat &input, const int levels){
-	Mat output(input.rows, input.cols, CV_8UC1);
+
+	Mat floatingInput = im::matUcharToFloat(input);
+	float max = im::maxFloatValue(floatingInput);
+	float min = im::minFloatValue(floatingInput);
+
+	//calculate space to divide
+	float space = max - min;
+
+	//determine segment size
+	float segment = space / levels;
+
+	//determine segment value offset
+	float segment_value_offset = segment / 2;
 
 	// make variable float array
-	int *slots;
-	slots = new int[levels ];
+	float *segment_borders;
+	segment_borders = new float[levels];
 
-	// divide the floating space 0...1 in the amount of levels given
-	int slot_size = 255 / levels;
+	//calculate every border of each segment
 	int count = 0;
-	for (int q = 0; q <= 255; q += slot_size){
-		slots[count] = q;
-		++count;
-	}
-
-	// loop through every pixel in input matrix
-	for ( int i = 0; i < (input.rows); i++) {
-		for (int j = 0; j < (input.cols); j++) {
-			// get floating point pixel
-			int pixel = input.at<uchar>(i,j);
-			// loop through all slots, keep track of count during this
-			for (int k = 1; k <= levels; k++){
-				// if pixelvalue is higher then the current slot value
-				// and smaller then the previous slot value,
-				// then write the corresponding slot value in output
-				if (pixel >= slots[k - 1] && pixel < slots[k] ){
-					output.at<uchar>(i,j) = slots[k - 1];
-				}
-				else if (k == levels && pixel >= slots[k]){
-					output.at<uchar>(i,j) = slots[k - 1];
-				}
-			}
-	}	}
-	if(config::DEBUG){
-		cout << "Quantization debug info: " << endl
-				<< "\tslot size: " << slot_size << endl
-				<< "\tslot count: " << count << endl
-				<< "\tslots:" << endl << "\t\t";
-				for (int ii = 0; ii <= levels; ii++){
-					cout << slots[ii] << ", ";
-				}
-				cout << endl << endl;
-	//	cout << "Output Matrix: " << endl
-	//			<< output << endl << endl;
-	}
-	return output;
-
-	/*
-	float amount = 1.0 / levels;
-	Mat output(input.rows, input.cols, CV_8UC1);
-	Mat temp = im::matUcharToFloat(input);
-
-	int count = 0;
-
-	// make variable float array
-	float *slots;
-	slots = new float[levels];
-
-	// divide the floating space 0...1 in the amount of levels given
-	for (float q = 0; q <= 1; q += amount){
-		slots[count] = q;
+	for (float q = min; q <= max; q+=segment){
+		segment_borders[count] = q;
 		count++;
 	}
-	// loop through every pixel in input matrix
+
+	if(config::DEBUG){
+		cout << "Quantization debug info: " << endl
+				<< "\tmin float value: " << min << endl
+				<< "\tmax float value: " << max << endl
+				<< "\tspace to divide: " << space << endl
+				<< "\tsegment size: " << segment << endl
+				<< "\tsegment count: " << count << endl
+				<< "\tsegment borders and values below:" << endl << "\t\t";
+				for (int ii = 0; ii < count; ii++){
+					cout << segment_borders[ii] << "\t\t\t";
+				}
+				cout << endl << "\t\t\t\t";
+				for (int ii = 0; ii < (count - 1); ii++){
+					cout << segment_borders[ii] + segment_value_offset << "\t\t\t";
+				}
+				cout << endl<< endl;
+	}
+
+	// loop through every pixel in floating input matrix
 	for ( int i = 0; i < (input.rows); i++) {
 		for (int j = 0; j < (input.cols); j++) {
 			// get floating point pixel
-			float pixel = temp.at<float>(i,j);
-			// loop through all slots, keep track of count during this
-			for (int k = 0; k >= levels; k++){
-				// if pixelvalue is higher then slot value,
-				// then write the corresponding
-				if (pixel < slots[k] ){
-					temp.at<float>(i,j) = slots[k - 1];
+			float pixel = floatingInput.at<float>(i,j);
+			// loop through all segment borders -1
+			for (int k = 1; k <= count; k++){
+				/* if pixel value is higher or eq then the previous border level and
+				 * lower then the current border level then write corresponding
+				 * middle value of previous segment to this pixel.
+				 * Especially written this way to prevent overflow.
+				 */
+				if (pixel >= segment_borders[k - 1] && pixel < segment_borders[k]) {
+					pixel = segment_borders[k - 1] + segment_value_offset;
 				}
 			}
+			// write new quantized pixel value to matrix
+			floatingInput.at<float>(i,j) = pixel;
 	}	}
-	if(config::DEBUG){
-		cout << "Quantization debug info: " << endl
-				<< "\tslot size: " << amount << endl
-				<< "\tslot count: " << count << endl
-				<< "\tslots:" << endl << "\t\t";
-				for (int ii = 0; ii <= levels; ii++){
-					cout << slots[ii] << ", ";
-				}
-				cout << endl << endl;
-		cout << "temp Matrix: " << endl
-				<< temp << endl << endl;
-	}
-	output = im::matFloatToUchar(temp);
+
+	// converts floating point matrix to uchar output matrix
+	Mat output(input.rows, input.cols, CV_8UC1);
+	output = im::matFloatToUchar(floatingInput);
+
 	return output;
-	*/
 }

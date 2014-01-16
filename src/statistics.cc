@@ -86,12 +86,6 @@ Mat im::equalize(const cv::Mat &input) {
 	return output;
 }
 
-Mat im::binaryLabel(const cv::Mat &input){
-	Mat output;
-	input.copyTo(output);
-	return output;
-}
-
 void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType){
 	cout << " in function ptr : " << &input << endl;
 
@@ -138,3 +132,40 @@ void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int d
 		}
 	}
 }
+
+Mat im::binaryLabel(const cv::Mat &input){
+	Mat output;
+	input.copyTo(output);
+	return output;
+}
+
+float im::maxFloatValue(const cv::Mat &input){
+	float max;
+	float value;
+
+	for (int i = 0; i < input.rows; i++){
+		for (int j = 0; j < input.cols; j++){
+			value = input.at<float>(i,j);
+			if (value > max) {
+				max = value;
+			}
+	}	}
+	// little more, is less error sensitive
+	max += 0.000001;
+	return max;
+}
+
+float im::minFloatValue(const cv::Mat &input) {
+	float min;
+	float value;
+
+	for (int i = 0; i < input.rows; i++){
+		for (int j = 0; j < input.cols; j++){
+			value = input.at<float>(i,j);
+			if (value < min) {
+				min = value;
+			}
+	}	}
+	return min;
+}
+
