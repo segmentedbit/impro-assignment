@@ -33,5 +33,11 @@ cv::Mat averageFilterDebug(const cv::Mat &input, int width, int height, bool deb
  */
 cv::Mat filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor);
 
+/*
+ * Quantiziation of a image. Divide the pixel space of 256 different values in a
+ * by the programmer given amount of levels en. It looks like a kind of binning.
+ */
+cv::Mat quantization(const cv::Mat &input, const int levels);
+
 }
 #endif /* FILTERS_H_ */

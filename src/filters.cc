@@ -9,6 +9,7 @@
 #include "opencv2/highgui/highgui.hpp"	// TODO only for debugging
 #include "includes/filters.h"
 #include "includes/stockpile.h"
+#include "includes/statistics.h"
 #include <vector>
 #include <iostream>
 #include "config.h"
@@ -98,11 +99,10 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_f
 			for ( int x = 0; x < kernel.rows; x++) {
 				for (int y = 0; y < kernel.cols; y ++) {
 					middlePixel += temp_float.at<float>(i+x, j+y) * kernel.at<float>(x,y);
-				}
-			}
+			}	}
 			temp.at<float>(i,j) = middlePixel/divide_factor;
-		}
-	}
+	} }
+
 
 	Mat output_uchar(input.rows, input.cols, CV_8UC1);
 	output_uchar = im::matFloatToUchar(temp);
@@ -112,4 +112,98 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_f
 	}
 
 	return output_uchar;
+}
+
+Mat im::quantization(const cv::Mat &input, const int levels){
+	Mat output(input.rows, input.cols, CV_8UC1);
+
+	// make variable float array
+	int *slots;
+	slots = new int[levels ];
+
+	// divide the floating space 0...1 in the amount of levels given
+	int slot_size = 255 / levels;
+	int count = 0;
+	for (int q = 0; q <= 255; q += slot_size){
+		slots[count] = q;
+		++count;
+	}
+
+	// loop through every pixel in input matrix
+	for ( int i = 0; i < (input.rows); i++) {
+		for (int j = 0; j < (input.cols); j++) {
+			// get floating point pixel
+			int pixel = input.at<uchar>(i,j);
+			// loop through all slots, keep track of count during this
+			for (int k = 1; k <= levels; k++){
+				// if pixelvalue is higher then the current slot value
+				// and smaller then the previous slot value,
+				// then write the corresponding slot value in output
+				if (pixel >= slots[k - 1] && pixel < slots[k] ){
+					output.at<uchar>(i,j) = slots[k - 1];
+				}
+				else if (k == levels && pixel >= slots[k]){
+					output.at<uchar>(i,j) = slots[k - 1];
+				}
+			}
+	}	}
+	if(config::DEBUG){
+		cout << "Quantization debug info: " << endl
+				<< "\tslot size: " << slot_size << endl
+				<< "\tslot count: " << count << endl
+				<< "\tslots:" << endl << "\t\t";
+				for (int ii = 0; ii <= levels; ii++){
+					cout << slots[ii] << ", ";
+				}
+				cout << endl << endl;
+	//	cout << "Output Matrix: " << endl
+	//			<< output << endl << endl;
+	}
+	return output;
+
+	/*
+	float amount = 1.0 / levels;
+	Mat output(input.rows, input.cols, CV_8UC1);
+	Mat temp = im::matUcharToFloat(input);
+
+	int count = 0;
+
+	// make variable float array
+	float *slots;
+	slots = new float[levels];
+
+	// divide the floating space 0...1 in the amount of levels given
+	for (float q = 0; q <= 1; q += amount){
+		slots[count] = q;
+		count++;
+	}
+	// loop through every pixel in input matrix
+	for ( int i = 0; i < (input.rows); i++) {
+		for (int j = 0; j < (input.cols); j++) {
+			// get floating point pixel
+			float pixel = temp.at<float>(i,j);
+			// loop through all slots, keep track of count during this
+			for (int k = 0; k >= levels; k++){
+				// if pixelvalue is higher then slot value,
+				// then write the corresponding
+				if (pixel < slots[k] ){
+					temp.at<float>(i,j) = slots[k - 1];
+				}
+			}
+	}	}
+	if(config::DEBUG){
+		cout << "Quantization debug info: " << endl
+				<< "\tslot size: " << amount << endl
+				<< "\tslot count: " << count << endl
+				<< "\tslots:" << endl << "\t\t";
+				for (int ii = 0; ii <= levels; ii++){
+					cout << slots[ii] << ", ";
+				}
+				cout << endl << endl;
+		cout << "temp Matrix: " << endl
+				<< temp << endl << endl;
+	}
+	output = im::matFloatToUchar(temp);
+	return output;
+	*/
 }

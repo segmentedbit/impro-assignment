@@ -249,10 +249,6 @@ int ardillo(int argc, char** argv) {
 	namedWindow("equalized", CV_WINDOW_NORMAL);
 	imshow("equalized", equalized);
 
-	Mat histOwnGrayImage2 = im::showHist(equalized);
-	namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
-	imshow("histogram: equalized", histOwnGrayImage2);
-
 	/*
 
 	///////////// x-Derivative ////////////////////
@@ -280,22 +276,21 @@ int ardillo(int argc, char** argv) {
 		4, 16, 26, 16, 4,
 		1, 4, 7, 4, 1);
 		float divide_fact = 273;
-
+equalized
 	*/
 
-	///////////// y-Derivative ////////////////////
-	Mat kernel = ( Mat_<float>(5,1) <<
-		1, -8, 0, 8, -1);
-		float divide_fact = 12;
-
 	auto t1 = highc::now();
-	Mat customFilter = im::filter(equalized, kernel, divide_fact);
+	Mat quant = im::quantization(own_gray_image, 6);
 	auto t2 = highc::now();
-	namedWindow("custom Filter", CV_WINDOW_NORMAL);
-	imshow("custom Filter", customFilter);
+	namedWindow("Quantization", CV_WINDOW_NORMAL);
+	imshow("Quantization", quant);
 
 	auto timetaken1 = t2 - t1;
 	cout << "time taken: " << timetaken1.count() << endl;
+
+	Mat histOwnGrayImage2 = im::showHist(quant);
+		namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
+		imshow("histogram: equalized", histOwnGrayImage2);
 
 	waitKey(0);
 

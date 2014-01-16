@@ -84,3 +84,5 @@ debugging.
 Adjusted im::filter so it will work with custom kernels. -- added float divide_factor<br>
 Made function im::matUcharToFloat <br>
 Made function im::matFloatToUchar -- and fixed a bug <br>
+Made some standard filter kernels <br>
+Started with Quantization -- Work in progress still <br>
