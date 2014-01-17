@@ -38,16 +38,9 @@ int segmentedbit() {
 		exit(1);
 	}
 
-	Mat gray = imread("images/orca.png", 1);
-	gray = im::grayscale(gray);
 
-	Mat quant = im::quantization(gray, 2);
-	namedWindow("quant", CV_WINDOW_NORMAL);
-	imshow("quant", quant);
-
-	/*
 	////////////////////////// Test morphSkeleton()
-	Mat gray = imread("images/white.png", 1);
+	Mat gray = imread("images/thintest.png", 1);
 	gray = im::grayscale(gray);
 
 	namedWindow("original", CV_WINDOW_NORMAL);
@@ -57,13 +50,16 @@ int segmentedbit() {
 	Mat segmentized = im::segmentize(gray, 30);
 
 	Mat skeleton = im::morphSkeleton(segmentized);
+	for (int i=0; i<255;i++) {
+		skeleton = im::addMatrix(skeleton,skeleton);
+	}
 	im::displayPixels(segmentized, false, false, im::DISPLAY_MATRIX);
 	im::displayPixels(skeleton, false, false, im::DISPLAY_MATRIX);
 	imshow("original", gray);
 	imshow("skeleton", skeleton);
 	imshow("segmentized", segmentized);
 	waitKey(0);
-	*/
+
 
 	/*
 	////////////////////////// Test morphGeodesicDilate()
