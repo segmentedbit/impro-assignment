@@ -162,29 +162,29 @@ Mat im::morphGeodesicErode(const Mat &input, const Mat &control, const Mat &elem
 // Skeleton using thinning, with L Golay element
 
 Mat im::morphSkeleton(const Mat &input, int nTimes) {
-	Mat output = input.clone();
 	Mat temp = input.clone();
 	temp.col(0) = 0.0;
 	temp.row(0) = 0.0;
-	temp.col(output.cols - 1) = 0.0;
-	temp.row(output.rows - 1) = 0.0;
+	temp.col(input.cols - 1) = 0.0;
+	temp.row(input.rows - 1) = 0.0;
 
-	if(config::DEBUG){
+	vector< vector<Mat> > golay = createGolay();
+
+	if(true){ // TODO config::DEBUG
 		cout << "temp matrix: " << endl
 				<< temp << endl << endl;
 	}
 
 	while (nTimes != 0) {
-		// Update temp and tempPrev (which is the control image used to
-		// determine if the final skeleton has been found) at every loop.
-		Mat temp = output.clone();
 
-		vector< vector<Mat> > golay = createGolay();
+		Mat stored_temp = temp.clone();
 
 		// Go over all 8 L Golay elements
 		for (int g=0; g<8; g++) {
 			Mat fg = golay[g][FG];
 			Mat bg = golay[g][BG];
+
+			cout << "Golay Element L" << g + 1 << endl;
 
 			// For every pixel in temp, figure out if Hit-or-Miss has a fix on it,
 			// using the current Golay element. If so, subtract from output.
@@ -222,10 +222,10 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 					} // end nested golay element for-loop
 
 					if (hit) {
-						output.at<uchar>(i + 1, j + 1) = 0;
-							if (config::DEBUG){
+						temp.at<uchar>(i + 1, j + 1) = 0;
+							if (true){ //TODO config::DEBUG
 								cout << "got a hit! at: Golay L"
-										<< g << " erasing pixel (" << i + 1 << ","
+										<< g + 1 << " erasing pixel (" << i + 1 << ","
 										<< j + 1 << ")" << endl << endl;
 							}
 					}
@@ -233,12 +233,12 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 			}
 		} // end 8 golay for-loop
 
-		if (im::equal(output, temp)) {
+		if (im::equal(stored_temp, temp)) {
 			break;
 		}
 		nTimes--;
 	}
-
+	Mat output = temp.clone();
 	return output;
 }
 
