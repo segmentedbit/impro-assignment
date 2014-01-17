@@ -179,7 +179,7 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 
 		Mat stored_temp = temp.clone();
 
-		Try these orders to test order fast.
+		//////////// Try these orders to test order fast//////////////
 		//int order[8] = { 0,1,2,3,4,5,6,7 };
 		int order[8] = { 7,6,5,4,3,2,1,0 };
 
