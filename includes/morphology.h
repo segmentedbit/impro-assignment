@@ -77,6 +77,7 @@ cv::Mat morphSkeletonDiff(const cv::Mat &input, int nTimes=-1);
  * Creates a 2-dimensional Mat vector containing the 8 L Golay elements
  */
 std::vector<std::vector<cv::Mat>> createGolay();
+std::vector<std::vector<cv::Mat>> createGolayWeird();
 
 
 } // end namespace im

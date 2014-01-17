@@ -43,6 +43,8 @@ int segmentedbit() {
 	Mat gray = imread("images/thintest.png", 1);
 	gray = im::grayscale(gray);
 
+	//gray = im::invertGray(gray);
+
 	namedWindow("original", CV_WINDOW_NORMAL);
 	namedWindow("skeleton", CV_WINDOW_NORMAL);
 	namedWindow("segmentized", CV_WINDOW_NORMAL);
@@ -59,6 +61,8 @@ int segmentedbit() {
 	imshow("skeleton", skeleton);
 	imshow("segmentized", segmentized);
 	waitKey(0);
+
+	vector< vector<Mat> > golay = im::createGolay();
 
 
 	/*
