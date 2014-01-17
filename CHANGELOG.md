@@ -91,6 +91,8 @@ Started with Quantization -- Work in progress still <br>
 Added skeleton and several helper functions. Skeleton doesn't work yet, though.<br>
 
 ###16-01-2014 Ardillo<br>
-Made function im::maxFloatValue to find max value in floating point matrix
-Made function im::minFloatValue to find min value in floating point matrix
+Made function im::maxFloatValue to find max value in floating point matrix <br>
+Made function im::minFloatValue to find min value in floating point matrix <br>
 Finished Quantization function, found stable till +/- 40 levels of quantizing.<br>
+Fixed thinning a bit, problem was recursive matrices weren't updated and some don't care issues 
+the order of which kernel you take first does matter.<br>
