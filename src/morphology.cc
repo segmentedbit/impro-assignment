@@ -179,11 +179,16 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 
 		Mat stored_temp = temp.clone();
 
+		Try these orders to test order fast.
+		//int order[8] = { 0,1,2,3,4,5,6,7 };
+		int order[8] = { 7,6,5,4,3,2,1,0 };
+
+
 		// Go over all 8 L Golay elements
 		// ooh... and the order of the elements you use does matter
-		for (int g=7; g >=0 ; g--) {
-			Mat fg = golay[g][FG];
-			Mat bg = golay[g][BG];
+		for (int g=0; g < 7; g++) {
+			Mat fg = golay[order[g]][FG];
+			Mat bg = golay[order[g]][BG];
 
 //			cout << "Golay Element L" << g + 1 << endl;
 
