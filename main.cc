@@ -306,7 +306,7 @@ int ardillo(int argc, char** argv) {
 	*/
 
 	auto t1 = highc::now();
-	Mat quant = im::quantization(own_gray_image, 8);
+	Mat quant = im::quantization(own_gray_image, 2);
 	auto t2 = highc::now();
 	namedWindow("Quantization", CV_WINDOW_NORMAL);
 	imshow("Quantization", quant);
@@ -317,6 +317,17 @@ int ardillo(int argc, char** argv) {
 	Mat histOwnGrayImage2 = im::showHist(quant);
 	namedWindow("histogram: quantized", CV_WINDOW_NORMAL);
 	imshow("histogram: quantized", histOwnGrayImage2);
+
+	Mat segmentized = im::segmentize(own_gray_image, 30);
+	namedWindow("segmentized", CV_WINDOW_NORMAL);
+	imshow("segmentized", segmentized);
+
+	Mat skeleton = im::morphSkeleton(segmentized);
+	Mat skeleton_visible = im::threshold(skeleton, 1);
+
+	namedWindow("skeleton", CV_WINDOW_NORMAL);
+	imshow("skeleton", skeleton_visible);
+
 
 
 
