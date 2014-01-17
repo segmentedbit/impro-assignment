@@ -29,7 +29,7 @@ const int UNEVEN = 1;
  * Furthermore, the input is passed by reference and defined as const, because
  * it won't be modified.
  */
-cv::Mat invert(const cv::Mat &input);
+//TODO cv::Mat invert(const cv::Mat &input);
 
 /* Segments an image into pixelvalues of either 1 or 0. The pixels of value
  * <threshold> and higher are convertedto 1, values below are converted to zero.
@@ -38,7 +38,7 @@ cv::Mat segmentize(const cv::Mat &input, int threshold);
 
 /* Thresholds an image. The pixels of value <threshold> and higher are converted
  * to 1, values below are converted to zero, as by convention (is this true?)
- * TODO Ardillo: changed it in 0 or 255 instead of 1, this is easier to use with the 'Mat'
+ * Ardillo: changed it in 0 or 255 instead of 1, this is easier to use with the 'Mat'
  * type. Mat doesn't except binary images with only two values.
  */
 cv::Mat threshold(const cv::Mat &input, int threshold);
@@ -50,9 +50,12 @@ cv::Mat invertGray(const cv::Mat &input);
 
 /* Converts a color image to a greyscale image.
  * This sums up the different color channels and divide it by three
- * TODO This has a deviation of exactly 1, so apparently opencv does
+ * This has a deviation of exactly 1, so apparently opencv does
  * something different with their ToGrayScale operand.
- * TODO Has some other strange artifact, try to run program with checkerColor13_0_37.png?
+ * Has some other strange artifact, try to run program with checkerColor13_0_37.png?
+ *
+ * <note>
+ * Problem fixed, is some ISO standard CIE1931 color spectrum thing see Changelog.md
  */
 cv::Mat grayscale(const cv::Mat &input);
 

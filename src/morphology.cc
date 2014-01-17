@@ -10,6 +10,7 @@
 #include "includes/morphology.h"
 #include "includes/stockpile.h"
 #include "includes/statistics.h"
+#include "config.h"
 
 using namespace std;
 using namespace cv;
@@ -161,14 +162,101 @@ Mat im::morphGeodesicErode(const Mat &input, const Mat &control, const Mat &elem
 // Skeleton using thinning, with L Golay element
 
 Mat im::morphSkeleton(const Mat &input, int nTimes) {
+	Mat temp = input.clone();
+	temp.col(0) = 0.0;
+	temp.row(0) = 0.0;
+	temp.col(input.cols - 1) = 0.0;
+	temp.row(input.rows - 1) = 0.0;
+
+	vector< vector<Mat> > golay = createGolay();
+
+	if(config::DEBUG){
+		cout << "temp matrix: " << endl
+				<< temp << endl << endl;
+	}
+
+	while (nTimes != 0) {
+
+		Mat stored_temp = temp.clone();
+
+		//////////// Try these orders to test order fast//////////////
+		//int order[8] = { 0,1,2,3,4,5,6,7 };
+		int order[8] = { 7,6,5,4,3,2,1,0 };
+
+
+		// Go over all 8 L Golay elements
+		// ooh... and the order of the elements you use does matter
+		for (int g=0; g < 7; g++) {
+			Mat fg = golay[order[g]][FG];
+			Mat bg = golay[order[g]][BG];
+
+//			cout << "Golay Element L" << g + 1 << endl;
+
+			// For every pixel in temp, figure out if Hit-or-Miss has a fix on it,
+			// using the current Golay element. If so, subtract from output.
+			for (int i = 0; i < temp.cols ; i++) {
+				for (int j = 0; j < temp.rows; j++) {
+
+					bool hit = true;
+
+					// Convolute both BG and FG, checking if all pixels match
+					for (int x=0; x<3; x++) {
+						for (int y=0; y<3; y++) {
+
+							uchar fg_char = fg.at<uchar>(x,y);
+							uchar bg_char = bg.at<uchar>(x,y);
+
+							uchar t_char = temp.at<uchar>(x+i, y+j);
+
+							// The foreground check of the golay element;
+							// breaks loop if pixel != foreground pixel;
+							if ( fg_char &&  fg_char != t_char * fg_char) {
+								hit = false;
+								break;
+							}
+							// The background check of the golay element;
+							// breaks loop if pixel != background pixel;
+							if ( bg_char && bg_char != (1-t_char) * bg_char) {
+								hit = false;
+								break;
+							}
+						}
+						// At least one check misses, and therefore don't continue loop
+						if (hit == false) {
+							break;
+						}
+					} // end nested golay element for-loop
+
+					if (hit) {
+						temp.at<uchar>(i + 1, j + 1) = 0;
+							if (config::DEBUG){
+								cout << "got a hit! at: Golay L"
+										<< g + 1 << " erasing pixel (" << i + 1 << ","
+										<< j + 1 << ")" << endl << endl;
+							}
+					}
+				}
+			}
+		} // end 8 golay for-loop
+
+		if (im::equal(stored_temp, temp)) {
+			break;
+		}
+		nTimes--;
+	}
+	Mat output = temp.clone();
+	return output;
+}
+
+////////////////////////SEGMENTED BIT THINNING //////////////////////////////////
+/*
+Mat im::morphSkeleton(const Mat &input, int nTimes) {
 	Mat output = input.clone();
 	output.col(0) = 0.0;
 	output.row(0) = 0.0;
 	output.col(output.cols - 1) = 0.0;
 	output.row(output.rows - 1) = 0.0;
 	vector< vector<Mat> > golay = createGolay();
-
-	int hitCount = 0;
 
 	while (nTimes != 0) {
 		// Update temp and tempPrev (which is the control image used to
@@ -218,7 +306,7 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 
 					if (hit) {
 						output.at<uchar>(i,j) = 0;
-						cout << "got a hit!" << endl;
+//						//cout << "got a hit!" << endl;
 					}
 				}
 			}
@@ -233,8 +321,6 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 	cout << "finished";
 	return output;
 }
-
-/**/
 
 vector<vector<Mat>> im::createGolay() {
 	vector< vector<Mat> > golay(8, vector<Mat>(2));
@@ -252,12 +338,13 @@ vector<vector<Mat>> im::createGolay() {
 	golay[0][FG].at<uchar>(1,1) = 1;
 
 	// Create golay element 1
-	golay[1][BG].at<uchar>(1,0) = 1;
-	golay[1][BG].at<uchar>(2,1) = 1;
-	golay[1][FG].at<uchar>(0,1) = 1;
-	golay[1][FG].at<uchar>(0,2) = 1;
+	golay[1][BG].at<uchar>(0,1) = 1;
+	//golay[1][BG].at<uchar>(0,2) = 1; //changeable
+	golay[1][BG].at<uchar>(1,2) = 1;
+	golay[1][FG].at<uchar>(1,0) = 1;
 	golay[1][FG].at<uchar>(1,1) = 1;
-	golay[1][FG].at<uchar>(1,2) = 1;
+	golay[1][FG].at<uchar>(2,0) = 1; //changeable
+	golay[1][FG].at<uchar>(2,1) = 1;
 
 	// Create golay element 2
 	golay[2][BG].col(2) = 1;
@@ -267,7 +354,8 @@ vector<vector<Mat>> im::createGolay() {
 	// Create golay element 3
 	golay[3][BG].at<uchar>(1,2) = 1;
 	golay[3][BG].at<uchar>(2,1) = 1;
-	golay[3][FG].at<uchar>(0,0) = 1;
+	//golay[3][BG].at<uchar>(2,2) = 1; //changeable
+	golay[3][FG].at<uchar>(0,0) = 1; //changeable
 	golay[3][FG].at<uchar>(0,1) = 1;
 	golay[3][FG].at<uchar>(1,0) = 1;
 	golay[3][FG].at<uchar>(1,1) = 1;
@@ -278,12 +366,13 @@ vector<vector<Mat>> im::createGolay() {
 	golay[4][FG].at<uchar>(1,1) = 1;
 
 	// Create golay element 5
-	golay[5][BG].at<uchar>(0,1) = 1;
-	golay[5][BG].at<uchar>(1,2) = 1;
-	golay[5][FG].at<uchar>(1,0) = 1;
+	golay[5][BG].at<uchar>(1,0) = 1;
+	golay[5][BG].at<uchar>(2,1) = 1;
+	//golay[5][BG].at<uchar>(2,2) = 1; //changeable
+	golay[5][FG].at<uchar>(0,1) = 1;
+	golay[5][FG].at<uchar>(0,2) = 1; //changeable
 	golay[5][FG].at<uchar>(1,1) = 1;
-	golay[5][FG].at<uchar>(2,0) = 1;
-	golay[5][FG].at<uchar>(2,1) = 1;
+	golay[5][FG].at<uchar>(1,2) = 1;
 
 	// Create golay element 6
 	golay[6][BG].col(0) = 1;
@@ -291,12 +380,29 @@ vector<vector<Mat>> im::createGolay() {
 	golay[6][FG].at<uchar>(1,1) = 1;
 
 	// Create golay element 7
+	//golay[7][BG].at<uchar>(0,0) = 1; //changeable
 	golay[7][BG].at<uchar>(0,1) = 1;
 	golay[7][BG].at<uchar>(1,0) = 1;
 	golay[7][FG].at<uchar>(1,1) = 1;
 	golay[7][FG].at<uchar>(1,2) = 1;
 	golay[7][FG].at<uchar>(2,1) = 1;
-	golay[7][FG].at<uchar>(2,2) = 1;
+	golay[7][FG].at<uchar>(2,2) = 1; //changeable
+
+	if(config::DEBUG) {
+		for (int i=0; i<8; i++) {
+			cout << "Golay Element L" << i + 1 << endl;
+			for (int j=0; j<2; j++) {
+				if (j == 0){
+					cout << "Background:" << endl;
+				}
+				else {
+					cout << "Foreground:" << endl;
+				}
+				cout	<< golay.at(i).at(j) << endl;
+			}
+			cout << endl;
+		}
+	}
 
 	return golay;
 }
