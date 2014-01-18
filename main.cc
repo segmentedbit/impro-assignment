@@ -38,12 +38,51 @@ int segmentedbit() {
 		exit(1);
 	}
 
+	/*
+	////////////////////////// Test thinning()
+	cv::Mat src = cv::imread("images/thintest3.png", 1);
+	if (src.empty())
+		return -1;
 
-	////////////////////////// Test morphSkeleton()
-	Mat gray = imread("images/thintest.png", 1);
+	cv::Mat bw;
+	cv::cvtColor(src, bw, CV_BGR2GRAY);
+	cv::threshold(bw, bw, 10, 255, CV_THRESH_BINARY);
+	bw = 255 - bw;
+
+	im::thinningGuoHall(bw);
+
+	cv::imshow("src", src);
+	cv::imshow("dst", bw);
+	cv::waitKey();
+	return 0;
+	 */
+
+	/*
+	////////////////////////// Test thinningGuoHall()
+	cv::Mat src = cv::imread("images/thintest3.png", 1);
+
+	if (src.empty())
+		return -1;
+
+	cv::Mat bw;
+	cv::cvtColor(src, bw, CV_BGR2GRAY);
+	cv::threshold(bw, bw, 10, 255, CV_THRESH_BINARY);
+	bw = 255 - bw;
+
+	im::thinning(bw);
+
+	cv::imshow("src", src);
+	cv::imshow("dst", bw);
+	cv::waitKey(0);
+	*/
+
+
+	/*
+	////////////////////////// Test normalizeLetter()
+	Mat gray = imread("images/thintest3.png", 1);
 	gray = im::grayscale(gray);
 
-	//gray = im::invertGray(gray);
+	gray = im::invertGray(gray);
 
 	namedWindow("original", CV_WINDOW_NORMAL);
 	namedWindow("skeleton", CV_WINDOW_NORMAL);
@@ -51,18 +90,44 @@ int segmentedbit() {
 
 	Mat segmentized = im::segmentize(gray, 30);
 
+	Mat skeleton = gray.clone();
+	im::normalizeLetter(gray, skeleton);
+
+	skeleton *= 255;
+
+	imshow("original", gray);
+	imshow("skeleton", skeleton);
+	imshow("segmentized", segmentized);
+	waitKey(0);
+	*/
+
+
+	////////////////////////// Test morphSkeleton()
+	Mat gray = imread("images/thintest3.png", 1);
+	gray = im::grayscale(gray);
+
+	gray = im::invertGray(gray);
+
+	namedWindow("original", CV_WINDOW_NORMAL);
+	namedWindow("skeleton", CV_WINDOW_NORMAL);
+	namedWindow("segmentized", CV_WINDOW_NORMAL);
+
+	Mat segmentized = im::segmentize(gray, 30);
+
+
 	Mat skeleton = im::morphSkeleton(segmentized);
-	for (int i=0; i<255;i++) {
-		skeleton = im::addMatrix(skeleton,skeleton);
-	}
-	im::displayPixels(segmentized, false, false, im::DISPLAY_MATRIX);
-	im::displayPixels(skeleton, false, false, im::DISPLAY_MATRIX);
+
+	//Mat skeleton = gray.clone();
+	//im::normalizeLetter(gray, skeleton);
+
+
+	skeleton *= 255;
+
 	imshow("original", gray);
 	imshow("skeleton", skeleton);
 	imshow("segmentized", segmentized);
 	waitKey(0);
 
-	vector< vector<Mat> > golay = im::createGolay();
 
 
 	/*

@@ -54,7 +54,7 @@ Mat im::invertGray(const cv::Mat &input) {
 	input.copyTo(inverted);
 	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){
-			inverted.at<uchar>(i,j)= 255 - input.at<uchar>(i,j);
+			inverted.at<uchar>(i,j) = 255 - input.at<uchar>(i,j);
 		}
 	}
 	return inverted;

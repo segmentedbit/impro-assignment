@@ -12,6 +12,10 @@
 
 namespace im {
 
+const int E_GOLAY = 0;
+const int L_GOLAY = 1;
+const int E_GOLAY2 = 2;
+
 /*
  * Returns a 3x3, "+" shaped, structuring element.
  */
@@ -71,13 +75,22 @@ cv::Mat morphGeodesicErode(const cv::Mat &input, const cv::Mat &control, const c
  * Finds the skeleton of a given image.
  */
 cv::Mat morphSkeleton(const cv::Mat &input, int nTimes=-1);
-cv::Mat morphSkeletonDiff(const cv::Mat &input, int nTimes=-1);
 
 /*
- * Creates a 2-dimensional Mat vector containing the 8 L Golay elements
+ * Pruning of an image.
  */
-std::vector<std::vector<cv::Mat>> createGolay();
-std::vector<std::vector<cv::Mat>> createGolayWeird();
+cv::Mat prune(const cv::Mat &input, int nTimes=-1);
+
+/*
+ * Creates a 2-dimensional Mat vector containing a golay alphabet. Returns
+ * the L alphabet as a default, but can also return an e golay, by
+ * parametarising it with E_GOLAY.
+ *
+ */
+std::vector<std::vector<cv::Mat>> createGolay(const int type=L_GOLAY);
+void normalizeLetter(cv::Mat & inputarray, cv::Mat & outputarray);
+void thinning(cv::Mat& im);
+void thinningGuoHall(cv::Mat& im);
 
 
 } // end namespace im

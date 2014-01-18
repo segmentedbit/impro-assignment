@@ -96,3 +96,11 @@ Made function im::minFloatValue to find min value in floating point matrix <br>
 Finished Quantization function, found stable till +/- 40 levels of quantizing.<br>
 Fixed thinning a bit, problem was recursive matrices weren't updated and some don't care issues 
 the order of which kernel you take first does matter.<br>
+
+###18-01-2014 segmentedbit<br>
+Researched creating skeletons further and it simply takes too long to create a good
+working one within the time we have. Taken three nice pieces of code, not sure yet 
+which one performs best in our situation. Changed the createGolay function to take
+a parameter so it can return different alphabets, cleaned our own skeleton function.
+Also added pruning - almost the same as skeleton, for testing the influence of pruning
+within skeletonizing cycles.
