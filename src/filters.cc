@@ -182,7 +182,5 @@ Mat im::quantization(const cv::Mat &input, const int levels){
 	// converts floating point matrix to uchar output matrix
 	Mat output(input.rows, input.cols, CV_8UC1);
 	output = im::matFloatToUchar(floatingInput);
-
-	im::displayPixels(output, false,false,im::DISPLAY_MATRIX);
 	return output;
 }

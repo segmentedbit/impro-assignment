@@ -5,6 +5,7 @@
 #include "includes/statistics.h"
 #include "includes/filters.h"
 #include "includes/morphology.h"
+#include "includes/images.h"
 
 #include <chrono>
 #include <stdlib.h>
@@ -22,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	//returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -317,6 +318,7 @@ int ardillo(int argc, char** argv) {
 	}
 
 	char *imageName = argv[1];
+	string input = imageName;
 	Mat image;
 	image = imread(imageName, 1);
 
@@ -324,8 +326,26 @@ int ardillo(int argc, char** argv) {
 		std::cout << "Failed to load image " << imageName;
 		return -1;
 	}
+	///// String list
+	string balloons = "images/assignmentPictures/balloons.png";
+	string balls = "images/assignmentPictures/balls.png";
 
-	// EO BASIC CODE
+	///// checks if standard opencv method is applicable to image name
+	if (!input.compare(balloons)) {
+		Mat balloons = solve::balloons(image);
+		namedWindow("OpenCV -- balloons", CV_WINDOW_NORMAL);
+		imshow("OpenCV -- balloons", balloons);
+	}
+	else if (!input.compare(balls)) {
+		Mat balls = solve::balls(image);
+		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
+		imshow("OpenCV -- balls", balls);
+	}
+
+	/////////////// EO BASIC OpenCV CODE
+	else{
+
+
 
 	//  TESTING SPACE
 	namedWindow(imageName, CV_WINDOW_NORMAL);
@@ -342,12 +362,6 @@ int ardillo(int argc, char** argv) {
 	Mat equalized = im::equalize(own_gray_image);
 	namedWindow("equalized", CV_WINDOW_NORMAL);
 	imshow("equalized", equalized);
-
-
-	//Mat histOwnGrayImage2 = im::showHist(equalized);
-	//namedWindow("histogram: equalized", CV_WINDOW_NORMAL);
-	//imshow("histogram: equalized", histOwnGrayImage2);
-
 
 	/*
 
@@ -377,44 +391,14 @@ int ardillo(int argc, char** argv) {
 		1, 4, 7, 4, 1);
 		float divide_fact = 273;
 
-	*/
 
-	/*
-	Mat quant = im::quantization(own_gray_image, 2);
-	namedWindow("Quantization", CV_WINDOW_NORMAL);
-	imshow("Quantization", quant);
-	*/
-
-	/*
 	auto t1 = highc::now();
 	auto t2 = highc::now();
 	auto timetaken1 = t2 - t1;
 	cout << "time taken: " << timetaken1.count() << endl;
+
 	*/
-	/*
-	Mat histOwnGrayImage2 = im::showHist(quant);
-	namedWindow("histogram: quantized", CV_WINDOW_NORMAL);
-	imshow("histogram: quantized", histOwnGrayImage2);
-	*/
-
-	Mat segmentized = im::segmentize(own_gray_image, 30);
-	Mat skeleton = im::morphSkeleton(segmentized);
-
-	Mat skeleton_visible = im::threshold(skeleton, 1);
-	namedWindow("skeleton", CV_WINDOW_NORMAL);
-	imshow("skeleton", skeleton_visible);
-
-	Mat inverse = im::invertGray(own_gray_image);
-	Mat segmentizedFG = im::segmentize(inverse, 30);
-	Mat skeletonFG = im::morphSkeleton(segmentizedFG);
-
-	Mat skeleton_visibleFG = im::threshold(skeletonFG, 1);
-	namedWindow("skeleton ForeGround", CV_WINDOW_NORMAL);
-	imshow("skeleton ForeGround", skeleton_visibleFG);
-
-
-
+	}
 	waitKey(0);
-
 	return 0;
 }
