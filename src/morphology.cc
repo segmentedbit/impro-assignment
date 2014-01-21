@@ -38,7 +38,7 @@ Mat im::gaussianKernel(const int size, const int sigma) {
 
 	for (int y=-amp; y<=amp; y++) {
 		for (int x=-amp; x<=amp; x++) {
-			output.at<float>(y+amp,x+amp) = 273 / (2*3.14*pow(sigma,2)) * exp(-( (pow(x,2)+pow(y,2)) / (2*pow(sigma,2)) ) );
+			output.at<float>(y+amp,x+amp) = 1 / (2*3.14*pow(sigma,2)) * exp(-( (pow(x,2)+pow(y,2)) / (2*pow(sigma,2)) ) );
 		}
 	}
 	return output;
