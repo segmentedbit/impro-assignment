@@ -112,3 +112,6 @@ good result yet, seems hard to get a good result.<br>
 
 ###21-01-2014 segmentedbit<br>
 Added function gaussianKernel()<br>
+Added some testing code in the segmentedbit main() flow, to compare how well the four
+available skeleton operations perform compared to each other. Note that depending on the
+image, you have to set the "flip" flag, which calls invertGray() on the input image.<br>
