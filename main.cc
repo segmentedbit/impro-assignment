@@ -326,24 +326,28 @@ int ardillo(int argc, char** argv) {
 		std::cout << "Failed to load image " << imageName;
 		return -1;
 	}
+
 	///// String list
 	string balloons = "images/assignmentPictures/balloons.png";
 	string balls = "images/assignmentPictures/balls.png";
 
 	///// checks if standard opencv method is applicable to image name
-	if (!input.compare(balloons)) {
+
+
+	 if (!input.compare(balloons)) {
 		Mat balloons = solve::balloons(image);
 		namedWindow("OpenCV -- balloons", CV_WINDOW_NORMAL);
 		imshow("OpenCV -- balloons", balloons);
 	}
-	else if (!input.compare(balls)) {
-		Mat balls = solve::balls(image);
-		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
-		imshow("OpenCV -- balls", balls);
-	}
+//	else if (!input.compare(balls)) {
+//		Mat balls = solve::balls(image);
+//		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
+//		imshow("OpenCV -- balls", balls);
+//	}
 
 	/////////////// EO BASIC OpenCV CODE
 	else{
+
 
 
 
@@ -358,6 +362,10 @@ int ardillo(int argc, char** argv) {
 	Mat histOwnGrayImage = im::showHist(own_gray_image);
 	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
 	imshow("histogram: Own grayImage", histOwnGrayImage);
+
+	Mat localminofmax = im::localMinimumofMaximum(own_gray_image, 3, 3);
+	namedWindow("local min-max: Own grayImage", CV_WINDOW_NORMAL);
+	imshow("local min-max: Own grayImage", localminofmax);
 
 	Mat equalized = im::equalize(own_gray_image);
 	namedWindow("equalized", CV_WINDOW_NORMAL);

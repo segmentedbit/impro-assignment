@@ -184,3 +184,50 @@ Mat im::quantization(const cv::Mat &input, const int levels){
 	output = im::matFloatToUchar(floatingInput);
 	return output;
 }
+
+Mat im::localMinimumofMaximum(const cv::Mat &input, const int window_width, const int window_height){
+	int pWidth = round(window_width/2);
+	int pHeight = round(window_height/2);
+
+    Mat temp = im::copyWithPadding(input, pHeight, pWidth, PZERO);
+	Mat max, minOfMax;
+	temp.copyTo(max);
+	temp.copyTo(minOfMax);
+	cout << "temp :" << endl << temp << " type " << temp.type() << endl
+			<< "cols " << input.cols << endl
+			<< "rows " << input.rows << endl << endl;
+
+	// loop through matrix
+	for (int i = 0; i < input.cols; i++) {
+		for ( int j = 0; j < input.rows; j++) {
+			int localMax = 0;
+			cout << temp.at<uchar>(i,j) << endl;
+			// loop through kernel
+			for (int x = 0; x < window_width; x++){
+				for (int y = 0; x < window_height; y++){
+					int localValue = temp.at<uchar>(i+x, j+y);
+					//cout << "local value: " << localValue << endl;
+					if (localValue > localMax){
+						localMax = localValue;
+					}
+			}	}
+			max.at<uchar>(i,j) = localMax;
+	}	}
+
+	// loop through found Maximum values and select the minimum;
+	for (int i = 0; i < input.cols; i++) {
+		for ( int j = 0; j < input.rows; j++) {
+			int localMin = 255;
+			for (int x = 0; x < window_width; x++){
+				for (int y = 0; x < window_height; y++){
+					int localValue = max.at<uchar>(i+x, j+y);
+					if(localValue < localMin){
+						localMin = localValue;
+					}
+			}	}
+			minOfMax.at<uchar>(i,j) = localMin;
+	}	}
+
+	return minOfMax;
+}
+
