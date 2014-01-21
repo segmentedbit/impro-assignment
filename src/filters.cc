@@ -72,57 +72,37 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 
 Mat im::medianFilter(const Mat& input, const int rows, const int cols) {
 	Mat output = Mat::zeros(input.size(), CV_8UC1);
-	Mat temp = Mat::zeros(input.size(), CV_8UC1);
-	temp = input.clone();
-	Mat checkSize = input.clone();
-	int count = 0;
+	Mat temp = input.clone();
 	const int rows_pad = rows / 2;
 	const int cols_pad = cols / 2;
 
 	for (int y=0; y<input.rows; y++) {
 		for (int x=0; x<input.cols; x++) {
-			// Preliminary values; unless we're at the border
-			//int rows_now = rows;
-			//int cols_now = cols;
 
-			/*
-			// Take border into account, change the *_now vars accordingly.
-			// Rows
-			if (y < rows_pad) {
-				rows_now = rows - (rows_pad - y);
-			} else if (y + rows_pad >= input.rows) {
-				rows_now = rows - (rows_pad + (y+1) - input.rows);
-			}
-			// Cols
-			if (x < cols_pad) {
-				cols_now = cols - (cols_pad - x);
-			} else if (x + cols_pad >= input.cols) {
-				cols_now = cols - (cols_pad + (x+1) - input.cols);
-			}
-			 */
 			vector<uchar> values;
 
-			//checkSize.at<uchar>(y,x) = values.size();
 			for (int wy=-rows_pad; wy<rows_pad; wy++) {
 				for (int wx=-cols_pad; wx<cols_pad; wx++) {
 					if (y+wy >= 0 && x+wx >= 0 && (y+wy) < input.rows && (x+wx) < input.cols) {
-						values.push_back(temp.at<uchar>(y,x));
+						values.push_back(temp.at<uchar>(y+wy,x+wx));
 					}
 				} //end window wx
 			} // end window wy
+
 			sort(values.begin(), values.end());
-			output.at<uchar>(y,x) = values.at( (values.size() / 2));
+
+			if (values.size() % 2 == 0) {
+				output.at<uchar>(y,x) = (values[values.size() / 2 - 1] + values[values.size() / 2]) / 2;
+			} else {
+				output.at<uchar>(y,x) = values[values.size() / 2];
+			}
 			cout << values.size() << " value is " << int(values[values.size() / 2]) << " " << endl;
-			//for (int i=0; i< values.size(); i++) {
-			//	cout << values[i] << " ";
-			//}
-			count++;
+
 		} // end image x
 	} // end image y
-	cout << endl << count << endl;
-	//im::displayPixels(checkSize, false, false, im::DISPLAY_MATRIX);
 	return output;
 }
+
 
 Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor) {
 

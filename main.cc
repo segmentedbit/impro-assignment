@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -41,14 +41,16 @@ int segmentedbit() {
 
 
 	////////////////////////// Test medianFilter();
-	Mat src = imread("images/lena.jpg", 1);
+	Mat src = imread("images/acros.png", 1);
 	src = im::grayscale(src);
-	for (int i=0; i< src.rows; i+=5) {
+
+	/*for (int i=0; i< src.rows; i+=5) {
 		for (int j=0; j<src.cols; j+=5) {
 			src.at<uchar>(i,j) = 255;
 		}
 	}
-	Mat median = im::medianFilter(src, 11, 11);
+	*/
+	Mat median = im::medianFilter(src, 7, 7);
 	//im::displayPixels(src, false, false, im::DISPLAY_MATRIX);
 	//im::displayPixels(median, false, false, im::DISPLAY_MATRIX);
 	imshow("original", src);
