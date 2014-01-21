@@ -22,6 +22,13 @@ const int E_GOLAY2 = 2;
 cv::Mat defaultElement();
 
 /*
+ * Returns an isotropic gaussian kernel of parametrisized size. Calling the
+ * function with size=5 with result in a 5x5 gaussian kernel, etc. Make sure
+ * size is uneven. Also, this function returns a Mat object of type CV_32F1.
+ */
+cv::Mat gaussianKernel(const int size, const int sigma=1);
+
+/*
  * Dilation function. Takes an optional Mat &kernel parameter, which can be of
  * any size. When not provided, the function will assume an 3x3 "+" kernel
  */

@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -39,15 +39,12 @@ int segmentedbit() {
 		exit(1);
 	}
 
-	Mat img1 = imread("images/thintest3.png", 1);
-	img1 = im::grayscale(img1);
 
-	Mat img2 = imread("images/thintest3.png", 1);
-	Mat img3 = img1 & (img1 -100);
-	im::displayPixels(img3, false, false, im::DISPLAY_MATRIX);
-	namedWindow("img", CV_WINDOW_NORMAL);
-	imshow("img", img3);
-	waitKey(0);
+	////////////////////////// Test guassianKernel()
+	Mat gaussianKernel = im::gaussianKernel(5);
+	im::displayPixels(gaussianKernel, false, false, im::DISPLAY_MATRIX);
+
+
 	/*
 	////////////////////////// Test thinning()
 	cv::Mat src = cv::imread("images/thintest3.png", 1);

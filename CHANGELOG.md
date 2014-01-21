@@ -103,9 +103,12 @@ working one within the time we have. Taken three nice pieces of code, not sure y
 which one performs best in our situation. Changed the createGolay function to take
 a parameter so it can return different alphabets, cleaned our own skeleton function.
 Also added pruning - almost the same as skeleton, for testing the influence of pruning
-within skeletonizing cycles.
+within skeletonizing cycles.<br>
 
 ###20-01-2014 Ardillo<br>
 Made an .cc file to process the planned images for the exercise. 
 Used some own developed functions and some OpenCV functions. Dit not come to a 
-good result yet, seems hard to get a good result.
+good result yet, seems hard to get a good result.<br>
+
+###21-01-2014 segmentedbit<br>
+Added function gaussianKernel()<br>
