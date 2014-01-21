@@ -38,6 +38,15 @@ int segmentedbit() {
 		exit(1);
 	}
 
+	Mat img1 = imread("images/thintest3.png", 1);
+	img1 = im::grayscale(img1);
+
+	Mat img2 = imread("images/thintest3.png", 1);
+	Mat img3 = img1 & (img1 -100);
+	im::displayPixels(img3, false, false, im::DISPLAY_MATRIX);
+	namedWindow("img", CV_WINDOW_NORMAL);
+	imshow("img", img3);
+	waitKey(0);
 	/*
 	////////////////////////// Test thinning()
 	cv::Mat src = cv::imread("images/thintest3.png", 1);
@@ -101,7 +110,7 @@ int segmentedbit() {
 	waitKey(0);
 	*/
 
-
+	/*
 	////////////////////////// Test morphSkeleton()
 	Mat gray = imread("images/thintest3.png", 1);
 	gray = im::grayscale(gray);
@@ -127,7 +136,7 @@ int segmentedbit() {
 	imshow("skeleton", skeleton);
 	imshow("segmentized", segmentized);
 	waitKey(0);
-
+	*/
 
 
 	/*
