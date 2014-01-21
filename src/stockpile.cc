@@ -123,6 +123,30 @@ Mat im::subtractMatrix(const cv::Mat &first, const cv::Mat &second) {
 	}
 	return outcome;
 }
+Mat im::divideMatrix(const cv::Mat &first, const cv::Mat &second) {
+	// Size check; fail when first and second are not equally sized.
+	if (first.rows != second.rows || first.cols != second.cols) {
+		cerr << "Matrices do not have the same size" << endl;
+		exit(1);
+	}
+	Mat first_float = im::matUcharToFloat(first);
+	Mat second_float = im::matUcharToFloat(second);
+	Mat temp = first_float.clone();
+
+	for (int i = 0; i < first.rows; i++) {
+		for (int j = 0; j < first.cols; j++) {
+			float firstPixel = first_float.at<float>(i,j);
+			float secondPixel = second_float.at<float>(i,j);
+
+			float value = firstPixel / secondPixel;
+
+			temp.at<float>(i,j) = value;
+		}
+	}
+	Mat outcome(first.rows, first.cols, CV_8UC1);
+	outcome = im::matFloatToUchar(temp);
+	return outcome;
+}
 
 // Needs work on the PHREPLICATE option; corners are not yet handled.
 Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadding, const int pType) {
@@ -236,7 +260,7 @@ Mat im::matUcharToFloat(const cv::Mat &input) {
 	// code below is necessary,  converting does not have influence
 	// pixel values
 	Mat output = input;
-	output.convertTo(output, CV_32F);
+	output.convertTo(output, CV_32FC1);
 	for ( int i = 0; i < (output.rows); i++) {
 		for (int j = 0; j < (output.cols); j++) {
 			output.at<float>(i,j) = output.at<float>(i,j) / 255;
@@ -249,7 +273,7 @@ Mat im::matFloatToUchar(const cv::Mat &input) {
 	// pixel values
 	// this is done with 2 if checks, to prevent strange white spaces.
 	Mat temp = input;
-	Mat output(input.rows, input.cols, CV_8U);
+	Mat output(input.rows, input.cols, CV_8UC1);
 	for ( int i = 0; i < (temp.rows); i++) {
 		for (int j = 0; j < (temp.cols); j++) {
 			int value = round(temp.at<float>(i,j) * 255);

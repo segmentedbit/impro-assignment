@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	//returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -349,13 +349,25 @@ int ardillo(int argc, char** argv) {
 	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
 	imshow("histogram: Own grayImage", histOwnGrayImage);
 
-	Mat localminofmax = im::localMinimumofMaximum(own_gray_image, 3, 3);
+	Mat localminofmax = im::localMinimumOfMaximum(own_gray_image, 21, 1);
 	namedWindow("local min-max: Own grayImage", CV_WINDOW_NORMAL);
 	imshow("local min-max: Own grayImage", localminofmax);
 
 	Mat equalized = im::equalize(own_gray_image);
 	namedWindow("equalized", CV_WINDOW_NORMAL);
 	imshow("equalized", equalized);
+
+	Mat inverseLocMinMax = im::invertGray(localminofmax);
+	namedWindow("inverse locminmax", CV_WINDOW_NORMAL);
+	imshow("inverse locminmax", inverseLocMinMax);
+
+	Mat deleteShading = im::addMatrix(own_gray_image, inverseLocMinMax);
+	namedWindow("substract shading" , CV_WINDOW_NORMAL);
+	imshow("substract shading", deleteShading);
+
+	Mat equalized2 = im::equalize(deleteShading);
+	namedWindow("equalized deleteShading", CV_WINDOW_NORMAL);
+	imshow("equalized deleteShading", equalized2);
 
 	/*
 

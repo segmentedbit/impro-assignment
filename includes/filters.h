@@ -54,7 +54,17 @@ cv::Mat quantization(const cv::Mat &input, const int levels);
  * Experiment with different window sizes to get a good result, it depends on the gradient
  * of the shading
  */
-cv::Mat localMinimumofMaximum(const cv::Mat &input, const int window_width, const int window_height);
+cv::Mat localMinimumOfMaximum(const cv::Mat &input, const int window_width, const int window_height);
+
+/*
+ * Calculates the local minimum of a window by sliding the window over the whole image
+ * After calculating the minimum values do the same, but take the maximum values in
+ * the freshly calculated minimum matrix. This way you get the local maximum of the minimum.
+ * This could be used to filter shadow or shading in a picture.
+ * Experiment with different window sizes to get a good result, it depends on the gradient
+ * of the shading
+ */
+cv::Mat localMaximumOfMinimum(const cv::Mat &input, const int window_width, const int window_height);
 
 }
 #endif /* FILTERS_H_ */
