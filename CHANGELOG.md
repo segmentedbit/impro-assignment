@@ -119,7 +119,3 @@ Added function gaussianKernel()<br>
 Added some testing code in the segmentedbit main() flow, to compare how well the four
 available skeleton operations perform compared to each other. Note that depending on the
 image, you have to set the "flip" flag, which calls invertGray() on the input image.<br>
-<<<<<<< HEAD
-
-=======
->>>>>>> 2e5feec8db57db2d1855eeab3d1cb796b67e8c08
