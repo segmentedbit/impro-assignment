@@ -239,3 +239,134 @@ Mat im::quantization(const cv::Mat &input, const int levels){
 	output = im::matFloatToUchar(floatingInput);
 	return output;
 }
+
+Mat im::localMinimumOfMaximum(const cv::Mat &input, const int window_width, const int window_height){
+
+	// Check parameter values
+	if (window_width < 0 || window_height < 0) {
+		cerr << "localMinOfMax: input parameter window_width or window_height is  negative)" << endl;
+		exit(1);
+	}
+	// Check if and break when kernel width or height is even
+	if (!(window_width % 2 == 1 && window_height % 2 == 1)){
+		cerr << "localMinOfMax: width and/or height have to be odd, in order to make a correct matrix" << endl;
+		exit(1);
+	}
+
+	int pWidth = round(window_width/2);
+	int pHeight = round(window_height/2);
+
+    Mat temp = im::copyWithPadding(input, pHeight, pWidth, PREPLICATE);
+	Mat max(input.rows, input.cols, CV_8UC1);
+
+	// loop through matrix
+	for ( int i = 0; i < input.rows; i++) {
+		for (int j = 0; j < input.cols; j++) {
+			int localMax = 0;
+
+			//loop through kernel
+			for (int x=0; x<window_width; x++) {
+				for (int y=0; y<window_height; y++) {
+
+					//determine if value is higher -> Max value
+					int localValue = temp.at<uchar>(i+x, j+y);
+						if (localValue > localMax){
+							localMax = localValue;
+						}
+			}	}
+			max.at<uchar>(i,j) = localMax;
+	}	}
+
+	if(config::DEBUG){
+		namedWindow("local max", CV_WINDOW_NORMAL);
+		imshow("local max", max);
+	}
+
+	temp = im::copyWithPadding(max, pHeight, pWidth, PREPLICATE);
+	Mat minOfMax(input.rows, input.cols, CV_8UC1);
+
+	// loop through found Maximum values and select the minimum;
+	for ( int i = 0; i < input.rows; i++) {
+		for (int j = 0; j < input.cols; j++) {
+			int localMin = 255;
+
+			//loop through kernel
+			for (int x=0; x<window_width; x++) {
+				for (int y=0; y<window_height; y++) {
+
+					//determine if value is higher -> Max value
+					int localValue = temp.at<uchar>(i+x, j+y);
+						if (localValue < localMin){
+							localMin = localValue;
+						}
+			}	}
+			minOfMax.at<uchar>(i,j) = localMin;
+	}	}
+	return minOfMax;
+}
+
+Mat im::localMaximumOfMinimum(const cv::Mat &input, const int window_width, const int window_height){
+
+	// Check parameter values
+	if (window_width < 0 || window_height < 0) {
+		cerr << "localMaxOfMin: input parameter window_width or window_height is negative)" << endl;
+		exit(1);
+	}
+	// Check if and break when kernel width or height is even
+	if (!(window_width % 2 == 1 && window_height % 2 == 1)){
+		cerr << "localMaxOfMin: width and/or height have to be odd, in order to make a correct matrix" << endl;
+		exit(1);
+	}
+
+	int pWidth = round(window_width/2);
+	int pHeight = round(window_height/2);
+
+    Mat temp = im::copyWithPadding(input, pHeight, pWidth, PREPLICATE);
+	Mat min(input.rows, input.cols, CV_8UC1);
+
+	// loop through matrix
+	for ( int i = 0; i < input.rows; i++) {
+		for (int j = 0; j < input.cols; j++) {
+			int localMin = 255;
+
+			//loop through kernel
+			for (int x=0; x<window_width; x++) {
+				for (int y=0; y<window_height; y++) {
+
+					//determine if value is higher -> Max value
+					int localValue = temp.at<uchar>(i+x, j+y);
+						if (localValue < localMin){
+							localMin = localValue;
+						}
+			}	}
+			min.at<uchar>(i,j) = localMin;
+	}	}
+
+	if(config::DEBUG){
+		namedWindow("local min", CV_WINDOW_NORMAL);
+		imshow("local min", min);
+	}
+
+	temp = im::copyWithPadding(min, pHeight, pWidth, PREPLICATE);
+	Mat maxOfMin(input.rows, input.cols, CV_8UC1);
+
+	// loop through found Maximum values and select the minimum;
+	for ( int i = 0; i < input.rows; i++) {
+		for (int j = 0; j < input.cols; j++) {
+			int localMax = 0;
+
+			//loop through kernel
+			for (int x=0; x<window_width; x++) {
+				for (int y=0; y<window_height; y++) {
+
+					//determine if value is higher -> Max value
+					int localValue = temp.at<uchar>(i+x, j+y);
+						if (localValue > localMax){
+							localMax = localValue;
+						}
+			}	}
+			maxOfMin.at<uchar>(i,j) = localMax;
+	}	}
+	return maxOfMin;
+}
+

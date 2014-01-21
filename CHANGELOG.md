@@ -110,6 +110,11 @@ Made an .cc file to process the planned images for the exercise.
 Used some own developed functions and some OpenCV functions. Dit not come to a 
 good result yet, seems hard to get a good result.<br>
 
+###21-01-2014 Ardillo<br>
+Made local minimum of local maximum filter to filter shading and shadows - Done<br>
+added local maximum of minimum <br>
+Added function divideMatrix pixelwise division. <br>
+
 ###21-01-2014 segmentedbit<br>
 Added function gaussianKernel()<br>
 Added some testing code in the segmentedbit main() flow, to compare how well the four

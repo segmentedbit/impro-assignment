@@ -72,6 +72,12 @@ cv::Mat addMatrix(const cv::Mat &original, const cv::Mat &input);
 cv::Mat subtractMatrix(const cv::Mat &original, const cv::Mat &input);
 
 /*
+ * divide two gray-scale matrices of the same size, a pixelwise ' / ' .
+ * Matrices have to be of the same size, otherwise it will output  a warning.
+ */
+cv::Mat divideMatrix(const cv::Mat &first, const cv::Mat &second);
+
+/*
  * Copies an image into a new image, automatically creating the right padding
  * which is often needed for spation operations.
  * pType (padding type) can be one of the following constants:

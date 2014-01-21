@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	//returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -330,24 +330,28 @@ int ardillo(int argc, char** argv) {
 		std::cout << "Failed to load image " << imageName;
 		return -1;
 	}
+
 	///// String list
 	string balloons = "images/assignmentPictures/balloons.png";
 	string balls = "images/assignmentPictures/balls.png";
 
 	///// checks if standard opencv method is applicable to image name
-	if (!input.compare(balloons)) {
+
+
+	 if (!input.compare(balloons)) {
 		Mat balloons = solve::balloons(image);
 		namedWindow("OpenCV -- balloons", CV_WINDOW_NORMAL);
 		imshow("OpenCV -- balloons", balloons);
 	}
-	else if (!input.compare(balls)) {
-		Mat balls = solve::balls(image);
-		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
-		imshow("OpenCV -- balls", balls);
-	}
+//	else if (!input.compare(balls)) {
+//		Mat balls = solve::balls(image);
+//		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
+//		imshow("OpenCV -- balls", balls);
+//	}
 
 	/////////////// EO BASIC OpenCV CODE
 	else{
+
 
 
 
@@ -363,9 +367,41 @@ int ardillo(int argc, char** argv) {
 	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
 	imshow("histogram: Own grayImage", histOwnGrayImage);
 
-	Mat equalized = im::equalize(own_gray_image);
-	namedWindow("equalized", CV_WINDOW_NORMAL);
-	imshow("equalized", equalized);
+	Mat localminofmax = im::localMinimumOfMaximum(own_gray_image, 7, 7);
+	namedWindow("local min-max: Own grayImage", CV_WINDOW_NORMAL);
+	imshow("local min-max: Own grayImage", localminofmax);
+
+	Mat localmaxofmin = im::localMaximumOfMinimum(own_gray_image, 7, 7);
+	namedWindow("local max-min: Own grayImage", CV_WINDOW_NORMAL);
+	imshow("local max-min: Own grayImage", localmaxofmin);
+
+	Mat test1 = im::subtractMatrix(localminofmax, localmaxofmin);
+	namedWindow("upper - lower: ", CV_WINDOW_NORMAL);
+	imshow("upper - lower: ", test1);
+
+	Mat test2 = im::subtractMatrix(localmaxofmin, localminofmax);
+	namedWindow("lower - upper: ", CV_WINDOW_NORMAL);
+	imshow("lower - upper: ", test2);
+
+	Mat deleteShading = im::divideMatrix(test1, own_gray_image);
+	namedWindow("substract shading" , CV_WINDOW_NORMAL);
+	imshow("substract shading", deleteShading);
+
+//	Mat equalized = im::equalize(own_gray_image);
+//	namedWindow("equalized", CV_WINDOW_NORMAL);
+//	imshow("equalized", equalized);
+//
+//	Mat inverseLocMinMax = im::invertGray(localminofmax);
+//	namedWindow("inverse locminmax", CV_WINDOW_NORMAL);
+//	imshow("inverse locminmax", inverseLocMinMax);
+//
+//	Mat deleteShading = im::addMatrix(own_gray_image, inverseLocMinMax);
+//	namedWindow("substract shading" , CV_WINDOW_NORMAL);
+//	imshow("substract shading", deleteShading);
+//
+//	Mat equalized2 = im::equalize(deleteShading);
+//	namedWindow("equalized deleteShading", CV_WINDOW_NORMAL);
+//	imshow("equalized deleteShading", equalized2);
 
 	/*
 
