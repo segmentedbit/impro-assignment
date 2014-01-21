@@ -104,3 +104,8 @@ which one performs best in our situation. Changed the createGolay function to ta
 a parameter so it can return different alphabets, cleaned our own skeleton function.
 Also added pruning - almost the same as skeleton, for testing the influence of pruning
 within skeletonizing cycles.
+
+###20-01-2014 Ardillo<br>
+Made an .cc file to process the planned images for the exercise. 
+Used some own developed functions and some OpenCV functions. Dit not come to a 
+good result yet, seems hard to get a good result.
