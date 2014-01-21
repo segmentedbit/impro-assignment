@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -40,93 +40,79 @@ int segmentedbit() {
 	}
 
 	/*
-	////////////////////////// Test thinning()
-	cv::Mat src = cv::imread("images/thintest3.png", 1);
-	if (src.empty())
-		return -1;
-
-	cv::Mat bw;
-	cv::cvtColor(src, bw, CV_BGR2GRAY);
-	cv::threshold(bw, bw, 10, 255, CV_THRESH_BINARY);
-	bw = 255 - bw;
-
-	im::thinningGuoHall(bw);
-
-	cv::imshow("src", src);
-	cv::imshow("dst", bw);
-	cv::waitKey();
-	return 0;
+	////////////////////////// Test guassianKernel()
+	Mat gaussianKernel = im::gaussianKernel(5);
+	im::displayPixels(gaussianKernel, false, false, im::DISPLAY_MATRIX);
 	 */
 
-	/*
-	////////////////////////// Test thinningGuoHall()
-	cv::Mat src = cv::imread("images/thintest3.png", 1);
 
-	if (src.empty())
-		return -1;
-
-	cv::Mat bw;
-	cv::cvtColor(src, bw, CV_BGR2GRAY);
-	cv::threshold(bw, bw, 10, 255, CV_THRESH_BINARY);
-	bw = 255 - bw;
-
-	im::thinning(bw);
-
-	cv::imshow("src", src);
-	cv::imshow("dst", bw);
-	cv::waitKey(0);
-	*/
-
-
-	/*
-	////////////////////////// Test normalizeLetter()
-	Mat gray = imread("images/thintest3.png", 1);
-	gray = im::grayscale(gray);
-
-	gray = im::invertGray(gray);
-
-	namedWindow("original", CV_WINDOW_NORMAL);
+	namedWindow("src", CV_WINDOW_NORMAL);
+	namedWindow("thin", CV_WINDOW_NORMAL);
+	namedWindow("guohall", CV_WINDOW_NORMAL);
+	namedWindow("normalized", CV_WINDOW_NORMAL);
 	namedWindow("skeleton", CV_WINDOW_NORMAL);
-	namedWindow("segmentized", CV_WINDOW_NORMAL);
 
-	Mat segmentized = im::segmentize(gray, 30);
+	////////////////////////// Test thinning()
+	Mat src = imread("images/thintest3.png", 1);
+	const bool flip = true;
+	imshow("src", src);
 
-	Mat skeleton = gray.clone();
-	im::normalizeLetter(gray, skeleton);
+	Mat src1 = src.clone();
+	Mat thin;
+	cvtColor(src1, thin, CV_BGR2GRAY);
+	threshold(thin, thin, 10, 255, CV_THRESH_BINARY);
 
-	skeleton *= 255;
+	if (flip) {
+		thin = 255 - thin;
+	}
+	im::thinningGuoHall(thin);
 
-	imshow("original", gray);
-	imshow("skeleton", skeleton);
-	imshow("segmentized", segmentized);
-	waitKey(0);
-	*/
+	imshow("thin", thin);
+
+
+
+	////////////////////////// Test thinningGuoHall()
+	Mat src2 = src.clone();
+	Mat guohall;
+	cvtColor(src2, guohall, CV_BGR2GRAY);
+	threshold(guohall, guohall, 10, 255, CV_THRESH_BINARY);
+	if (flip) {
+		guohall = 255 - guohall;
+	}
+
+	im::thinning(guohall);
+
+	imshow("guohall", guohall);
+
+
+	////////////////////////// Test normalizeLetter()
+	Mat src3 = src.clone();
+	src3 = im::grayscale(src3);
+	if (flip) {
+		src3 = im::invertGray(src3);
+	}
+
+	Mat normalized = src3.clone();
+	im::normalizeLetter(src3, normalized);
+
+	normalized *= 255;
+
+	imshow("normalized", normalized);
 
 
 	////////////////////////// Test morphSkeleton()
-	Mat gray = imread("images/thintest3.png", 1);
-	gray = im::grayscale(gray);
-
-	gray = im::invertGray(gray);
-
-	namedWindow("original", CV_WINDOW_NORMAL);
-	namedWindow("skeleton", CV_WINDOW_NORMAL);
-	namedWindow("segmentized", CV_WINDOW_NORMAL);
-
-	Mat segmentized = im::segmentize(gray, 30);
-
+	Mat src4 = src.clone();
+	src4 = im::grayscale(src4);
+	if (flip) {
+		src4 = im::invertGray(src4);
+	}
+	Mat segmentized = im::segmentize(src4, 30);
 
 	Mat skeleton = im::morphSkeleton(segmentized);
 
-	//Mat skeleton = gray.clone();
-	//im::normalizeLetter(gray, skeleton);
-
-
 	skeleton *= 255;
 
-	imshow("original", gray);
 	imshow("skeleton", skeleton);
-	imshow("segmentized", segmentized);
 	waitKey(0);
 
 

@@ -26,7 +26,24 @@ Mat im::defaultElement() {
 	output.row(1) = 1;
 	output.col(1) = 1;
 	return output;
+}
 
+// Look here for explanation on the 2D isotropic gaussian formula
+// http://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm
+Mat im::gaussianKernel(const int size, const int sigma) {
+	if (size % 2 == 0) { // size is even
+		cerr << "gaussianKernel: Structuring element does not validate" << endl;
+		exit(1);
+	}
+	Mat output = Mat(size, size, CV_32FC1);
+	const int amp = size / 2;
+
+	for (int y=-amp; y<=amp; y++) {
+		for (int x=-amp; x<=amp; x++) {
+			output.at<float>(y+amp,x+amp) = 1 / (2*3.14*pow(sigma,2)) * exp(-( (pow(x,2)+pow(y,2)) / (2*pow(sigma,2)) ) );
+		}
+	}
+	return output;
 }
 
 Mat im::morphDilate(const Mat &input, const Mat &element) {
@@ -237,7 +254,6 @@ Mat im::prune(const Mat &input, int nTimes) {
 		}
 		nTimes--;
 	}
-	namedWindow("sum", CV_WINDOW_NORMAL);
 
 	return output;
 }
@@ -323,7 +339,6 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 		*/
 		nTimes--;
 	}
-	namedWindow("sum", CV_WINDOW_NORMAL);
 
 	return output;
 }
