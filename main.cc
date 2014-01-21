@@ -39,6 +39,22 @@ int segmentedbit() {
 		exit(1);
 	}
 
+
+	////////////////////////// Test medianFilter();
+	Mat src = imread("images/lena.jpg", 1);
+	src = im::grayscale(src);
+	for (int i=0; i< src.rows; i+=5) {
+		for (int j=0; j<src.cols; j+=5) {
+			src.at<uchar>(i,j) = 255;
+		}
+	}
+	Mat median = im::medianFilter(src, 11, 11);
+	//im::displayPixels(src, false, false, im::DISPLAY_MATRIX);
+	//im::displayPixels(median, false, false, im::DISPLAY_MATRIX);
+	imshow("original", src);
+	imshow("output", median);
+	waitKey(0);
+
 	/*
 	////////////////////////// Test guassianKernel()
 	Mat gaussianKernel = im::gaussianKernel(5);
@@ -46,6 +62,8 @@ int segmentedbit() {
 	 */
 
 
+	/*
+	////////////////////////// Test all skeleton functions
 	namedWindow("src", CV_WINDOW_NORMAL);
 	namedWindow("thin", CV_WINDOW_NORMAL);
 	namedWindow("guohall", CV_WINDOW_NORMAL);
@@ -114,7 +132,7 @@ int segmentedbit() {
 
 	imshow("skeleton", skeleton);
 	waitKey(0);
-
+	*/
 
 
 	/*

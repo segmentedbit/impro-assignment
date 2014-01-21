@@ -19,6 +19,11 @@ namespace im {
 cv::Mat averageFilter(const cv::Mat &input, int width, int height, int pType);
 
 /*
+ * As the name says.
+ */
+cv::Mat medianFilter(const cv::Mat& input, const int rows, const int cols);
+
+/*
  * Smooth filter with variable size. Filter width and height have to
  * be odd in order to have a middle pixel.
  * Calculation is done in an temporary matrix with floating point
