@@ -108,11 +108,11 @@ within skeletonizing cycles.<br>
 ###20-01-2014 Ardillo<br>
 Made an .cc file to process the planned images for the exercise. 
 Used some own developed functions and some OpenCV functions. Dit not come to a 
-good result yet, seems hard to get a good result.
+good result yet, seems hard to get a good result.<br>
 
 ###21-01-2014 Ardillo<br>
 Made local minimum of local maximum filter to filter shading and shadows.
-Not yet working, because of matrix typing problems.
+Not yet working, because of matrix typing problems.<br>
 
 ###21-01-2014 segmentedbit<br>
 Added function gaussianKernel()<br>
