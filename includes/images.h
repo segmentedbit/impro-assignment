@@ -60,6 +60,11 @@ void xray(const cv::Mat &input);
  * TODO
  */
 void boltsnuts(const cv::Mat &input);
+
+/*
+ *
+ */
+void road(const cv::Mat &input);
 }
 
 
