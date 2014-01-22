@@ -40,6 +40,85 @@ void solve::balloons(const Mat &input){
 	imshow("balloons", output);
 }
 
+void solve::balls2(const Mat &input){
+
+	//gray value
+	namedWindow("balls - gray", CV_WINDOW_NORMAL);
+	Mat gray = im::grayscale(input);
+	imshow("balls - gray", gray);
+
+	namedWindow("stretch", CV_WINDOW_NORMAL);
+	Mat stretch = im::equalize(gray);
+	imshow("stretch", stretch);
+
+	///////////// x-Derivative ////////////////////
+	Mat kernelX1 = ( Mat_<float>(1,5) <<
+					1, -8, 0, 8, -1);
+
+	///////////// x-Derivative ////////////////////
+	Mat kernelX2 = ( Mat_<float>(1,5) <<
+					-1, 8, 0, -8, 1);
+
+	///////////// y-Derivative ////////////////////
+	Mat kernelY1 = ( Mat_<float>(5,1) <<
+					1, -8, 0, 8, -1);
+
+	///////////// y-Derivative ////////////////////
+	Mat kernelY2 = ( Mat_<float>(5,1) <<
+					-1, 8, 0, -8, 1);
+
+	int divide_fact = 1;
+
+	//x-derivative
+	namedWindow("xDerivative", CV_WINDOW_NORMAL);
+	Mat xDerivative = im::filter(gray, kernelX1, divide_fact) +
+			im::filter(gray, kernelX2, divide_fact) +
+			im::filter(gray, kernelY1, divide_fact) +
+			im::filter(gray, kernelY2, divide_fact);
+	imshow("xDerivative", xDerivative);
+
+	namedWindow("average", CV_WINDOW_NORMAL);
+	Mat average = im::gaussianFilter(xDerivative, 15, 3);
+	imshow("average", average*255);
+
+	namedWindow("diffGauss", CV_WINDOW_NORMAL);
+	Mat diffGauss = im::divideMatrix(im::gaussianFilter(gray, 15, 2), im::gaussianFilter(gray, 15, 4)*3);
+	imshow("diffGauss", diffGauss);
+
+	namedWindow("diff", CV_WINDOW_NORMAL);
+	Mat diff = im::subtractMatrix(im::gaussianFilter(gray, 15, 4), gray);
+	imshow("diff", diff);
+
+	namedWindow("quantization", CV_WINDOW_NORMAL);
+	Mat quantization = im::quantization(gray, 10);
+	imshow("quantization", quantization);
+
+	namedWindow("median", CV_WINDOW_NORMAL);
+	Mat median = im::medianFilter(quantization, 11, 11);
+	imshow("median", median);
+
+	namedWindow("inverted", CV_WINDOW_NORMAL);
+	Mat inverted = im::invertGray(average*255);
+	imshow("inverted", inverted);
+
+	namedWindow("highpass", CV_WINDOW_NORMAL);
+	Mat highpass = im::divideMatrix(gray, average);
+	imshow("highpass", highpass);
+
+	namedWindow("lowContrast", CV_WINDOW_NORMAL);
+	Mat lowContrast = im::divideMatrix(gray, stretch);
+	imshow("lowContrast", lowContrast);
+
+	namedWindow("minMax", CV_WINDOW_NORMAL);
+	Mat minMax = im::localMinimumOfMaximum(gray, 5, 5);
+	imshow("minMax", minMax);
+
+	namedWindow("maxMin", CV_WINDOW_NORMAL);
+	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
+	imshow("maxMin", maxMin);
+}
+
+
 void solve::balls(const Mat &input){
 	Mat gray = im::grayscale(input);
 
@@ -92,6 +171,9 @@ void solve::balls(const Mat &input){
 	Mat label = im::binaryLabel(dilate);
 	namedWindow("balls - label", CV_WINDOW_NORMAL);
 	imshow("balls - label", label);
+
+
+
 }
 
 void solve::cheese(const Mat &input){
@@ -149,7 +231,7 @@ void solve::cheese(const Mat &input){
 
 }
 
-//void solve::xray(const cv::Mat &input){
+void solve::xray(const cv::Mat &input){
 //	// to grayscale
 //	Mat gray = im::grayscale(input);
 //	namedWindow("xray - grayscale", CV_WINDOW_NORMAL);
@@ -300,47 +382,51 @@ void solve::cheese(const Mat &input){
 ////		Mat derivative_tot = im::addMatrix(only_x, only_y);
 ////		namedWindow("xray - derivative", CV_WINDOW_NORMAL);
 ////		imshow("xray - derivative", derivative_tot);
-//}
+}
 void solve::boltsnuts(const Mat &input){
+
+	//to grayscale
 	namedWindow("boltsnuts - gray", CV_WINDOW_NORMAL);
-	namedWindow("segmented", CV_WINDOW_NORMAL);
-	namedWindow("expandedBorder", CV_WINDOW_NORMAL);
-	namedWindow("openedCircles", CV_WINDOW_NORMAL);
-	namedWindow("geocircles", CV_WINDOW_NORMAL);
-	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
-
 	Mat gray = im::grayscale(input);
-	gray = im::averageFilter(gray, 5, 5, im::PWHITE);
+	imshow("boltsnuts - gray", gray);
 
+	//segmenting
+	namedWindow("segmented", CV_WINDOW_NORMAL);
 	Mat segmented = im::threshold(gray, 245 );
+	imshow("segmented", segmented);
 
+	//expand border
+	namedWindow("expandedBorder", CV_WINDOW_NORMAL);
 	Mat expandedBorder = Mat::zeros(segmented.size(), CV_8UC1);
 	expandedBorder.row(0) = 255;
 	expandedBorder.col(0) = 255;
 	expandedBorder.row(segmented.rows-1) = 255;
 	expandedBorder.col(segmented.cols-1) = 255;
 	expandedBorder = im::morphGeodesicDilate(expandedBorder, segmented);
+	imshow("expandedBorder", expandedBorder);
 
+	//subtract border-background from segmented
+	namedWindow("circles", CV_WINDOW_NORMAL);
 	Mat circles = im::subtractMatrix(segmented, expandedBorder);
+	imshow("circles", circles);
 
+	//opening potential circles
+	namedWindow("openedCircles", CV_WINDOW_NORMAL);
 	Mat openedCircles = im::morphErode(circles);
 	openedCircles = im::morphErode(openedCircles);
 	openedCircles = im::morphErode(openedCircles);
 	openedCircles = im::morphErode(openedCircles);
-
-	Mat geocircles = im::morphGeodesicDilate(openedCircles, circles);
-
-	Mat labeledCircles = im::binaryLabelCircle(geocircles);
-
-	imshow("boltsnuts - gray", gray);
-	imshow("segmented", segmented);
-	imshow("expandedBorder", expandedBorder);
-	imshow("circles", circles);
 	imshow("openedCircles", openedCircles);
-	imshow("geocircles", geocircles);
-	imshow("labeledCircles", labeledCircles);
 
-	waitKey(0);
+	//Dilating the potential circles to their original value
+	namedWindow("geocircles", CV_WINDOW_NORMAL);
+	Mat geocircles = im::morphGeodesicDilate(openedCircles, circles);
+	imshow("geocircles", geocircles);
+
+	//labeling the circles, getting rid of de non-circles on the way
+	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
+	Mat labeledCircles = im::binaryLabelCircle(geocircles);
+	imshow("labeledCircles", labeledCircles);
 }
 
 /*
