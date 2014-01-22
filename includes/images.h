@@ -30,6 +30,16 @@ cv::Mat balloons(const cv::Mat &input);
  */
 cv::Mat balls(const cv::Mat &input);
 
+/*
+ * Solve the cheese.png, count the holes in the cheese.
+ * it does:
+ * - convert to gray level
+ * - gaussian filter
+ * - threshold
+ * - closing
+ * - substraction from original
+ */
+cv::Mat cheese(const cv::Mat &input);
 }
 
 #endif /* IMAGES_H_ */

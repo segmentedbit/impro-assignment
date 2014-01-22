@@ -129,3 +129,6 @@ connection works as of now and I don't think we'll need the one with diagonal co
 It also stuffs a second Mat object with the pixels that it has found to be border pixels,
 just for fun :D<br>
 Not tested rigorously yet, don't trust it with your life! 
+
+###22-01-214 Ardillo<br>
+started to segment the cheese.png image so that I can test a label function.<br>

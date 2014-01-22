@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	//returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -339,6 +339,7 @@ int ardillo(int argc, char** argv) {
 	///// String list
 	string balloons = "images/assignmentPictures/balloons.png";
 	string balls = "images/assignmentPictures/balls.png";
+	string cheese ="images/assignmentPictures/cheese.png";
 
 	///// checks if standard opencv method is applicable to image name
 
@@ -348,6 +349,11 @@ int ardillo(int argc, char** argv) {
 		namedWindow("OpenCV -- balloons", CV_WINDOW_NORMAL);
 		imshow("OpenCV -- balloons", balloons);
 	}
+	 if (!input.compare(cheese)) {
+		 Mat cheese = solve::cheese(image);
+		 namedWindow("Cheese", CV_WINDOW_NORMAL);
+		 imshow("Cheese", cheese);
+	 }
 //	else if (!input.compare(balls)) {
 //		Mat balls = solve::balls(image);
 //		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
@@ -392,21 +398,6 @@ int ardillo(int argc, char** argv) {
 	namedWindow("substract shading" , CV_WINDOW_NORMAL);
 	imshow("substract shading", deleteShading);
 
-//	Mat equalized = im::equalize(own_gray_image);
-//	namedWindow("equalized", CV_WINDOW_NORMAL);
-//	imshow("equalized", equalized);
-//
-//	Mat inverseLocMinMax = im::invertGray(localminofmax);
-//	namedWindow("inverse locminmax", CV_WINDOW_NORMAL);
-//	imshow("inverse locminmax", inverseLocMinMax);
-//
-//	Mat deleteShading = im::addMatrix(own_gray_image, inverseLocMinMax);
-//	namedWindow("substract shading" , CV_WINDOW_NORMAL);
-//	imshow("substract shading", deleteShading);
-//
-//	Mat equalized2 = im::equalize(deleteShading);
-//	namedWindow("equalized deleteShading", CV_WINDOW_NORMAL);
-//	imshow("equalized deleteShading", equalized2);
 
 	/*
 
