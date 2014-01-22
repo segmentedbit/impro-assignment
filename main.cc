@@ -23,14 +23,22 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
 
 int segmentedbit() {
 
+	namedWindow("src", CV_WINDOW_NORMAL);
+		namedWindow("boundary", CV_WINDOW_NORMAL);
+
+		Mat src = imread("images/singleobjectbinarycircle.png", 1);
+		src = im::grayscale(src);
+
+
+	/*
 	////////////////////////// Test medianFilter();
 	namedWindow("src", CV_WINDOW_NORMAL);
 	namedWindow("boundary", CV_WINDOW_NORMAL);
@@ -47,6 +55,7 @@ int segmentedbit() {
 	im::displayPixels(boundary, false, false, im::DISPLAY_MATRIX);
 	cout << "Perimeter length: " << s.perimiterLength << endl << "Object pixels: " << s.objectPixels << endl;
 	waitKey(0);
+	 */
 
 	/*
 	////////////////////////// Test medianFilter();
@@ -67,7 +76,7 @@ int segmentedbit() {
 	 */
 
 
-	/*
+
 	////////////////////////// Test all skeleton functions
 	namedWindow("src", CV_WINDOW_NORMAL);
 	namedWindow("thin", CV_WINDOW_NORMAL);
@@ -137,7 +146,7 @@ int segmentedbit() {
 
 	imshow("skeleton", skeleton);
 	waitKey(0);
-	*/
+
 
 
 	/*
