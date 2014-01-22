@@ -134,8 +134,37 @@ void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int d
 }
 
 Mat im::binaryLabel(const cv::Mat &input){
+
+	Mat temp;
+	input.copyTo(temp);
+	int count_value = 10;
+	for (int i = 1; i < input.rows - 1 ; i++){
+		for (int j = 1; j < input.cols - 1; j++){
+			if (input.at<uchar>(i,j) == 255){
+				int north = temp.at<uchar>(i - 1, j);
+				int west = temp.at<uchar>(i, j -1);
+				if (north == 0 || west == 0){
+					// first or individual pixel
+					temp.at<uchar>(i,j) = count_value;
+					count_value += 5;
+				}
+				else if ( (north > 0 && north < 255) || (west > 0 && west < 255) ){
+					// single corresponding pixel
+					if (north > 0 && north < 255) {
+						temp.at<uchar>(i,j) = north;
+					}
+					if (west > 0 && west < 255) {
+						temp.at<uchar>(i,j) = west;
+					}
+				}
+				else if ( (north > 0 && north < 255) && (west > 0 && west < 255) ){
+					// multiple pixels with different value match corresponding
+					cout << "North & West same value";
+				}
+			}
+	} }
 	Mat output;
-	input.copyTo(output);
+	temp.copyTo(output);
 	return output;
 }
 

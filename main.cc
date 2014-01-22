@@ -345,20 +345,14 @@ int ardillo(int argc, char** argv) {
 
 
 	 if (!input.compare(balloons)) {
-		Mat balloons = solve::balloons(image);
-		namedWindow("OpenCV -- balloons", CV_WINDOW_NORMAL);
-		imshow("OpenCV -- balloons", balloons);
+		solve::balloons(image);
 	}
-	 if (!input.compare(cheese)) {
-		 Mat cheese = solve::cheese(image);
-		 namedWindow("Cheese", CV_WINDOW_NORMAL);
-		 imshow("Cheese", cheese);
+	 else if (!input.compare(cheese)) {
+		solve::cheese(image);
 	 }
-//	else if (!input.compare(balls)) {
-//		Mat balls = solve::balls(image);
-//		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
-//		imshow("OpenCV -- balls", balls);
-//	}
+	else if (!input.compare(balls)) {
+		solve::balls(image);
+	}
 
 	/////////////// EO BASIC OpenCV CODE
 	else{

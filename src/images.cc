@@ -18,7 +18,7 @@
 using namespace std;
 using namespace cv;
 
-Mat solve::balloons(const Mat &input){
+void solve::balloons(const Mat &input){
 	Mat gray = im::grayscale(input);
 
 	namedWindow("ballloons - gray", CV_WINDOW_NORMAL);
@@ -39,7 +39,7 @@ Mat solve::balloons(const Mat &input){
 	return output;
 }
 
-Mat solve::balls(const Mat &input){
+void solve::balls(const Mat &input){
 	Mat gray = im::grayscale(input);
 
 	namedWindow("balls - gray", CV_WINDOW_NORMAL);
@@ -82,7 +82,7 @@ Mat solve::balls(const Mat &input){
 	return edges;
 }
 
-Mat solve::cheese(const Mat &input){
+void solve::cheese(const Mat &input){
 
 	// to grayscale
 	Mat gray = im::grayscale(input);
@@ -125,7 +125,9 @@ Mat solve::cheese(const Mat &input){
 	namedWindow("cheese - inverse", CV_WINDOW_NORMAL);
 	imshow("cheese - inverse", inverse);
 
-	Mat output;
-	inverse.copyTo(output);
-	return output;
+	//labeling
+	Mat labels = im::binaryLabel(inverse);
+	namedWindow("cheese - label", CV_WINDOW_NORMAL);
+	imshow("cheese - label", labels);
+
 }

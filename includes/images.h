@@ -39,7 +39,7 @@ cv::Mat balls(const cv::Mat &input);
  * - closing
  * - substraction from original
  */
-cv::Mat cheese(const cv::Mat &input);
+void cheese(const cv::Mat &input);
 }
 
 #endif /* IMAGES_H_ */
