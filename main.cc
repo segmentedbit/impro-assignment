@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	//returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -361,11 +361,8 @@ int ardillo(int argc, char** argv) {
 	string balloons = "images/assignmentPictures/balloons.png";
 	string balls = "images/assignmentPictures/balls.png";
 	string cheese ="images/assignmentPictures/cheese.png";
-<<<<<<< HEAD
 	string xray = "images/assignmentPictures/xray.png";
-=======
 	string boltsnuts ="images/assignmentPictures/boltsnuts.png";
->>>>>>> 09c205ef97466ed6b3f418d6130d53c3c6c3ee7d
 
 	///// checks if standard picture method is applicable to image name
 
@@ -378,13 +375,11 @@ int ardillo(int argc, char** argv) {
 	else if (!input.compare(balls)) {
 		solve::balls(image);
 	}
-<<<<<<< HEAD
 	else if (!input.compare(xray)) {
 		solve::xray(image);
-=======
+	}
 	else if (!input.compare(boltsnuts)) {
 		solve::boltsnuts(image);
->>>>>>> 09c205ef97466ed6b3f418d6130d53c3c6c3ee7d
 	}
 
 	/////////////// EO BASIC OpenCV CODE
