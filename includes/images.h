@@ -42,6 +42,12 @@ void balls(const cv::Mat &input);
  * - delete border objects
  */
 void cheese(const cv::Mat &input);
+
+/*
+ * Solve the xray.png search for steel objects in the image.
+ * it does:
+ */
+void xray(const cv::Mat &input);
 }
 
 #endif /* IMAGES_H_ */

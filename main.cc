@@ -340,6 +340,7 @@ int ardillo(int argc, char** argv) {
 	string balloons = "images/assignmentPictures/balloons.png";
 	string balls = "images/assignmentPictures/balls.png";
 	string cheese ="images/assignmentPictures/cheese.png";
+	string xray = "images/assignmentPictures/xray.png";
 
 	///// checks if standard picture method is applicable to image name
 
@@ -351,6 +352,9 @@ int ardillo(int argc, char** argv) {
 	 }
 	else if (!input.compare(balls)) {
 		solve::balls(image);
+	}
+	else if (!input.compare(xray)) {
+		solve::xray(image);
 	}
 
 	/////////////// EO BASIC OpenCV CODE
