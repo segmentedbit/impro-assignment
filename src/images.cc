@@ -343,21 +343,17 @@ void solve::road(const Mat &input){
 	namedWindow("road - thresholded", CV_WINDOW_NORMAL);
 	imshow("road - thresholded", threshold);
 
-//	Mat dilate;
-//	threshold.copyTo(dilate);
-//	for(int i =0; i < 3; i++){
-//		dilate = im::morphDilate(dilate);
-//	}
-//	namedWindow("road - dilate", CV_WINDOW_NORMAL);
-//	imshow("road - dilate", dilate);
+	Mat dilate;
+	threshold.copyTo(dilate);
+	for(int i =0; i < 3; i++){
+		dilate = im::morphDilate(dilate);
+	}
+	namedWindow("road - dilate", CV_WINDOW_NORMAL);
+	imshow("road - dilate", dilate);
 
-	//pruning
-	//Mat pruned = im::prune(skel, 5);
-	//namedWindow("pruned", CV_WINDOW_NORMAL);
-	//imshow("pruned", pruned);
-//	Mat labeled = im::binaryLabel(dilate);
-//	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
-//	imshow("labeledCircles", labeled);
+	Mat labeled = im::binaryLabel(dilate);
+	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
+	imshow("labeledCircles", labeled);
 
 //	Mat skel;
 //	im::normalizeLetter(threshold, skel);
