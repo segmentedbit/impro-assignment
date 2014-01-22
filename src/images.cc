@@ -56,16 +56,9 @@ void solve::balls(const Mat &input){
 		float divide_fact = 273;
 
 	// smoothing
-	Mat smooth = im::filter(gray, kernel, divide_fact);
-	smooth = im::filter(smooth, kernel, divide_fact);
-	smooth = im::medianFilter(smooth, 11,11);
-	namedWindow("balls - smooth-eq", CV_WINDOW_NORMAL);
-	imshow("balls - smooth-eq", smooth);
-
-	//equalizing
-	Mat eq = im::equalize(smooth);
-	namedWindow("balls - eq", CV_WINDOW_NORMAL);
-	imshow("balls - eq", eq);
+	Mat smooth = im::medianFilter(gray, 3, 9);
+	namedWindow("balls - smooth", CV_WINDOW_NORMAL);
+	imshow("balls - smooth", smooth);
 
 	//histogram
 	Mat histogram = im::showHist(smooth);
@@ -73,7 +66,7 @@ void solve::balls(const Mat &input){
 	imshow("balls - histogram", histogram);
 
 	//thresholding
-	Mat threshold = im::threshold(smooth, 140);
+	Mat threshold = im::threshold(smooth, 90);
 	namedWindow("balls - thresholded 1", CV_WINDOW_NORMAL);
 	imshow("balls - thresholded 1", threshold);
 
@@ -89,12 +82,16 @@ void solve::balls(const Mat &input){
 	//dilate a couple times
 	Mat dilate;
 	erode.copyTo(dilate);
-	for (int i =0; i<20;i++){
+	for (int i =0; i<25;i++){
 		dilate = im::morphDilate(dilate);
 	}
 	namedWindow("balls - dilated", CV_WINDOW_NORMAL);
 	imshow("balls - dilated", dilate);
 
+	//label
+	Mat label = im::binaryLabel(dilate);
+	namedWindow("balls - label", CV_WINDOW_NORMAL);
+	imshow("balls - label", label);
 }
 
 void solve::cheese(const Mat &input){
@@ -152,7 +149,7 @@ void solve::cheese(const Mat &input){
 
 }
 
-void solve::xray(const cv::Mat &input){
+//void solve::xray(const cv::Mat &input){
 //	// to grayscale
 //	Mat gray = im::grayscale(input);
 //	namedWindow("xray - grayscale", CV_WINDOW_NORMAL);
@@ -303,7 +300,7 @@ void solve::xray(const cv::Mat &input){
 ////		Mat derivative_tot = im::addMatrix(only_x, only_y);
 ////		namedWindow("xray - derivative", CV_WINDOW_NORMAL);
 ////		imshow("xray - derivative", derivative_tot);
-}
+//}
 void solve::boltsnuts(const Mat &input){
 	namedWindow("boltsnuts - gray", CV_WINDOW_NORMAL);
 	namedWindow("segmented", CV_WINDOW_NORMAL);

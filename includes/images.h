@@ -24,9 +24,12 @@ void balloons(const cv::Mat &input);
  * Solve the picture balls.png
  *  it does:
  *  - gray level
- *  - smoothing
- *  - opening
- *  - labeling
+ *  - median filter
+ *  - histogram
+ *  - thresholding
+ *  - erode 25x
+ *  - dilate 25x
+ *  - label image
  */
 void balls(const cv::Mat &input);
 
