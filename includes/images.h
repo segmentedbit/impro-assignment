@@ -40,6 +40,8 @@ void balls(const cv::Mat &input);
  * - substraction from original
  */
 void cheese(const cv::Mat &input);
+
+void boltsnuts(const cv::Mat &input);
 }
 
 #endif /* IMAGES_H_ */

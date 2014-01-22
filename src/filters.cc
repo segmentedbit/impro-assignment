@@ -103,6 +103,30 @@ Mat im::medianFilter(const Mat& input, const int rows, const int cols) {
 	return output;
 }
 
+Mat im::gaussianFilter(const Mat& input, const int size, const int sigma) {
+	if (size % 2 == 0) {
+		cerr << "gaussianFilter: size is even, need uneven size: (" << size << "). Exiting" << endl;
+		exit(1);
+	}
+	int padding = size / 2;
+	Mat gaussian = im::gaussianKernel(size, sigma);
+	Mat temp = im::copyWithPadding(input, padding, padding, im::PREPLICATE);
+	Mat output = Mat::zeros(input.size(), CV_8UC1);
+
+	for (int y=0; y<input.rows; y++) {
+		for (int x=0; x<input.cols; x++) {
+			float new_value = 0;
+			for (int yy=0; yy<gaussian.rows; yy++) {
+				for (int xx=0; xx<gaussian.cols; xx++) {
+					new_value += static_cast<float>(temp.at<uchar>(y+yy, x+xx)) * gaussian.at<float>(yy, xx);
+				}
+			}
+			//cout << new_value << endl;
+			output.at<uchar>(y, x) = new_value;
+		}
+	}
+	return output;
+}
 
 Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor) {
 

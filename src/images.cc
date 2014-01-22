@@ -135,3 +135,8 @@ void solve::cheese(const Mat &input){
 	imshow("cheese - label without border objects", label_cleaned);
 
 }
+
+void solve::boltsnuts(const Mat &input){
+
+}
+
