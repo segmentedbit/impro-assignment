@@ -121,3 +121,11 @@ Added some testing code in the segmentedbit main() flow, to compare how well the
 available skeleton operations perform compared to each other. Note that depending on the
 image, you have to set the "flip" flag, which calls invertGray() on the input image.<br>
 Created medianFilter. Gotta love border control.<br>
+
+###22-01-2014 segmentedbit<br>
+Added boundary(), which returns the amount of object pixels and boundary pixels of a
+segmented image. The connectionness is parameterized, although only the STRAIGHT
+connection works as of now and I don't think we'll need the one with diagonal connections.
+It also stuffs a second Mat object with the pixels that it has found to be border pixels,
+just for fun :D<br>
+Not tested rigorously yet, don't trust it with your life! 

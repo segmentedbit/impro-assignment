@@ -46,6 +46,123 @@ Mat im::gaussianKernel(const int size, const int sigma) {
 	return output;
 }
 
+
+vector<Mat> createUElements() {
+	vector<Mat> element;
+
+	// Create the 8 3x3 Mat elements
+	for (int i=0; i<4; i++) {
+		element.push_back(Mat::zeros(3, 3, CV_8UC1));
+	}
+
+	element[0].row(0) = 1;
+	element[0].at<uchar>(1,1) = 1;
+
+	element[1].col(2) = 1;
+	element[1].at<uchar>(1,1) = 1;
+
+	element[2].row(2) = 1;
+	element[2].at<uchar>(1,1) = 1;
+
+	element[3].col(0) = 1;
+	element[3].at<uchar>(1,1) = 1;
+
+	if(config::DEBUG) {
+		for (int i=0; i<4; i++) {
+			cout << "'U'" << i << endl;
+			cout << element.at(i) << endl;
+		}
+		cout << endl;
+	}
+	return element;
+}
+
+struct im::boundaryStruct im::boundary(const Mat& input, Mat& output, const int direction) {
+	//if (input.size() != output.size()) {
+	//	cerr << "im::boundary(): input and output Mat objects are not of the same size. Exiting" << endl;
+	//	exit(1);
+	//}
+	output = Mat::zeros(input.size(), CV_8UC1);
+
+	uint perimeterLength = 0;
+	uint objectPixels = 0;
+	vector<Mat> elements = createUElements();
+	Mat temp = im::copyWithPadding(input, 1, 1, im::PWHITE);
+	bool isBoundary = false;
+
+	for (int y=0; y<input.rows; y++) {
+		for (int x=0; x<input.cols; x++) {
+			uchar pixValue = temp.at<uchar>(y, x);
+			if (pixValue == 0) {
+				// Not an object pixel, ignore.
+				continue;
+			}
+			objectPixels++;
+
+			// It's an object pixel. Is it part of the boundary?
+			switch (direction) {
+			case im::ALLDIRECTIONS:
+				cerr << "Not yet implemented" << endl;
+				exit(1);
+				break; // end ALLDIRECTIONS
+			case im::STRAIGHT:
+				// Is this pixel part of a straight-connected boundary?
+				isBoundary = false;
+				for (int yy=-1; yy<=1; yy++) {
+					if (isBoundary)
+						break;
+					for (int xx=-1; xx<=1; xx++) {
+						uchar neighbor = temp.at<uchar>(y+yy, x+xx);
+						if (neighbor == 0) { // this pixel is a background pixel
+							// Found a background pixel!
+							perimeterLength++;
+							output.at<uchar>(y, x) = 1;
+							// Stop looking further
+							isBoundary = true;
+							break;
+						}
+					}
+
+				}
+				// Done checking for boundaryness. Bit if it is, isn't it
+				// also a double connection (check with 'U' shaped kernel)?
+				if (!isBoundary) {
+					break;
+				}
+				for (int i=0; i<4; i++) {
+					// Per 'U' element loop
+					bool elementIsSuccess = true;
+					for (int yy=-1; yy<=1; yy++) {
+						if (!elementIsSuccess)
+							break;
+						for (int xx=-1; xx<=1; xx++) {
+							if (elements[i].at<uchar>(yy, xx) == 0 && temp.at<uchar>(y+yy, x+xx) != 0) {
+								elementIsSuccess = false;
+								break;
+							}
+							// Else we don't care
+						}
+					}
+					if (elementIsSuccess) {
+						perimeterLength++;
+						break; // Don't bother trying the other elements, if any left
+					}
+				} // Done checking for double boundaryness
+				break; // end STRAIGHT
+			default:
+				cerr << "im::boundary(): Direction parameter invalid, is " << direction << endl;
+				exit(1);
+			}
+		}
+	}
+	im::boundaryStruct s;
+	s.perimiterLength = perimeterLength;
+	s.objectPixels = objectPixels;
+	cout << "in " << &input << endl;
+	return s;
+}
+
+
 Mat im::morphDilate(const Mat &input, const Mat &element) {
 	int status = validateKernel(element, im::UNEVEN);
 	if (status != 0) {

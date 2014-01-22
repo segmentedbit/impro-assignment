@@ -30,32 +30,35 @@ int main(int argc, char** argv) {
 }
 
 int segmentedbit() {
-	Mat image;
-	//String imageName = "images/Gray_image.png";
-	String imageName = "images/lena.jpg";
-	image = imread(imageName, 1);
-	if (!image.data) {
-		std::cout << "Failed to load image " << imageName;
-		exit(1);
-	}
 
+	////////////////////////// Test medianFilter();
+	namedWindow("src", CV_WINDOW_NORMAL);
+	namedWindow("boundary", CV_WINDOW_NORMAL);
 
+	Mat src = imread("images/singleobjectbinarycircle.png", 1);
+	src = im::grayscale(src);
+
+	Mat boundary;
+
+	struct im::boundaryStruct s = im::boundary(src, boundary, im::STRAIGHT);
+
+	imshow("src", src);
+	imshow("boundary", boundary*255);
+	im::displayPixels(boundary, false, false, im::DISPLAY_MATRIX);
+	cout << "Perimeter length: " << s.perimiterLength << endl << "Object pixels: " << s.objectPixels << endl;
+	waitKey(0);
+
+	/*
 	////////////////////////// Test medianFilter();
 	Mat src = imread("images/acros.png", 1);
 	src = im::grayscale(src);
-
-	/*for (int i=0; i< src.rows; i+=5) {
-		for (int j=0; j<src.cols; j+=5) {
-			src.at<uchar>(i,j) = 255;
-		}
-	}
-	*/
 	Mat median = im::medianFilter(src, 7, 7);
 	//im::displayPixels(src, false, false, im::DISPLAY_MATRIX);
 	//im::displayPixels(median, false, false, im::DISPLAY_MATRIX);
 	imshow("original", src);
 	imshow("output", median);
 	waitKey(0);
+	*/
 
 	/*
 	////////////////////////// Test guassianKernel()

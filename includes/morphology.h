@@ -16,6 +16,14 @@ const int E_GOLAY = 0;
 const int L_GOLAY = 1;
 const int E_GOLAY2 = 2;
 
+// boundary() flags: only straight connections or also diagonal
+const int ALLDIRECTIONS = 0;
+const int STRAIGHT = 1;
+struct boundaryStruct {
+	int perimiterLength;
+	int objectPixels;
+};
+
 /*
  * Returns a 3x3, "+" shaped, structuring element.
  */
@@ -27,6 +35,17 @@ cv::Mat defaultElement();
  * size is uneven. Also, this function returns a Mat object of type CV_32F1.
  */
 cv::Mat gaussianKernel(const int size, const int sigma=1);
+
+/*
+ * Boundary returns a struct of type {int, int}, in which the first integer
+ * denotes the amount of boundary pixels found and the second denotes the total
+ * amount of pixels found in the object. Don't feed the algorithm more than one
+ * object or your measurement will not be correct.
+ * The second Mat object passed will contain the pixels at the boundary.
+ * Pass either ALLDIRECTIONS or STRAIGHT to determine the direction of boundary
+ * matching.
+ */
+boundaryStruct boundary(const cv::Mat& input, cv::Mat& output, const int direction);
 
 /*
  * Dilation function. Takes an optional Mat &kernel parameter, which can be of
