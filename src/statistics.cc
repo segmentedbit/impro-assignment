@@ -6,9 +6,14 @@
  */
 
 #include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
 #include "includes/statistics.h"
+#include "includes/morphology.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "config.h"
+
 
 using namespace cv;
 using namespace std;
@@ -137,35 +142,41 @@ Mat im::binaryLabel(const cv::Mat &input){
 
 	Mat temp;
 	input.copyTo(temp);
-	int count_value = 10;
-	for (int i = 1; i < input.rows - 1 ; i++){
-		for (int j = 1; j < input.cols - 1; j++){
-			if (input.at<uchar>(i,j) == 255){
-				int north = temp.at<uchar>(i - 1, j);
-				int west = temp.at<uchar>(i, j -1);
-				if (north == 0 || west == 0){
-					// first or individual pixel
-					temp.at<uchar>(i,j) = count_value;
-					count_value += 5;
-				}
-				else if ( (north > 0 && north < 255) || (west > 0 && west < 255) ){
-					// single corresponding pixel
-					if (north > 0 && north < 255) {
-						temp.at<uchar>(i,j) = north;
-					}
-					if (west > 0 && west < 255) {
-						temp.at<uchar>(i,j) = west;
-					}
-				}
-				else if ( (north > 0 && north < 255) && (west > 0 && west < 255) ){
-					// multiple pixels with different value match corresponding
-					cout << "North & West same value";
+	int count_value = 1;
+	int objCount = 0;
+	for (int i = 0; i < input.rows ; i++){
+		for (int j = 0; j < input.cols ; j++){
+			if (temp.at<uchar>(i,j) == 255){
+				Mat marker = Mat::zeros(input.rows, input.cols, CV_8UC1);
+				marker.at<uchar>(i,j) = 255;
+				Mat object = im::morphGeodesicDilate(marker, input);
+
+				for ( int x =0; x < object.rows; x++){
+					for (int y = 0; y < object.rows; y++){
+						if (object.at<uchar>(x,y) == 255 ){
+							temp.at<uchar>(x, y) = count_value;
+						}
+				}	}
+
+				count_value += 1;
+				objCount++;
+
+				if (config::DEBUG){
+					std::ostringstream count;
+					count << "object: " << objCount;
+					namedWindow(count.str(), CV_WINDOW_NORMAL);
+					imshow(count.str(), object);
 				}
 			}
 	} }
-	Mat output;
-	temp.copyTo(output);
-	return output;
+
+	for (int i = 0; i < input.rows ; i++){
+		for (int j = 0; j < input.cols ; j++){
+			int pxl = temp.at<uchar>(i,j);
+			temp.at<uchar>(i,j) = (pxl * 255) / objCount;
+	}	}
+
+	return temp;
 }
 
 float im::maxFloatValue(const cv::Mat &input){

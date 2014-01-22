@@ -105,6 +105,12 @@ cv::Mat matUcharToFloat(const cv::Mat &input);
 cv::Mat matFloatToUchar(const cv::Mat &input);
 
 /*
+ * Deletes border objects, therefor you need to give a labeled
+ * binary image
+ */
+cv::Mat deleteBorderObjects(const cv::Mat &input);
+
+/*
  * Get time in nano seconds
  * TODO DO NOT USE THIS
  */

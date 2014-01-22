@@ -290,3 +290,16 @@ long int im::getTime() {
 	long int time = get_time.tv_nsec;
 	return time;
 }
+
+Mat im::deleteBorderObjects(const cv::Mat &input){
+	int borderpixelValue = input.at<uchar>(0,0);
+	Mat temp;
+	input.copyTo(temp);
+	for (int i = 0; i<input.rows; i++){
+		for (int j =0; j<input.cols; j++){
+			if (temp.at<uchar>(i,j) == borderpixelValue){
+				temp.at<uchar>(i,j) = 0;
+			}
+	} }
+	return temp;
+}

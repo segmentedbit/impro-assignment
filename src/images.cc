@@ -129,4 +129,9 @@ void solve::cheese(const Mat &input){
 	namedWindow("cheese - label", CV_WINDOW_NORMAL);
 	imshow("cheese - label", labels);
 
+	//delete border objects
+	Mat label_cleaned = im::deleteBorderObjects(labels);
+	namedWindow("cheese - label without border objects", CV_WINDOW_NORMAL);
+	imshow("cheese - label without border objects", label_cleaned);
+
 }
