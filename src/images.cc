@@ -41,19 +41,10 @@ void solve::balloons(const Mat &input){
 }
 
 void solve::balls(const Mat &input){
-	Mat gray = im::grayscale(input);
 
+	Mat gray = im::grayscale(input);
 	namedWindow("balls - gray", CV_WINDOW_NORMAL);
 	imshow("balls - gray", gray);
-
-	////////////// Gaussian kernel /////////////////
-	Mat kernel = ( Mat_<float>(5,5) <<
-		1, 4, 7, 4, 1,
-		4, 16, 26, 16, 4,
-		7, 26, 41, 26, 7,
-		4, 16, 26, 16, 4,
-		1, 4, 7, 4, 1);
-		float divide_fact = 273;
 
 	// smoothing
 	Mat smooth = im::medianFilter(gray, 3, 9);
@@ -371,5 +362,31 @@ void solve::xray(const Mat &input){
 	imshow("stretch", stretch);
 	imshow("gauss1", gauss1);
 	waitKey(0);
+}
+
+void solve::road(const Mat &input){
+
+	Mat gray = im::grayscale(input);
+	namedWindow("road - gray", CV_WINDOW_NORMAL);
+	imshow("road - gray", gray);
+
+	Mat eq = im::equalize(gray);
+	namedWindow("road - equalized", CV_WINDOW_NORMAL);
+	imshow("road - equalized", eq);
+
+	// smoothing
+	Mat smooth = im::medianFilter(gray, 3, 9);
+	namedWindow("road - smooth", CV_WINDOW_NORMAL);
+	imshow("road - smooth", smooth);
+
+	//histogram
+	Mat histogram = im::showHist(smooth);
+	namedWindow("road - histogram", CV_WINDOW_NORMAL);
+	imshow("road - histogram", histogram);
+
+	//thresholding
+	Mat threshold = im::threshold(smooth, 90);
+	namedWindow("road - thresholded 1", CV_WINDOW_NORMAL);
+	imshow("road - thresholded 1", threshold);
 }
 

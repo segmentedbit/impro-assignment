@@ -377,7 +377,7 @@ int ardillo(int argc, char** argv) {
 	 */
 
 	// BASIC CODE
-	if (argc < 2) { //argc is het aantal parameters wat meegegeven wordt aan het programma
+	if (argc < 2) {
 		std::cout << "No image data, or not enough parameters";
 		return -1;
 	}
@@ -398,6 +398,7 @@ int ardillo(int argc, char** argv) {
 	string cheese ="images/assignmentPictures/cheese.png";
 	string xray = "images/assignmentPictures/xray.png";
 	string boltsnuts ="images/assignmentPictures/boltsnuts.png";
+	string road = "images/assignmentPictures/road.png";
 
 	///// checks if standard picture method is applicable to image name
 
@@ -416,56 +417,18 @@ int ardillo(int argc, char** argv) {
 	else if (!input.compare(boltsnuts)) {
 		solve::boltsnuts(image);
 	}
+	else if(!input.compare(road)) {
+		solve::road(image);
+	}
 
 	/////////////// EO BASIC OpenCV CODE
 	else{
-
-
-
-
-	//  TESTING SPACE
-	namedWindow(imageName, CV_WINDOW_NORMAL);
-	imshow(imageName, image);
-
-	Mat own_gray_image = im::grayscale(image);
-	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
-	imshow("own Gray_image", own_gray_image);
-
-	Mat threshold = im::threshold(own_gray_image, 200);
-
-	Mat label = im::binaryLabel(threshold);
-	namedWindow("label", CV_WINDOW_NORMAL);
-	imshow("label", label);
-	/*
-	Mat own_gray_image = im::grayscale(image);
-	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
-	imshow("own Gray_image", own_gray_image);
-
-	Mat histOwnGrayImage = im::showHist(own_gray_image);
-	namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
-	imshow("histogram: Own grayImage", histOwnGrayImage);
-
-	Mat localminofmax = im::localMinimumOfMaximum(own_gray_image, 7, 7);
-	namedWindow("local min-max: Own grayImage", CV_WINDOW_NORMAL);
-	imshow("local min-max: Own grayImage", localminofmax);
-
-	Mat localmaxofmin = im::localMaximumOfMinimum(own_gray_image, 7, 7);
-	namedWindow("local max-min: Own grayImage", CV_WINDOW_NORMAL);
-	imshow("local max-min: Own grayImage", localmaxofmin);
-
-	Mat test1 = im::subtractMatrix(localminofmax, localmaxofmin);
-	namedWindow("upper - lower: ", CV_WINDOW_NORMAL);
-	imshow("upper - lower: ", test1);
-
-	Mat test2 = im::subtractMatrix(localmaxofmin, localminofmax);
-	namedWindow("lower - upper: ", CV_WINDOW_NORMAL);
-	imshow("lower - upper: ", test2);
-
-	Mat deleteShading = im::divideMatrix(test1, own_gray_image);
-	namedWindow("substract shading" , CV_WINDOW_NORMAL);
-	imshow("substract shading", deleteShading);
-
-	 */
+		/*
+		 *  TESTING SPACE
+		 *  You can manually write code here, this will be executed as long as
+		 *  the input image isn't one of the images mentioned in the string
+		 *  list above.
+		 */
 
 	/*
 
@@ -485,16 +448,6 @@ int ardillo(int argc, char** argv) {
 		-1, 5, -1,
 		0, -1, 0);
 		float divide_fact = 12;
-
-	////////////// Gaussian kernel /////////////////
-	Mat kernel = ( Mat_<float>(5,5) <<
-		1, 4, 7, 4, 1,
-		4, 16, 26, 16, 4,
-		7, 26, 41, 26, 7,
-		4, 16, 26, 16, 4,
-		1, 4, 7, 4, 1);
-		float divide_fact = 273;
-
 
 	auto t1 = highc::now();
 	auto t2 = highc::now();
