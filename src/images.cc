@@ -237,7 +237,7 @@ void solve::road(const Mat &input){
 //	namedWindow("road - smooth", CV_WINDOW_NORMAL);
 //	imshow("road - smooth", smooth);
 
-	Mat smooth = im::gaussianFilter(gray, 15, 1);
+	Mat smooth = im::gaussianFilter(gray, 3, 1);
 	namedWindow("road - smooth", CV_WINDOW_NORMAL);
 	imshow("road - smooth", smooth);
 
@@ -272,32 +272,22 @@ void solve::road(const Mat &input){
 	namedWindow("road - dilate", CV_WINDOW_NORMAL);
 	imshow("road - dilate", dilate);
 
-	Mat closing;
-	dilate.copyTo(closing);
-	for(int i =0; i < 30; i++){
-		closing = im::morphClose(closing);
-	}
-	namedWindow("road - closing", CV_WINDOW_NORMAL);
-	imshow("road - closing", closing);
+	Mat invert = im::invertGray(dilate);
 
-//	Mat labeled = im::binaryLabel(dilate);
-//	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
-//	imshow("labeledCircles", labeled);
+	Mat mask = Mat::zeros(invert.rows, invert.cols, CV_8UC1);
+	mask.row(0) = 255;
+	mask.col(0) = 255;
+	mask.row(mask.rows - 1) = 255;
+	mask.col(mask.cols - 1) = 255;
 
-//	Mat skel;
-//	im::normalizeLetter(threshold, skel);
-//	namedWindow("skeleton", CV_WINDOW_NORMAL);
-//	imshow("skeleton", skel);
+	Mat geoDil = im::morphGeodesicDilate(mask, dilate);
+	namedWindow("road - Geo dilate", CV_WINDOW_NORMAL);
+	imshow("road - Geo dilate", geoDil);
 
-	//erode
-//	Mat element = Mat::ones(5,5, CV_8UC1);
-//	Mat close;
-//	threshold.copyTo(close);
-//	for (int i =0; i< 50; i++){
-//		 close = im::morphClose(close, element, element);
-//	}
-//	namedWindow("road - close", CV_WINDOW_NORMAL);
-//	imshow("road - erode", close);
+//	Mat labeled = im::binaryLabel(geoDil);
+//	namedWindow("road - label", CV_WINDOW_NORMAL);
+//	imshow("road - label", labeled);
+
 }
 
 void solve::xray(const Mat &input){
