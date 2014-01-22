@@ -348,12 +348,25 @@ void solve::road(const Mat &input){
 	for(int i =0; i < 3; i++){
 		dilate = im::morphDilate(dilate);
 	}
+
+	Mat closeKernel = Mat::ones(5, 5, CV_8UC1);
+
 	namedWindow("road - dilate", CV_WINDOW_NORMAL);
 	imshow("road - dilate", dilate);
+
+	Mat closed = im::morphClose(dilate, closeKernel, closeKernel);
+	namedWindow("closed", CV_WINDOW_NORMAL);
+	imshow("closed", closed);
+
+
 
 	Mat labeled = im::binaryLabel(dilate);
 	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
 	imshow("labeledCircles", labeled);
+
+	Mat labeled2 = im::binaryLabel(closed);
+	namedWindow("labeledCircles 2", CV_WINDOW_NORMAL);
+	imshow("labeledCircles 2", labeled2);
 
 //	Mat skel;
 //	im::normalizeLetter(threshold, skel);

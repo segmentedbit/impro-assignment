@@ -23,14 +23,14 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
 
 int segmentedbit() {
-	string input = "images/assignmentPictures/balls.png";
+	string input = "images/assignmentPictures/road.png";
 	Mat image;
 	image = imread(input, 1);
 
