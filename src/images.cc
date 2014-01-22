@@ -175,11 +175,6 @@ void solve::boltsnuts(const Mat &input){
 	namedWindow("geocircles", CV_WINDOW_NORMAL);
 	imshow("geocircles", geocircles);
 
-	Mat skel;
-	im::normalizeLetter(geocircles, skel);
-	namedWindow("skeleton", CV_WINDOW_NORMAL);
-	imshow("skeleton", skel);
-
 	Mat labeledCircles = im::binaryLabelCircle(geocircles);
 	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
 	imshow("labeledCircles", labeledCircles);
