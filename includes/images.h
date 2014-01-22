@@ -32,6 +32,7 @@ void balloons(const cv::Mat &input);
  *  - label image
  */
 void balls(const cv::Mat &input);
+void balls2(const cv::Mat &input);
 
 /*
  * Solve the cheese.png, count the holes in the cheese.

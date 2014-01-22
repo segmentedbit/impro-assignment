@@ -40,6 +40,85 @@ void solve::balloons(const Mat &input){
 	imshow("balloons", output);
 }
 
+void solve::balls2(const Mat &input){
+
+	//gray value
+	namedWindow("balls - gray", CV_WINDOW_NORMAL);
+	Mat gray = im::grayscale(input);
+	imshow("balls - gray", gray);
+
+	namedWindow("stretch", CV_WINDOW_NORMAL);
+	Mat stretch = im::equalize(gray);
+	imshow("stretch", stretch);
+
+	///////////// x-Derivative ////////////////////
+	Mat kernelX1 = ( Mat_<float>(1,5) <<
+					1, -8, 0, 8, -1);
+
+	///////////// x-Derivative ////////////////////
+	Mat kernelX2 = ( Mat_<float>(1,5) <<
+					-1, 8, 0, -8, 1);
+
+	///////////// y-Derivative ////////////////////
+	Mat kernelY1 = ( Mat_<float>(5,1) <<
+					1, -8, 0, 8, -1);
+
+	///////////// y-Derivative ////////////////////
+	Mat kernelY2 = ( Mat_<float>(5,1) <<
+					-1, 8, 0, -8, 1);
+
+	int divide_fact = 1;
+
+	//x-derivative
+	namedWindow("xDerivative", CV_WINDOW_NORMAL);
+	Mat xDerivative = im::filter(gray, kernelX1, divide_fact) +
+			im::filter(gray, kernelX2, divide_fact) +
+			im::filter(gray, kernelY1, divide_fact) +
+			im::filter(gray, kernelY2, divide_fact);
+	imshow("xDerivative", xDerivative);
+
+	namedWindow("average", CV_WINDOW_NORMAL);
+	Mat average = im::gaussianFilter(xDerivative, 15, 3);
+	imshow("average", average*255);
+
+	namedWindow("diffGauss", CV_WINDOW_NORMAL);
+	Mat diffGauss = im::divideMatrix(im::gaussianFilter(gray, 15, 2), im::gaussianFilter(gray, 15, 4)*3);
+	imshow("diffGauss", diffGauss);
+
+	namedWindow("diff", CV_WINDOW_NORMAL);
+	Mat diff = im::subtractMatrix(im::gaussianFilter(gray, 15, 4), gray);
+	imshow("diff", diff);
+
+	namedWindow("quantization", CV_WINDOW_NORMAL);
+	Mat quantization = im::quantization(gray, 10);
+	imshow("quantization", quantization);
+
+	namedWindow("median", CV_WINDOW_NORMAL);
+	Mat median = im::medianFilter(quantization, 11, 11);
+	imshow("median", median);
+
+	namedWindow("inverted", CV_WINDOW_NORMAL);
+	Mat inverted = im::invertGray(average*255);
+	imshow("inverted", inverted);
+
+	namedWindow("highpass", CV_WINDOW_NORMAL);
+	Mat highpass = im::divideMatrix(gray, average);
+	imshow("highpass", highpass);
+
+	namedWindow("lowContrast", CV_WINDOW_NORMAL);
+	Mat lowContrast = im::divideMatrix(gray, stretch);
+	imshow("lowContrast", lowContrast);
+
+	namedWindow("minMax", CV_WINDOW_NORMAL);
+	Mat minMax = im::localMinimumOfMaximum(gray, 5, 5);
+	imshow("minMax", minMax);
+
+	namedWindow("maxMin", CV_WINDOW_NORMAL);
+	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
+	imshow("maxMin", maxMin);
+}
+
+
 void solve::balls(const Mat &input){
 
 	Mat gray = im::grayscale(input);

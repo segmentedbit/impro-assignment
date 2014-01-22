@@ -13,7 +13,7 @@
 using namespace std;
 using namespace cv;
 
-//int segmentedbit();
+int segmentedbit();
 int ardillo(int argc, char** argv);
 
 typedef chrono::high_resolution_clock highc;
@@ -23,14 +23,14 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
 
 int segmentedbit() {
-	string input = "images/assignmentPictures/boltsnuts.png";
+	string input = "images/assignmentPictures/balls.png";
 	Mat image;
 	image = imread(input, 1);
 
@@ -53,7 +53,7 @@ int segmentedbit() {
 	} else if (!input.compare(cheese)) {
 		solve::cheese(image);
 	} else if (!input.compare(balls)) {
-		solve::balls(image);
+		solve::balls2(image);
 	} else if (!input.compare(boltsnuts)) {
 		solve::boltsnuts(image);
 	} else if (!input.compare(xray)) {
@@ -61,7 +61,7 @@ int segmentedbit() {
 	}
 
 
-
+	waitKey(0);
 	/*
 	////////////////////////// Test gaussianFilter();
 	namedWindow("src", CV_WINDOW_NORMAL);
