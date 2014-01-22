@@ -37,7 +37,9 @@ void balls(const cv::Mat &input);
  * - gaussian filter
  * - threshold
  * - closing
- * - substraction from original
+ * - inverse of closing result
+ * - labeling
+ * - delete border objects
  */
 void cheese(const cv::Mat &input);
 
