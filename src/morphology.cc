@@ -92,7 +92,7 @@ struct im::boundaryStruct im::boundary(const Mat& input, Mat& output, const int 
 
 	for (int y=0; y<input.rows; y++) {
 		for (int x=0; x<input.cols; x++) {
-			uchar pixValue = temp.at<uchar>(y, x);
+			uchar pixValue = temp.at<uchar>(y+1, x+1);
 			if (pixValue == 0) {
 				// Not an object pixel, ignore.
 				continue;
@@ -112,7 +112,7 @@ struct im::boundaryStruct im::boundary(const Mat& input, Mat& output, const int 
 					if (isBoundary)
 						break;
 					for (int xx=-1; xx<=1; xx++) {
-						uchar neighbor = temp.at<uchar>(y+yy, x+xx);
+						uchar neighbor = temp.at<uchar>(y+yy+1, x+xx+1);
 						if (neighbor == 0) { // this pixel is a background pixel
 							// Found a background pixel!
 							perimeterLength++;
@@ -136,7 +136,7 @@ struct im::boundaryStruct im::boundary(const Mat& input, Mat& output, const int 
 						if (!elementIsSuccess)
 							break;
 						for (int xx=-1; xx<=1; xx++) {
-							if (elements[i].at<uchar>(yy, xx) == 0 && temp.at<uchar>(y+yy, x+xx) != 0) {
+							if (elements[i].at<uchar>(yy, xx) == 0 && temp.at<uchar>(y+yy+1, x+xx+1) != 0) {
 								elementIsSuccess = false;
 								break;
 							}
