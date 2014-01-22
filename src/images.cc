@@ -297,11 +297,14 @@ void solve::boltsnuts(const Mat &input){
 	namedWindow("segmented", CV_WINDOW_NORMAL);
 	namedWindow("expandedBorder", CV_WINDOW_NORMAL);
 	namedWindow("openedCircles", CV_WINDOW_NORMAL);
-	namedWindow("perfect", CV_WINDOW_NORMAL);
+	namedWindow("geocircles", CV_WINDOW_NORMAL);
+	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
 
 	Mat gray = im::grayscale(input);
+	gray = im::averageFilter(gray, 5, 5, im::PWHITE);
 
 	Mat segmented = im::threshold(gray, 245 );
+
 	Mat expandedBorder = Mat::zeros(segmented.size(), CV_8UC1);
 	expandedBorder.row(0) = 255;
 	expandedBorder.col(0) = 255;
@@ -316,18 +319,22 @@ void solve::boltsnuts(const Mat &input){
 	openedCircles = im::morphErode(openedCircles);
 	openedCircles = im::morphErode(openedCircles);
 
+	Mat geocircles = im::morphGeodesicDilate(openedCircles, circles);
 
-	Mat perfect = im::morphGeodesicDilate(openedCircles, circles);
+	Mat labeledCircles = im::binaryLabelCircle(geocircles);
+
 	imshow("boltsnuts - gray", gray);
 	imshow("segmented", segmented);
 	imshow("expandedBorder", expandedBorder);
 	imshow("circles", circles);
 	imshow("openedCircles", openedCircles);
-	imshow("perfect", perfect);
+	imshow("geocircles", geocircles);
+	imshow("labeledCircles", labeledCircles);
 
 	waitKey(0);
 }
 
+/*
 void solve::xray(const Mat &input){
 	Mat gray = im::grayscale(input);
 
@@ -363,6 +370,7 @@ void solve::xray(const Mat &input){
 	imshow("gauss1", gauss1);
 	waitKey(0);
 }
+<<<<<<< HEAD
 
 void solve::road(const Mat &input){
 
@@ -390,3 +398,6 @@ void solve::road(const Mat &input){
 	imshow("road - thresholded 1", threshold);
 }
 
+=======
+*/
+>>>>>>> ac932ba89900a8bc5e03fb039081463a3e5aeb34

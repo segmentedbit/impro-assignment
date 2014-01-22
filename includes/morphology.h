@@ -38,7 +38,7 @@ cv::Mat defaultElement();
  * Pass either ALLDIRECTIONS or STRAIGHT to determine the direction of boundary
  * matching.
  */
-boundaryStruct boundary(const cv::Mat& input, cv::Mat& output, const int direction);
+boundaryStruct boundary(const cv::Mat& input, cv::Mat& output, const int direction=STRAIGHT);
 
 /*
  * Dilation function. Takes an optional Mat &kernel parameter, which can be of

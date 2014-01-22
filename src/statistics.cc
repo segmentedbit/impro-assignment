@@ -207,3 +207,62 @@ float im::minFloatValue(const cv::Mat &input) {
 	return min;
 }
 
+
+Mat im::binaryLabelCircle(const cv::Mat &input){
+
+	Mat temp;
+	input.copyTo(temp);
+	int count_value = 1;
+	int objCount = 0;
+	for (int i = 0; i < input.rows ; i++){
+		for (int j = 0; j < input.cols ; j++){
+			if (temp.at<uchar>(i,j) == 255){
+				Mat marker = Mat::zeros(input.rows, input.cols, CV_8UC1);
+				marker.at<uchar>(i,j) = 255;
+				Mat object = im::morphGeodesicDilate(marker, input);
+
+
+				Mat useless;
+				struct im::boundaryStruct s = im::boundary(object, useless, im::STRAIGHT);
+				float compactness = float(s.objectPixels) / float(s.perimiterLength);
+
+				cout << "element " << count_value << " has values: \nperimeter length: " << s.perimiterLength << "\nobject pixels: " << s.objectPixels << "total: " << (compactness) << endl ;
+				if (compactness < 5.0L) {
+					cerr << "throwing out "  << compactness << endl;
+					for ( int x =0; x < object.rows; x++){
+						for (int y = 0; y < object.rows; y++){
+							if (object.at<uchar>(x,y) == 255 ){
+								temp.at<uchar>(x, y) = 0;
+							}
+					}	}
+				} else {
+					cerr << "keeping " << compactness << endl;
+
+					for ( int x =0; x < object.rows; x++){
+						for (int y = 0; y < object.rows; y++){
+							if (object.at<uchar>(x,y) == 255 ){
+								temp.at<uchar>(x, y) = count_value;
+							}
+					}	}
+				}
+				count_value += 1;
+				objCount++;
+
+				if (config::DEBUG){
+					std::ostringstream count;
+					count << "object: " << objCount;
+					namedWindow(count.str(), CV_WINDOW_NORMAL);
+					imshow(count.str(), object);
+				}
+			}
+	} }
+
+	for (int i = 0; i < input.rows ; i++){
+		for (int j = 0; j < input.cols ; j++){
+			int pxl = temp.at<uchar>(i,j);
+			temp.at<uchar>(i,j) = (pxl * 255) / objCount;
+	}	}
+
+	return temp;
+}
+

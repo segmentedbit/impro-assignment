@@ -52,6 +52,12 @@ void displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType
 cv::Mat binaryLabel(const cv::Mat &input);
 
 /*
+ *  Does the same as binaryLabel; except it adds the requirement that objects
+ *  are circles.
+ */
+cv::Mat binaryLabelCircle(const cv::Mat &input);
+
+/*
  * Returns a maximum found pixel value in a floating point matrix
  */
 float maxFloatValue(const cv::Mat &input);
