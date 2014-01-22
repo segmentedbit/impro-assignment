@@ -23,14 +23,34 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
 
 int segmentedbit() {
 
+	////////////////////////// Test medianFilter();
+	namedWindow("src", CV_WINDOW_NORMAL);
+	namedWindow("output", CV_WINDOW_NORMAL);
+	namedWindow("g1", CV_WINDOW_NORMAL);
+	namedWindow("g2", CV_WINDOW_NORMAL);
+
+	Mat src = imread("images/singleobjectbinarycircle.png", 1);
+	src = im::grayscale(src);
+
+	Mat output = im::gaussianFilter(src, 31, 10);
+
+	imshow("src", src);
+	imshow("output", output);
+
+	Mat g1 = im::gaussianKernel(33);
+	im::displayPixels(g1, false, false, im::DISPLAY_MATRIX);
+	imshow("g1", g1);
+
+	waitKey(0);
+	/*
 	////////////////////////// Test medianFilter();
 	namedWindow("src", CV_WINDOW_NORMAL);
 	namedWindow("boundary", CV_WINDOW_NORMAL);
@@ -47,6 +67,7 @@ int segmentedbit() {
 	im::displayPixels(boundary, false, false, im::DISPLAY_MATRIX);
 	cout << "Perimeter length: " << s.perimiterLength << endl << "Object pixels: " << s.objectPixels << endl;
 	waitKey(0);
+	 */
 
 	/*
 	////////////////////////// Test medianFilter();
@@ -137,7 +158,7 @@ int segmentedbit() {
 
 	imshow("skeleton", skeleton);
 	waitKey(0);
-	*/
+
 
 
 	/*
@@ -340,7 +361,11 @@ int ardillo(int argc, char** argv) {
 	string balloons = "images/assignmentPictures/balloons.png";
 	string balls = "images/assignmentPictures/balls.png";
 	string cheese ="images/assignmentPictures/cheese.png";
+<<<<<<< HEAD
 	string xray = "images/assignmentPictures/xray.png";
+=======
+	string boltsnuts ="images/assignmentPictures/boltsnuts.png";
+>>>>>>> 09c205ef97466ed6b3f418d6130d53c3c6c3ee7d
 
 	///// checks if standard picture method is applicable to image name
 
@@ -353,8 +378,13 @@ int ardillo(int argc, char** argv) {
 	else if (!input.compare(balls)) {
 		solve::balls(image);
 	}
+<<<<<<< HEAD
 	else if (!input.compare(xray)) {
 		solve::xray(image);
+=======
+	else if (!input.compare(boltsnuts)) {
+		solve::boltsnuts(image);
+>>>>>>> 09c205ef97466ed6b3f418d6130d53c3c6c3ee7d
 	}
 
 	/////////////// EO BASIC OpenCV CODE

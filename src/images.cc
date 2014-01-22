@@ -140,6 +140,7 @@ void solve::cheese(const Mat &input){
 
 }
 
+<<<<<<< HEAD
 void solve::xray(const cv::Mat &input){
 //	// to grayscale
 //	Mat gray = im::grayscale(input);
@@ -292,3 +293,9 @@ void solve::xray(const cv::Mat &input){
 ////		namedWindow("xray - derivative", CV_WINDOW_NORMAL);
 ////		imshow("xray - derivative", derivative_tot);
 }
+=======
+void solve::boltsnuts(const Mat &input){
+
+}
+
+>>>>>>> 09c205ef97466ed6b3f418d6130d53c3c6c3ee7d

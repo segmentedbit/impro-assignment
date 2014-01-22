@@ -43,11 +43,15 @@ void balls(const cv::Mat &input);
  */
 void cheese(const cv::Mat &input);
 
+<<<<<<< HEAD
 /*
  * Solve the xray.png search for steel objects in the image.
  * it does:
  */
 void xray(const cv::Mat &input);
+=======
+void boltsnuts(const cv::Mat &input);
+>>>>>>> 09c205ef97466ed6b3f418d6130d53c3c6c3ee7d
 }
 
 #endif /* IMAGES_H_ */

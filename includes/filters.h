@@ -31,6 +31,12 @@ cv::Mat gaussianKernel(const int size, const int sigma=1);
 cv::Mat medianFilter(const cv::Mat& input, const int rows, const int cols);
 
 /*
+ * Works a gaussian filter on the input image, with size and sigma as parameter
+ * Parameter is 1 as a default.
+ */
+cv::Mat gaussianFilter(const cv::Mat& input, const int size, const int sigma=1);
+
+/*
  * Smooth filter with variable size. Filter width and height have to
  * be odd in order to have a middle pixel.
  * Calculation is done in an temporary matrix with floating point
