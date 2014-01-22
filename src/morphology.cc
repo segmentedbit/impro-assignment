@@ -223,14 +223,13 @@ Mat im::morphErode(const Mat &input, const Mat &element) {
 	return output;
 }
 
-//TODO implement
 Mat im::morphOpen(const Mat &input, const Mat &erosionElement, const Mat &dilationElement) {
 	Mat output = morphErode(input, erosionElement);
 	output = morphDilate(output, dilationElement);
 	return output;
 }
 
-//TODO implement
+
 Mat im::morphClose(const Mat &input, const Mat &dilationElement, const Mat &erosionElement) {
 	Mat output = morphDilate(input, dilationElement);
 	output = morphErode(output, erosionElement);
