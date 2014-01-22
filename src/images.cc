@@ -99,23 +99,57 @@ void solve::balls2(const Mat &input){
 
 	namedWindow("inverted", CV_WINDOW_NORMAL);
 	Mat inverted = im::invertGray(average*255);
-	imshow("inverted", inverted);
+	imshow("inverted", inverted); //TODO
 
-	namedWindow("highpass", CV_WINDOW_NORMAL);
-	Mat highpass = im::divideMatrix(gray, average);
-	imshow("highpass", highpass);
 
-	namedWindow("lowContrast", CV_WINDOW_NORMAL);
-	Mat lowContrast = im::divideMatrix(gray, stretch);
-	imshow("lowContrast", lowContrast);
 
-	namedWindow("minMax", CV_WINDOW_NORMAL);
-	Mat minMax = im::localMinimumOfMaximum(gray, 5, 5);
-	imshow("minMax", minMax);
+//	Mat element = Mat::ones(5,5, CV_8UC1);
+	Mat erode;
+	inverted.copyTo(erode);
+	for (int i =0; i< 15; i++){
+		 erode = im::morphErode(erode);
+	}
+	namedWindow("close", CV_WINDOW_NORMAL);
+	imshow("close", erode);
 
-	namedWindow("maxMin", CV_WINDOW_NORMAL);
-	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
-	imshow("maxMin", maxMin);
+	//thresholding
+	Mat threshold = im::threshold(erode, 240 );
+	namedWindow("balls - thresholded", CV_WINDOW_NORMAL);
+	imshow("balls - thresholded", threshold);
+
+	Mat dilate;
+	threshold.copyTo(dilate);
+	for (int i =0; i< 22; i++){
+		 dilate = im::morphDilate(dilate);
+	}
+	namedWindow("dilate", CV_WINDOW_NORMAL);
+	imshow("dilate", dilate);
+
+
+	//label
+	Mat label = im::binaryLabel(dilate);
+	namedWindow("balls - label", CV_WINDOW_NORMAL);
+	imshow("balls - label", label);
+
+//	Mat erode = im::morphOpen(close);
+//	namedWindow("erode", CV_WINDOW_NORMAL);
+//	imshow("erode", erode);
+
+//	namedWindow("highpass", CV_WINDOW_NORMAL);
+//	Mat highpass = im::divideMatrix(gray, average);
+//	imshow("highpass", highpass);
+//
+//	namedWindow("lowContrast", CV_WINDOW_NORMAL);
+//	Mat lowContrast = im::divideMatrix(gray, stretch);
+//	imshow("lowContrast", lowContrast);
+//
+//	namedWindow("minMax", CV_WINDOW_NORMAL);
+//	Mat minMax = im::localMinimumOfMaximum(gray, 5, 5);
+//	imshow("minMax", minMax);
+//
+//	namedWindow("maxMin", CV_WINDOW_NORMAL);
+//	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
+//	imshow("maxMin", maxMin);
 }
 
 
