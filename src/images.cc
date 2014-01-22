@@ -99,20 +99,20 @@ void solve::balls2(const Mat &input){
 
 	namedWindow("inverted", CV_WINDOW_NORMAL);
 	Mat inverted = im::invertGray(average*255);
-	imshow("inverted", inverted);
+	imshow("inverted", inverted); //TODO
 
-	namedWindow("highpass", CV_WINDOW_NORMAL);
-	Mat highpass = im::divideMatrix(gray, average);
-	imshow("highpass", highpass);
 
-	namedWindow("lowContrast", CV_WINDOW_NORMAL);
-	Mat lowContrast = im::divideMatrix(gray, stretch);
-	imshow("lowContrast", lowContrast);
 
-	namedWindow("minMax", CV_WINDOW_NORMAL);
-	Mat minMax = im::localMinimumOfMaximum(gray, 5, 5);
-	imshow("minMax", minMax);
+//	Mat element = Mat::ones(5,5, CV_8UC1);
+	Mat erode;
+	inverted.copyTo(erode);
+	for (int i =0; i< 15; i++){
+		 erode = im::morphErode(erode);
+	}
+	namedWindow("close", CV_WINDOW_NORMAL);
+	imshow("close", erode);
 
+<<<<<<< HEAD
 	namedWindow("maxMin", CV_WINDOW_NORMAL);
 	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
 	imshow("maxMin", maxMin);
@@ -123,6 +123,46 @@ void solve::balls2(const Mat &input){
 	dilated = im::morphDilate(dilated);
 	dilated = im::morphDilate(dilated);
 	imshow("dilated", dilated);
+=======
+	//thresholding
+	Mat threshold = im::threshold(erode, 240 );
+	namedWindow("balls - thresholded", CV_WINDOW_NORMAL);
+	imshow("balls - thresholded", threshold);
+
+	Mat dilate;
+	threshold.copyTo(dilate);
+	for (int i =0; i< 22; i++){
+		 dilate = im::morphDilate(dilate);
+	}
+	namedWindow("dilate", CV_WINDOW_NORMAL);
+	imshow("dilate", dilate);
+
+
+	//label
+	Mat label = im::binaryLabel(dilate);
+	namedWindow("balls - label", CV_WINDOW_NORMAL);
+	imshow("balls - label", label);
+
+//	Mat erode = im::morphOpen(close);
+//	namedWindow("erode", CV_WINDOW_NORMAL);
+//	imshow("erode", erode);
+
+//	namedWindow("highpass", CV_WINDOW_NORMAL);
+//	Mat highpass = im::divideMatrix(gray, average);
+//	imshow("highpass", highpass);
+//
+//	namedWindow("lowContrast", CV_WINDOW_NORMAL);
+//	Mat lowContrast = im::divideMatrix(gray, stretch);
+//	imshow("lowContrast", lowContrast);
+//
+//	namedWindow("minMax", CV_WINDOW_NORMAL);
+//	Mat minMax = im::localMinimumOfMaximum(gray, 5, 5);
+//	imshow("minMax", minMax);
+//
+//	namedWindow("maxMin", CV_WINDOW_NORMAL);
+//	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
+//	imshow("maxMin", maxMin);
+>>>>>>> 1895722e5beadf0a146e3d1c3e2d36913c580b53
 }
 
 
@@ -278,7 +318,7 @@ void solve::road(const Mat &input){
 //	namedWindow("road - smooth", CV_WINDOW_NORMAL);
 //	imshow("road - smooth", smooth);
 
-	Mat smooth = im::gaussianFilter(gray, 25, 1);
+	Mat smooth = im::gaussianFilter(gray, 15, 1);
 	namedWindow("road - smooth", CV_WINDOW_NORMAL);
 	imshow("road - smooth", smooth);
 
@@ -300,29 +340,41 @@ void solve::road(const Mat &input){
 	namedWindow("road - histogram eq-quant", CV_WINDOW_NORMAL);
 	imshow("road - histogram eq-quant", histogram2);
 
-//	Mat dilate = im::morphDilate(eq);
-//	namedWindow("road - dilate", CV_WINDOW_NORMAL);
-//	imshow("road - dilate", dilate);
-
 	//thresholding
 	Mat threshold = im::threshold(eq, 225);
 	namedWindow("road - thresholded", CV_WINDOW_NORMAL);
 	imshow("road - thresholded", threshold);
 
-	Mat skel;
-	im::normalizeLetter(threshold, skel);
-	namedWindow("skeleton", CV_WINDOW_NORMAL);
-	imshow("skeleton", skel);
+//	Mat dilate;
+//	threshold.copyTo(dilate);
+//	for(int i =0; i < 3; i++){
+//		dilate = im::morphDilate(dilate);
+//	}
+//	namedWindow("road - dilate", CV_WINDOW_NORMAL);
+//	imshow("road - dilate", dilate);
 
 	//pruning
 	Mat pruned = im::prune(skel, 5);
 	namedWindow("pruned", CV_WINDOW_NORMAL);
 	imshow("pruned", pruned);
+//	Mat labeled = im::binaryLabel(dilate);
+//	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
+//	imshow("labeledCircles", labeled);
+
+//	Mat skel;
+//	im::normalizeLetter(threshold, skel);
+//	namedWindow("skeleton", CV_WINDOW_NORMAL);
+//	imshow("skeleton", skel);
 
 	//erode
-//	Mat erode = im::morphClose(threshold);
-//	namedWindow("road - erode", CV_WINDOW_NORMAL);
-//	imshow("road - erode", erode);
+//	Mat element = Mat::ones(5,5, CV_8UC1);
+//	Mat close;
+//	threshold.copyTo(close);
+//	for (int i =0; i< 50; i++){
+//		 close = im::morphClose(close, element, element);
+//	}
+//	namedWindow("road - close", CV_WINDOW_NORMAL);
+//	imshow("road - erode", close);
 }
 
 void solve::xray(const Mat &input){
