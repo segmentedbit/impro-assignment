@@ -96,7 +96,10 @@ Mat im::medianFilter(const Mat& input, const int rows, const int cols) {
 			} else {
 				output.at<uchar>(y,x) = values[values.size() / 2];
 			}
-			cout << values.size() << " value is " << int(values[values.size() / 2]) << " " << endl;
+
+			if(config::DEBUG){
+				cout << values.size() << " value is " << int(values[values.size() / 2]) << " " << endl;
+			}
 
 		} // end image x
 	} // end image y

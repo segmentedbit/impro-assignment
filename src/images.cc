@@ -55,12 +55,17 @@ void solve::balls(const Mat &input){
 		1, 4, 7, 4, 1);
 		float divide_fact = 273;
 
-	// smoothing and equalizing afterwards
+	// smoothing
 	Mat smooth = im::filter(gray, kernel, divide_fact);
-
-	smooth = im::equalize(smooth);
+	smooth = im::filter(smooth, kernel, divide_fact);
+	smooth = im::medianFilter(smooth, 11,11);
 	namedWindow("balls - smooth-eq", CV_WINDOW_NORMAL);
 	imshow("balls - smooth-eq", smooth);
+
+	//equalizing
+	Mat eq = im::equalize(smooth);
+	namedWindow("balls - eq", CV_WINDOW_NORMAL);
+	imshow("balls - eq", eq);
 
 	//histogram
 	Mat histogram = im::showHist(smooth);
@@ -81,7 +86,14 @@ void solve::balls(const Mat &input){
 	namedWindow("balls - eroded", CV_WINDOW_NORMAL);
 	imshow("balls - eroded", erode);
 
-	//dilate a coule times
+	//dilate a couple times
+	Mat dilate;
+	erode.copyTo(dilate);
+	for (int i =0; i<20;i++){
+		dilate = im::morphDilate(dilate);
+	}
+	namedWindow("balls - dilated", CV_WINDOW_NORMAL);
+	imshow("balls - dilated", dilate);
 
 }
 
