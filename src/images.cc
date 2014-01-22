@@ -140,158 +140,6 @@ void solve::cheese(const Mat &input){
 
 }
 
-//void solve::xray(const cv::Mat &input){
-//	// to grayscale
-//	Mat gray = im::grayscale(input);
-//	namedWindow("xray - grayscale", CV_WINDOW_NORMAL);
-//	imshow("xray - grayscale", gray);
-//
-//	//gaussian filter
-//
-//		////////////// Gaussian kernel /////////////////
-//			Mat kernel = ( Mat_<float>(5,5) <<
-//				1, 4, 7, 4, 1,
-//				4, 16, 26, 16, 4,
-//				7, 26, 41, 26, 7,
-//				4, 16, 26, 16, 4,
-//				1, 4, 7, 4, 1);
-//				float divide_fact = 273;
-//
-//		Mat filtered = im::filter(gray, kernel, divide_fact);
-//		namedWindow("xray - gauss filtered", CV_WINDOW_NORMAL);
-//		imshow("xray - gauss filtered", filtered);
-//
-////		Mat histogram = im::showHist(filtered);
-////		namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
-////		imshow("histogram: Own grayImage", histogram);
-//
-//		Mat threshold = im::threshold(gray, 100);
-//		namedWindow("xray - threshold", CV_WINDOW_NORMAL);
-//		imshow("xray - threshold", threshold);
-//
-//		Mat elementD = Mat::ones(5,5, CV_8UC1);
-//		Mat elementE = Mat::ones(3,3, CV_8UC1);
-//
-//		Mat closing;
-//		threshold.copyTo(closing);
-//
-//		for (int q=0;q<4;q++){
-//			closing = im::morphClose(closing, elementD, elementE);
-//		}
-//		closing = im::morphErode(closing);
-//		closing = im::morphErode(closing);
-//
-//
-//		namedWindow("xray - closing", CV_WINDOW_NORMAL);
-//		imshow("xray - closing", closing);
-//
-//		Mat inverse = im::invertGray(gray);
-//		Mat mask = im::invertGray(threshold); // edited
-//
-//
-////		for (int q=0;q<8;q++){
-////			mask = im::morphDilate(mask);
-////		}
-//		namedWindow("mask", CV_WINDOW_NORMAL);
-//		imshow("mask", mask);
-//
-//		Mat object = im::subtractMatrix(inverse, mask);
-//		namedWindow("xray - objects", CV_WINDOW_NORMAL);
-//		imshow("xray - objects", object);
-//
-//		Mat test = im::morphDilate(gray);
-//		Mat edge = im::subtractMatrix(test, gray);
-//		namedWindow("test", CV_WINDOW_NORMAL);
-//		imshow("test", edge);
-//		Mat thresholdTest = im::threshold(edge, 18);
-//		namedWindow("xray - thresholdTest", CV_WINDOW_NORMAL);
-//		imshow("xray - thresholdTest", thresholdTest);
-//
-//		Mat end = im::subtractMatrix(object, thresholdTest);
-//		end = im::morphDilate(end);
-//		end = im::invertGray(end);
-//		closing = im::invertGray(closing);
-//		end = im::subtractMatrix(end, closing);
-//		namedWindow("end", CV_WINDOW_NORMAL);
-//		imshow("end", end);
-//
-////		Mat sub = im::subtractMatrix(closing, filtered);
-////		sub = im::morphErode(sub);
-////		sub = im::morphErode(sub);
-////
-////		Mat test = im::morphDilate(gray);
-////		Mat edge = im::subtractMatrix(test, gray);
-////		namedWindow("test", CV_WINDOW_NORMAL);
-////		imshow("test", edge);
-////		Mat thresholdTest = im::threshold(edge, 18);
-////		namedWindow("xray - thresholdTest", CV_WINDOW_NORMAL);
-////		imshow("xray - thresholdTest", thresholdTest);
-////
-////		namedWindow("xray - sub", CV_WINDOW_NORMAL);
-////		imshow("xray - sub", sub);
-//
-////		///////////// x-Derivative ////////////////////
-////		Mat kernelX1 = ( Mat_<float>(1,5) <<
-////			1, -8, 0, 8, -1);
-////
-////		///////////// x-Derivative ////////////////////
-////		Mat kernelX2 = ( Mat_<float>(1,5) <<
-////			-1, 8, 0, -8, 1);
-////
-////		///////////// y-Derivative ////////////////////
-////		Mat kernelY1 = ( Mat_<float>(5,1) <<
-////			1, -8, 0, 8, -1);
-////
-////		///////////// y-Derivative ////////////////////
-////		Mat kernelY2 = ( Mat_<float>(5,1) <<
-////			-1, 8, 0, -8, 1);
-////
-////		divide_fact = 12;
-////
-////		Mat x_deriv1 = im::filter(filtered, kernelX1, divide_fact);
-////		namedWindow("xray - x derivative2", CV_WINDOW_NORMAL);
-////		imshow("xray - x derivative2", x_deriv1);
-////
-////		Mat x_deriv2= im::filter(filtered, kernelX2, divide_fact);
-////		namedWindow("xray - x derivative2", CV_WINDOW_NORMAL);
-////		imshow("xray - x derivative2", x_deriv2);
-////
-////		Mat y_deriv1= im::filter(filtered, kernelY1, divide_fact);
-////		namedWindow("xray - y derivative1", CV_WINDOW_NORMAL);
-////		imshow("xray - y derivative1", y_deriv1);
-////
-////		Mat y_deriv2= im::filter(filtered, kernelY2, divide_fact);
-////		namedWindow("xray - y derivative2", CV_WINDOW_NORMAL);
-////		imshow("xray - y derivative2", y_deriv2);
-////
-////		Mat threshold1 = im::threshold(x_deriv1, 10);
-////		namedWindow("xray - threshold1", CV_WINDOW_NORMAL);
-////		imshow("xray - threshold1", threshold1);
-////
-////		Mat threshold2 = im::threshold(x_deriv2, 10);
-////		namedWindow("xray - threshold2", CV_WINDOW_NORMAL);
-////		imshow("xray - threshold2", threshold2);
-////
-////		Mat threshold3 = im::threshold(y_deriv1, 10);
-////		namedWindow("xray - threshold3", CV_WINDOW_NORMAL);
-////		imshow("xray - threshold3", threshold3);
-////
-////		Mat threshold4 = im::threshold(y_deriv2, 10);
-////		namedWindow("xray - threshold4", CV_WINDOW_NORMAL);
-////		imshow("xray - threshold4", threshold4);
-////
-////		Mat only_x = im::addMatrix(threshold1, threshold2);
-////		namedWindow("xray - x derivative", CV_WINDOW_NORMAL);
-////		imshow("xray - x derivative", only_x);
-////
-////		Mat only_y = im::addMatrix(threshold3, threshold4);
-////		namedWindow("xray - y derivative", CV_WINDOW_NORMAL);
-////		imshow("xray - y derivative", only_y);
-////
-////		Mat derivative_tot = im::addMatrix(only_x, only_y);
-////		namedWindow("xray - derivative", CV_WINDOW_NORMAL);
-////		imshow("xray - derivative", derivative_tot);
-//}
 void solve::boltsnuts(const Mat &input){
 	namedWindow("boltsnuts - gray", CV_WINDOW_NORMAL);
 	namedWindow("segmented", CV_WINDOW_NORMAL);
@@ -334,7 +182,34 @@ void solve::boltsnuts(const Mat &input){
 	waitKey(0);
 }
 
+void solve::road(const Mat &input){
+
+	Mat gray = im::grayscale(input);
+	namedWindow("road - gray", CV_WINDOW_NORMAL);
+	imshow("road - gray", gray);
+
+	Mat eq = im::equalize(gray);
+	namedWindow("road - equalized", CV_WINDOW_NORMAL);
+	imshow("road - equalized", eq);
+
+	// smoothing
+	Mat smooth = im::medianFilter(gray, 3, 9);
+	namedWindow("road - smooth", CV_WINDOW_NORMAL);
+	imshow("road - smooth", smooth);
+
+	//histogram
+	Mat histogram = im::showHist(smooth);
+	namedWindow("road - histogram", CV_WINDOW_NORMAL);
+	imshow("road - histogram", histogram);
+
+	//thresholding
+	Mat threshold = im::threshold(smooth, 90);
+	namedWindow("road - thresholded 1", CV_WINDOW_NORMAL);
+	imshow("road - thresholded 1", threshold);
+}
+
 /*
+////////////////// Segmented bit try/////////////////////////
 void solve::xray(const Mat &input){
 	Mat gray = im::grayscale(input);
 
@@ -370,34 +245,160 @@ void solve::xray(const Mat &input){
 	imshow("gauss1", gauss1);
 	waitKey(0);
 }
-<<<<<<< HEAD
 
-void solve::road(const Mat &input){
 
+////////////////// Ardillo bit try/////////////////////////
+void solve::xray(const cv::Mat &input){
+	// to grayscale
 	Mat gray = im::grayscale(input);
-	namedWindow("road - gray", CV_WINDOW_NORMAL);
-	imshow("road - gray", gray);
+	namedWindow("xray - grayscale", CV_WINDOW_NORMAL);
+	imshow("xray - grayscale", gray);
 
-	Mat eq = im::equalize(gray);
-	namedWindow("road - equalized", CV_WINDOW_NORMAL);
-	imshow("road - equalized", eq);
+	//gaussian filter
 
-	// smoothing
-	Mat smooth = im::medianFilter(gray, 3, 9);
-	namedWindow("road - smooth", CV_WINDOW_NORMAL);
-	imshow("road - smooth", smooth);
+		////////////// Gaussian kernel /////////////////
+			Mat kernel = ( Mat_<float>(5,5) <<
+				1, 4, 7, 4, 1,
+				4, 16, 26, 16, 4,
+				7, 26, 41, 26, 7,
+				4, 16, 26, 16, 4,
+				1, 4, 7, 4, 1);
+				float divide_fact = 273;
 
-	//histogram
-	Mat histogram = im::showHist(smooth);
-	namedWindow("road - histogram", CV_WINDOW_NORMAL);
-	imshow("road - histogram", histogram);
+		Mat filtered = im::filter(gray, kernel, divide_fact);
+		namedWindow("xray - gauss filtered", CV_WINDOW_NORMAL);
+		imshow("xray - gauss filtered", filtered);
 
-	//thresholding
-	Mat threshold = im::threshold(smooth, 90);
-	namedWindow("road - thresholded 1", CV_WINDOW_NORMAL);
-	imshow("road - thresholded 1", threshold);
+		Mat histogram = im::showHist(filtered);
+		namedWindow("histogram: Own grayImage", CV_WINDOW_NORMAL);
+		imshow("histogram: Own grayImage", histogram);
+
+		Mat threshold = im::threshold(gray, 100);
+		namedWindow("xray - threshold", CV_WINDOW_NORMAL);
+		imshow("xray - threshold", threshold);
+
+		Mat elementD = Mat::ones(5,5, CV_8UC1);
+		Mat elementE = Mat::ones(3,3, CV_8UC1);
+
+		Mat closing;
+		threshold.copyTo(closing);
+
+		for (int q=0;q<4;q++){
+			closing = im::morphClose(closing, elementD, elementE);
+		}
+		closing = im::morphErode(closing);
+		closing = im::morphErode(closing);
+
+
+		namedWindow("xray - closing", CV_WINDOW_NORMAL);
+		imshow("xray - closing", closing);
+
+		Mat inverse = im::invertGray(gray);
+		Mat mask = im::invertGray(threshold); // edited
+
+
+		for (int q=0;q<8;q++){
+			mask = im::morphDilate(mask);
+		}
+		namedWindow("mask", CV_WINDOW_NORMAL);
+		imshow("mask", mask);
+
+		Mat object = im::subtractMatrix(inverse, mask);
+		namedWindow("xray - objects", CV_WINDOW_NORMAL);
+		imshow("xray - objects", object);
+
+		Mat test = im::morphDilate(gray);
+		Mat edge = im::subtractMatrix(test, gray);
+		namedWindow("test", CV_WINDOW_NORMAL);
+		imshow("test", edge);
+		Mat thresholdTest = im::threshold(edge, 18);
+		namedWindow("xray - thresholdTest", CV_WINDOW_NORMAL);
+		imshow("xray - thresholdTest", thresholdTest);
+
+		Mat end = im::subtractMatrix(object, thresholdTest);
+		end = im::morphDilate(end);
+		end = im::invertGray(end);
+		closing = im::invertGray(closing);
+		end = im::subtractMatrix(end, closing);
+		namedWindow("end", CV_WINDOW_NORMAL);
+		imshow("end", end);
+
+		Mat sub = im::subtractMatrix(closing, filtered);
+		sub = im::morphErode(sub);
+		sub = im::morphErode(sub);
+
+		Mat test = im::morphDilate(gray);
+		Mat edge = im::subtractMatrix(test, gray);
+		namedWindow("test", CV_WINDOW_NORMAL);
+		imshow("test", edge);
+		Mat thresholdTest = im::threshold(edge, 18);
+		namedWindow("xray - thresholdTest", CV_WINDOW_NORMAL);
+		imshow("xray - thresholdTest", thresholdTest);
+
+		namedWindow("xray - sub", CV_WINDOW_NORMAL);
+		imshow("xray - sub", sub);
+
+		///////////// x-Derivative ////////////////////
+		Mat kernelX1 = ( Mat_<float>(1,5) <<
+			1, -8, 0, 8, -1);
+
+		///////////// x-Derivative ////////////////////
+		Mat kernelX2 = ( Mat_<float>(1,5) <<
+			-1, 8, 0, -8, 1);
+
+		///////////// y-Derivative ////////////////////
+		Mat kernelY1 = ( Mat_<float>(5,1) <<
+			1, -8, 0, 8, -1);
+
+		///////////// y-Derivative ////////////////////
+		Mat kernelY2 = ( Mat_<float>(5,1) <<
+			-1, 8, 0, -8, 1);
+
+		divide_fact = 12;
+
+		Mat x_deriv1 = im::filter(filtered, kernelX1, divide_fact);
+		namedWindow("xray - x derivative2", CV_WINDOW_NORMAL);
+		imshow("xray - x derivative2", x_deriv1);
+
+		Mat x_deriv2= im::filter(filtered, kernelX2, divide_fact);
+		namedWindow("xray - x derivative2", CV_WINDOW_NORMAL);
+		imshow("xray - x derivative2", x_deriv2);
+
+		Mat y_deriv1= im::filter(filtered, kernelY1, divide_fact);
+		namedWindow("xray - y derivative1", CV_WINDOW_NORMAL);
+		imshow("xray - y derivative1", y_deriv1);
+
+		Mat y_deriv2= im::filter(filtered, kernelY2, divide_fact);
+		namedWindow("xray - y derivative2", CV_WINDOW_NORMAL);
+		imshow("xray - y derivative2", y_deriv2);
+
+		Mat threshold1 = im::threshold(x_deriv1, 10);
+		namedWindow("xray - threshold1", CV_WINDOW_NORMAL);
+		imshow("xray - threshold1", threshold1);
+
+		Mat threshold2 = im::threshold(x_deriv2, 10);
+		namedWindow("xray - threshold2", CV_WINDOW_NORMAL);
+		imshow("xray - threshold2", threshold2);
+
+		Mat threshold3 = im::threshold(y_deriv1, 10);
+		namedWindow("xray - threshold3", CV_WINDOW_NORMAL);
+		imshow("xray - threshold3", threshold3);
+
+		Mat threshold4 = im::threshold(y_deriv2, 10);
+		namedWindow("xray - threshold4", CV_WINDOW_NORMAL);
+		imshow("xray - threshold4", threshold4);
+
+		Mat only_x = im::addMatrix(threshold1, threshold2);
+		namedWindow("xray - x derivative", CV_WINDOW_NORMAL);
+		imshow("xray - x derivative", only_x);
+
+		Mat only_y = im::addMatrix(threshold3, threshold4);
+		namedWindow("xray - y derivative", CV_WINDOW_NORMAL);
+		imshow("xray - y derivative", only_y);
+
+		Mat derivative_tot = im::addMatrix(only_x, only_y);
+		namedWindow("xray - derivative", CV_WINDOW_NORMAL);
+		imshow("xray - derivative", derivative_tot);
 }
-
-=======
 */
->>>>>>> ac932ba89900a8bc5e03fb039081463a3e5aeb34
+
