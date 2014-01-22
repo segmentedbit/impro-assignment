@@ -112,7 +112,6 @@ void solve::balls2(const Mat &input){
 	namedWindow("close", CV_WINDOW_NORMAL);
 	imshow("close", erode);
 
-<<<<<<< HEAD
 	namedWindow("maxMin", CV_WINDOW_NORMAL);
 	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
 	imshow("maxMin", maxMin);
@@ -123,7 +122,7 @@ void solve::balls2(const Mat &input){
 	dilated = im::morphDilate(dilated);
 	dilated = im::morphDilate(dilated);
 	imshow("dilated", dilated);
-=======
+
 	//thresholding
 	Mat threshold = im::threshold(erode, 240 );
 	namedWindow("balls - thresholded", CV_WINDOW_NORMAL);
@@ -162,7 +161,6 @@ void solve::balls2(const Mat &input){
 //	namedWindow("maxMin", CV_WINDOW_NORMAL);
 //	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
 //	imshow("maxMin", maxMin);
->>>>>>> 1895722e5beadf0a146e3d1c3e2d36913c580b53
 }
 
 
@@ -354,9 +352,9 @@ void solve::road(const Mat &input){
 //	imshow("road - dilate", dilate);
 
 	//pruning
-	Mat pruned = im::prune(skel, 5);
-	namedWindow("pruned", CV_WINDOW_NORMAL);
-	imshow("pruned", pruned);
+	//Mat pruned = im::prune(skel, 5);
+	//namedWindow("pruned", CV_WINDOW_NORMAL);
+	//imshow("pruned", pruned);
 //	Mat labeled = im::binaryLabel(dilate);
 //	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
 //	imshow("labeledCircles", labeled);
