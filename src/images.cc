@@ -141,17 +141,15 @@ void solve::cheese(const Mat &input){
 }
 
 void solve::boltsnuts(const Mat &input){
-	namedWindow("boltsnuts - gray", CV_WINDOW_NORMAL);
-	namedWindow("segmented", CV_WINDOW_NORMAL);
-	namedWindow("expandedBorder", CV_WINDOW_NORMAL);
-	namedWindow("openedCircles", CV_WINDOW_NORMAL);
-	namedWindow("geocircles", CV_WINDOW_NORMAL);
-	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
 
 	Mat gray = im::grayscale(input);
 	gray = im::averageFilter(gray, 5, 5, im::PWHITE);
+	namedWindow("boltsnuts - gray", CV_WINDOW_NORMAL);
+	imshow("boltsnuts - gray", gray);
 
 	Mat segmented = im::threshold(gray, 245 );
+	namedWindow("segmented", CV_WINDOW_NORMAL);
+	imshow("segmented", segmented);
 
 	Mat expandedBorder = Mat::zeros(segmented.size(), CV_8UC1);
 	expandedBorder.row(0) = 255;
@@ -159,27 +157,32 @@ void solve::boltsnuts(const Mat &input){
 	expandedBorder.row(segmented.rows-1) = 255;
 	expandedBorder.col(segmented.cols-1) = 255;
 	expandedBorder = im::morphGeodesicDilate(expandedBorder, segmented);
+	namedWindow("expandedBorder", CV_WINDOW_NORMAL);
+	imshow("expandedBorder", expandedBorder);
 
 	Mat circles = im::subtractMatrix(segmented, expandedBorder);
+	namedWindow("circles", CV_WINDOW_NORMAL);
+	imshow("circles", circles);
 
 	Mat openedCircles = im::morphErode(circles);
 	openedCircles = im::morphErode(openedCircles);
 	openedCircles = im::morphErode(openedCircles);
 	openedCircles = im::morphErode(openedCircles);
+	namedWindow("openedCircles", CV_WINDOW_NORMAL);
+	imshow("openedCircles", openedCircles);
 
 	Mat geocircles = im::morphGeodesicDilate(openedCircles, circles);
+	namedWindow("geocircles", CV_WINDOW_NORMAL);
+	imshow("geocircles", geocircles);
+
+	Mat skel = im::morphSkeleton(geocircles);
+	namedWindow("skeleton", CV_WINDOW_NORMAL);
+	imshow("skeleton", skel);
 
 	Mat labeledCircles = im::binaryLabelCircle(geocircles);
-
-	imshow("boltsnuts - gray", gray);
-	imshow("segmented", segmented);
-	imshow("expandedBorder", expandedBorder);
-	imshow("circles", circles);
-	imshow("openedCircles", openedCircles);
-	imshow("geocircles", geocircles);
+	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
 	imshow("labeledCircles", labeledCircles);
 
-	waitKey(0);
 }
 
 void solve::road(const Mat &input){
