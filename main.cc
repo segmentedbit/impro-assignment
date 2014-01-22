@@ -23,14 +23,14 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	//returnValue = segmentedbit();
-	returnValue = ardillo(argc, argv);
+	returnValue = segmentedbit();
+	//returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
 
 int segmentedbit() {
-	string input = "images/assignmentPictures/balls.png";
+	string input = "images/assignmentPictures/road.png";
 	Mat image;
 	image = imread(input, 1);
 
@@ -43,22 +43,31 @@ int segmentedbit() {
 	string balloons = "images/assignmentPictures/balloons.png";
 	string balls = "images/assignmentPictures/balls.png";
 	string cheese ="images/assignmentPictures/cheese.png";
-	string boltsnuts = "images/assignmentPictures/boltsnuts.png";
 	string xray = "images/assignmentPictures/xray.png";
+	string boltsnuts ="images/assignmentPictures/boltsnuts.png";
+	string road = "images/assignmentPictures/road.png";
+
 
 	///// checks if standard picture method is applicable to image name
 
-	if (!input.compare(balloons)) {
-		solve::balloons(image);
-	} else if (!input.compare(cheese)) {
-		solve::cheese(image);
-	} else if (!input.compare(balls)) {
-		solve::balls(image);
-	} else if (!input.compare(boltsnuts)) {
-		solve::boltsnuts(image);
-	} else if (!input.compare(xray)) {
-		solve::xray(image);
-	}
+	 if (!input.compare(balloons)) {
+			solve::balloons(image);
+		}
+		 else if (!input.compare(cheese)) {
+			solve::cheese(image);
+		 }
+		else if (!input.compare(balls)) {
+			solve::balls2(image);
+		}
+		else if (!input.compare(xray)) {
+			solve::xray(image);
+		}
+		else if (!input.compare(boltsnuts)) {
+			solve::boltsnuts(image);
+		}
+		else if(!input.compare(road)) {
+			solve::road(image);
+		}
 
 
 	waitKey(0);
