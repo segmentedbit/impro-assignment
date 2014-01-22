@@ -30,8 +30,40 @@ int main(int argc, char** argv) {
 }
 
 int segmentedbit() {
+	string input = "images/assignmentPictures/boltsnuts.png";
+	Mat image;
+	image = imread(input, 1);
 
-	////////////////////////// Test medianFilter();
+	if (!image.data) {
+		std::cout << "Failed to load image " << input;
+		return -1;
+	}
+
+	///// String list
+	string balloons = "images/assignmentPictures/balloons.png";
+	string balls = "images/assignmentPictures/balls.png";
+	string cheese ="images/assignmentPictures/cheese.png";
+	string boltsnuts = "images/assignmentPictures/boltsnuts.png";
+	string xray = "images/assignmentPictures/xray.png";
+
+	///// checks if standard picture method is applicable to image name
+
+	if (!input.compare(balloons)) {
+		solve::balloons(image);
+	} else if (!input.compare(cheese)) {
+		solve::cheese(image);
+	} else if (!input.compare(balls)) {
+		solve::balls(image);
+	} else if (!input.compare(boltsnuts)) {
+		solve::boltsnuts(image);
+	} else if (!input.compare(xray)) {
+		solve::xray(image);
+	}
+
+
+
+	/*
+	////////////////////////// Test gaussianFilter();
 	namedWindow("src", CV_WINDOW_NORMAL);
 	namedWindow("output", CV_WINDOW_NORMAL);
 	namedWindow("g1", CV_WINDOW_NORMAL);
@@ -50,6 +82,9 @@ int segmentedbit() {
 	imshow("g1", g1);
 
 	waitKey(0);
+	*/
+
+
 	/*
 	////////////////////////// Test medianFilter();
 	namedWindow("src", CV_WINDOW_NORMAL);

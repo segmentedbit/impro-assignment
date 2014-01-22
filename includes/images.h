@@ -58,4 +58,7 @@ void xray(const cv::Mat &input);
 void boltsnuts(const cv::Mat &input);
 }
 
+
+
+
 #endif /* IMAGES_H_ */
