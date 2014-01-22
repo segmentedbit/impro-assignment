@@ -46,7 +46,8 @@ cv::Mat enhanceConstrast(const cv::Mat &input, int left, int right, int mode);
 void displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType=DISPLAY_BOTH );
 
 /*
- *  Label a binary image
+ *  Label a binary image, returns an Matrix with a different
+ *  gray value for each object.
  */
 cv::Mat binaryLabel(const cv::Mat &input);
 

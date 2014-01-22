@@ -18,7 +18,7 @@ namespace solve {
  *  - gray level
  *  - x-derivative function   ++ - SKIZ
  */
-cv::Mat balloons(const cv::Mat &input);
+void balloons(const cv::Mat &input);
 
 /*
  * Solve the picture balls.png
@@ -28,7 +28,7 @@ cv::Mat balloons(const cv::Mat &input);
  *  - opening
  *  - labeling
  */
-cv::Mat balls(const cv::Mat &input);
+void balls(const cv::Mat &input);
 
 /*
  * Solve the cheese.png, count the holes in the cheese.
@@ -39,7 +39,7 @@ cv::Mat balls(const cv::Mat &input);
  * - closing
  * - substraction from original
  */
-cv::Mat cheese(const cv::Mat &input);
+void cheese(const cv::Mat &input);
 }
 
 #endif /* IMAGES_H_ */

@@ -6,9 +6,14 @@
  */
 
 #include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
 #include "includes/statistics.h"
+#include "includes/morphology.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "config.h"
+
 
 using namespace cv;
 using namespace std;
@@ -134,9 +139,44 @@ void im::displayPixels(const cv::Mat &input, bool Color, bool debug, const int d
 }
 
 Mat im::binaryLabel(const cv::Mat &input){
-	Mat output;
-	input.copyTo(output);
-	return output;
+
+	Mat temp;
+	input.copyTo(temp);
+	int count_value = 1;
+	int objCount = 0;
+	for (int i = 0; i < input.rows ; i++){
+		for (int j = 0; j < input.cols ; j++){
+			if (temp.at<uchar>(i,j) == 255){
+				Mat marker = Mat::zeros(input.rows, input.cols, CV_8UC1);
+				marker.at<uchar>(i,j) = 255;
+				Mat object = im::morphGeodesicDilate(marker, input);
+
+				for ( int x =0; x < object.rows; x++){
+					for (int y = 0; y < object.rows; y++){
+						if (object.at<uchar>(x,y) == 255 ){
+							temp.at<uchar>(x, y) = count_value;
+						}
+				}	}
+
+				count_value += 1;
+				objCount++;
+
+				if (config::DEBUG){
+					std::ostringstream count;
+					count << "object: " << objCount;
+					namedWindow(count.str(), CV_WINDOW_NORMAL);
+					imshow(count.str(), object);
+				}
+			}
+	} }
+
+	for (int i = 0; i < input.rows ; i++){
+		for (int j = 0; j < input.cols ; j++){
+			int pxl = temp.at<uchar>(i,j);
+			temp.at<uchar>(i,j) = (pxl * 255) / objCount;
+	}	}
+
+	return temp;
 }
 
 float im::maxFloatValue(const cv::Mat &input){

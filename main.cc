@@ -350,24 +350,17 @@ int ardillo(int argc, char** argv) {
 	string balls = "images/assignmentPictures/balls.png";
 	string cheese ="images/assignmentPictures/cheese.png";
 
-	///// checks if standard opencv method is applicable to image name
-
+	///// checks if standard picture method is applicable to image name
 
 	 if (!input.compare(balloons)) {
-		Mat balloons = solve::balloons(image);
-		namedWindow("OpenCV -- balloons", CV_WINDOW_NORMAL);
-		imshow("OpenCV -- balloons", balloons);
+		solve::balloons(image);
 	}
-	 if (!input.compare(cheese)) {
-		 Mat cheese = solve::cheese(image);
-		 namedWindow("Cheese", CV_WINDOW_NORMAL);
-		 imshow("Cheese", cheese);
+	 else if (!input.compare(cheese)) {
+		solve::cheese(image);
 	 }
-//	else if (!input.compare(balls)) {
-//		Mat balls = solve::balls(image);
-//		namedWindow("OpenCV -- balls", CV_WINDOW_NORMAL);
-//		imshow("OpenCV -- balls", balls);
-//	}
+	else if (!input.compare(balls)) {
+		solve::balls(image);
+	}
 
 	/////////////// EO BASIC OpenCV CODE
 	else{
@@ -379,6 +372,16 @@ int ardillo(int argc, char** argv) {
 	namedWindow(imageName, CV_WINDOW_NORMAL);
 	imshow(imageName, image);
 
+	Mat own_gray_image = im::grayscale(image);
+	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
+	imshow("own Gray_image", own_gray_image);
+
+	Mat threshold = im::threshold(own_gray_image, 200);
+
+	Mat label = im::binaryLabel(threshold);
+	namedWindow("label", CV_WINDOW_NORMAL);
+	imshow("label", label);
+	/*
 	Mat own_gray_image = im::grayscale(image);
 	namedWindow("own Gray_image", CV_WINDOW_NORMAL);
 	imshow("own Gray_image", own_gray_image);
@@ -407,6 +410,7 @@ int ardillo(int argc, char** argv) {
 	namedWindow("substract shading" , CV_WINDOW_NORMAL);
 	imshow("substract shading", deleteShading);
 
+	 */
 
 	/*
 

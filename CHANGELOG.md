@@ -132,3 +132,5 @@ Not tested rigorously yet, don't trust it with your life!
 
 ###22-01-214 Ardillo<br>
 started to segment the cheese.png image so that I can test a label function.<br>
+Labeling function is finished<br>
+Added deleteBorderObjects function.<br>

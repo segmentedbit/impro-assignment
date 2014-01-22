@@ -30,13 +30,6 @@ struct boundaryStruct {
 cv::Mat defaultElement();
 
 /*
- * Returns an isotropic gaussian kernel of parametrisized size. Calling the
- * function with size=5 with result in a 5x5 gaussian kernel, etc. Make sure
- * size is uneven. Also, this function returns a Mat object of type CV_32F1.
- */
-cv::Mat gaussianKernel(const int size, const int sigma=1);
-
-/*
  * Boundary returns a struct of type {int, int}, in which the first integer
  * denotes the amount of boundary pixels found and the second denotes the total
  * amount of pixels found in the object. Don't feed the algorithm more than one

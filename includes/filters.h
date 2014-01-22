@@ -19,6 +19,13 @@ namespace im {
 cv::Mat averageFilter(const cv::Mat &input, int width, int height, int pType);
 
 /*
+ * Returns an isotropic gaussian kernel of parametrisized size. Calling the
+ * function with size=5 with result in a 5x5 gaussian kernel, etc. Make sure
+ * size is uneven. Also, this function returns a Mat object of type CV_32F1.
+ */
+cv::Mat gaussianKernel(const int size, const int sigma=1);
+
+/*
  * As the name says.
  */
 cv::Mat medianFilter(const cv::Mat& input, const int rows, const int cols);
