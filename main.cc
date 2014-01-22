@@ -23,8 +23,8 @@ int main(int argc, char** argv) {
 
 	///////// So far starting up code /////////
 
-	returnValue = segmentedbit();
-	//returnValue = ardillo(argc, argv);
+	//returnValue = segmentedbit();
+	returnValue = ardillo(argc, argv);
 
  	return returnValue;
 }
@@ -53,7 +53,7 @@ int segmentedbit() {
 	} else if (!input.compare(cheese)) {
 		solve::cheese(image);
 	} else if (!input.compare(balls)) {
-		solve::balls2(image);
+		solve::balls(image);
 	} else if (!input.compare(boltsnuts)) {
 		solve::boltsnuts(image);
 	} else if (!input.compare(xray)) {
