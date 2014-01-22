@@ -208,6 +208,9 @@ void solve::road(const Mat &input){
 	imshow("road - thresholded 1", threshold);
 }
 
+void solve::xray(const Mat &input){
+
+}
 /*
 ////////////////// Segmented bit try/////////////////////////
 void solve::xray(const Mat &input){

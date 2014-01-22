@@ -13,7 +13,7 @@
 using namespace std;
 using namespace cv;
 
-int segmentedbit();
+//int segmentedbit();
 int ardillo(int argc, char** argv);
 
 typedef chrono::high_resolution_clock highc;
@@ -411,9 +411,9 @@ int ardillo(int argc, char** argv) {
 	else if (!input.compare(balls)) {
 		solve::balls(image);
 	}
-	else if (!input.compare(xray)) {
-		solve::xray(image);
-	}
+//	else if (!input.compare(xray)) {
+//		solve::xray(image);
+//	}
 	else if (!input.compare(boltsnuts)) {
 		solve::boltsnuts(image);
 	}
