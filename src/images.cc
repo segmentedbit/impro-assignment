@@ -36,7 +36,8 @@ void solve::balloons(const Mat &input){
 		*/
 
 	Mat output = im::filter(gray, kernel, divide_fact);
-	return output;
+	namedWindow("balloons", CV_WINDOW_NORMAL);
+	imshow("balloons", output);
 }
 
 void solve::balls(const Mat &input){
@@ -78,8 +79,6 @@ void solve::balls(const Mat &input){
 	Mat edges = im::addMatrix(xDer, yDer);
 	namedWindow("ballsEdges", CV_WINDOW_NORMAL);
 	imshow("ballsEdges", edges);
-
-	return edges;
 }
 
 void solve::cheese(const Mat &input){
