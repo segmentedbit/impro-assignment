@@ -43,7 +43,21 @@ void balls(const cv::Mat &input);
  */
 void cheese(const cv::Mat &input);
 
+/*
+ * Solve the boltsnuts.png, count the amount of bolts and the amount of nuts.
+ * it does:
+ * - segmentize the image to obtain background/objects
+ * - skeleton
+ * - eindes van skeleton
+ * - c bepalen van background -> vergelijken met c van openingen in moeren/ringen ++
+ */
 void boltsnuts(const cv::Mat &input);
+
+void xray(const cv::Mat &input);
+
 }
+
+
+
 
 #endif /* IMAGES_H_ */

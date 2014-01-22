@@ -137,6 +137,74 @@ void solve::cheese(const Mat &input){
 }
 
 void solve::boltsnuts(const Mat &input){
+	namedWindow("boltsnuts - gray", CV_WINDOW_NORMAL);
+	namedWindow("segmented", CV_WINDOW_NORMAL);
+	namedWindow("expandedBorder", CV_WINDOW_NORMAL);
+	namedWindow("openedCircles", CV_WINDOW_NORMAL);
+	namedWindow("perfect", CV_WINDOW_NORMAL);
 
+	Mat gray = im::grayscale(input);
+
+	Mat segmented = im::threshold(gray, 245 );
+	Mat expandedBorder = Mat::zeros(segmented.size(), CV_8UC1);
+	expandedBorder.row(0) = 255;
+	expandedBorder.col(0) = 255;
+	expandedBorder.row(segmented.rows-1) = 255;
+	expandedBorder.col(segmented.cols-1) = 255;
+	expandedBorder = im::morphGeodesicDilate(expandedBorder, segmented);
+
+	Mat circles = im::subtractMatrix(segmented, expandedBorder);
+
+	Mat openedCircles = im::morphErode(circles);
+	openedCircles = im::morphErode(openedCircles);
+	openedCircles = im::morphErode(openedCircles);
+	openedCircles = im::morphErode(openedCircles);
+
+
+	Mat perfect = im::morphGeodesicDilate(openedCircles, circles);
+	imshow("boltsnuts - gray", gray);
+	imshow("segmented", segmented);
+	imshow("expandedBorder", expandedBorder);
+	imshow("circles", circles);
+	imshow("openedCircles", openedCircles);
+	imshow("perfect", perfect);
+
+	waitKey(0);
+}
+
+void solve::xray(const Mat &input){
+	Mat gray = im::grayscale(input);
+
+	namedWindow("xray - gray", CV_WINDOW_NORMAL);
+	namedWindow("segmented", CV_WINDOW_NORMAL);
+	namedWindow("minMax", CV_WINDOW_NORMAL);
+	namedWindow("maxMin", CV_WINDOW_NORMAL);
+	namedWindow("powImg", CV_WINDOW_NORMAL);
+	namedWindow("stretch", CV_WINDOW_NORMAL);
+	namedWindow("gauss1", CV_WINDOW_NORMAL);
+
+	Mat segmented = im::threshold(gray, 70);
+	Mat gauss1 = im::gaussianFilter(gray, 9, 2);
+
+	Mat minMax = im::localMinimumOfMaximum(gauss1, 5, 5);
+	Mat maxMin = im::localMaximumOfMinimum(gauss1, 5, 5);
+	Mat powImg = maxMin.clone();
+
+	for (int y=0; y<powImg.rows; y++) {
+		for (int x=0; x<powImg.cols; x++) {
+			powImg.at<uchar>(y,x) = static_cast<int>(powImg.at<uchar>(y,x)/2) * static_cast<int>(powImg.at<uchar>(y,x)/2);
+		}
+	}
+
+	Mat stretch = im::equalize(gray);
+
+	imshow("xray - gray", gray);
+	imshow("segmented", segmented);
+	imshow("minMax", minMax);
+	imshow("maxMin", maxMin);
+	imshow("powImg", powImg);
+	imshow("stretch", stretch);
+	imshow("gauss1", gauss1);
+	waitKey(0);
 }
 

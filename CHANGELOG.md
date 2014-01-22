@@ -134,3 +134,6 @@ Not tested rigorously yet, don't trust it with your life!
 started to segment the cheese.png image so that I can test a label function.<br>
 Labeling function is finished<br>
 Added deleteBorderObjects function.<br>
+
+##22-01-2014 segmentedbit<br>
+Added gaussianFilter().<br>
