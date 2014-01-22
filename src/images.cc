@@ -175,7 +175,8 @@ void solve::boltsnuts(const Mat &input){
 	namedWindow("geocircles", CV_WINDOW_NORMAL);
 	imshow("geocircles", geocircles);
 
-	Mat skel = im::morphSkeleton(geocircles);
+	Mat skel;
+	im::normalizeLetter(geocircles, skel);
 	namedWindow("skeleton", CV_WINDOW_NORMAL);
 	imshow("skeleton", skel);
 
@@ -191,24 +192,53 @@ void solve::road(const Mat &input){
 	namedWindow("road - gray", CV_WINDOW_NORMAL);
 	imshow("road - gray", gray);
 
-	Mat eq = im::equalize(gray);
-	namedWindow("road - equalized", CV_WINDOW_NORMAL);
-	imshow("road - equalized", eq);
-
 	// smoothing
-	Mat smooth = im::medianFilter(gray, 3, 9);
+//	Mat smooth = im::medianFilter(eq, 3, 9);
+//	namedWindow("road - smooth", CV_WINDOW_NORMAL);
+//	imshow("road - smooth", smooth);
+
+	Mat smooth = im::gaussianFilter(gray, 25, 1);
 	namedWindow("road - smooth", CV_WINDOW_NORMAL);
 	imshow("road - smooth", smooth);
 
+	Mat quant = im::quantization(smooth, 8);
+	namedWindow("road - quantization", CV_WINDOW_NORMAL);
+	imshow("road - quantization", quant);
+
 	//histogram
-	Mat histogram = im::showHist(smooth);
-	namedWindow("road - histogram", CV_WINDOW_NORMAL);
-	imshow("road - histogram", histogram);
+	Mat histogram = im::showHist(quant);
+	namedWindow("road - histogram quant", CV_WINDOW_NORMAL);
+	imshow("road - histogram quant", histogram);
+
+	Mat eq = im::equalize(quant);
+	namedWindow("road - equalized", CV_WINDOW_NORMAL);
+	imshow("road - equalized", eq);
+
+	//histogram
+	Mat histogram2 = im::showHist(eq);
+	namedWindow("road - histogram eq-quant", CV_WINDOW_NORMAL);
+	imshow("road - histogram eq-quant", histogram2);
+
+//	Mat dilate = im::morphDilate(eq);
+//	namedWindow("road - dilate", CV_WINDOW_NORMAL);
+//	imshow("road - dilate", dilate);
 
 	//thresholding
-	Mat threshold = im::threshold(smooth, 90);
-	namedWindow("road - thresholded 1", CV_WINDOW_NORMAL);
-	imshow("road - thresholded 1", threshold);
+	Mat threshold = im::threshold(eq, 225);
+	namedWindow("road - thresholded", CV_WINDOW_NORMAL);
+	imshow("road - thresholded", threshold);
+
+	Mat skel;
+	im::normalizeLetter(threshold, skel);
+	namedWindow("skeleton", CV_WINDOW_NORMAL);
+	imshow("skeleton", skel);
+
+	//skel
+
+	//erode
+//	Mat erode = im::morphClose(threshold);
+//	namedWindow("road - erode", CV_WINDOW_NORMAL);
+//	imshow("road - erode", erode);
 }
 
 void solve::xray(const Mat &input){
