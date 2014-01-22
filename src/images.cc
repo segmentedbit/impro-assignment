@@ -116,6 +116,13 @@ void solve::balls2(const Mat &input){
 	namedWindow("maxMin", CV_WINDOW_NORMAL);
 	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
 	imshow("maxMin", maxMin);
+
+
+	namedWindow("dilated", CV_WINDOW_NORMAL);
+	Mat dilated = im::morphDilate(inverted);
+	dilated = im::morphDilate(dilated);
+	dilated = im::morphDilate(dilated);
+	imshow("dilated", dilated);
 }
 
 
@@ -307,7 +314,10 @@ void solve::road(const Mat &input){
 	namedWindow("skeleton", CV_WINDOW_NORMAL);
 	imshow("skeleton", skel);
 
-	//skel
+	//pruning
+	Mat pruned = im::prune(skel, 5);
+	namedWindow("pruned", CV_WINDOW_NORMAL);
+	imshow("pruned", pruned);
 
 	//erode
 //	Mat erode = im::morphClose(threshold);
