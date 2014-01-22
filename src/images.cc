@@ -40,7 +40,7 @@ void solve::balloons(const Mat &input){
 	imshow("balloons", output);
 }
 
-void solve::balls2(const Mat &input){
+void solve::balls(const Mat &input){
 
 	//gray value
 	namedWindow("balls - gray", CV_WINDOW_NORMAL);
@@ -101,9 +101,6 @@ void solve::balls2(const Mat &input){
 	Mat inverted = im::invertGray(average*255);
 	imshow("inverted", inverted); //TODO
 
-
-
-//	Mat element = Mat::ones(5,5, CV_8UC1);
 	Mat erode;
 	inverted.copyTo(erode);
 	for (int i =0; i< 15; i++){
@@ -125,78 +122,13 @@ void solve::balls2(const Mat &input){
 	namedWindow("dilate", CV_WINDOW_NORMAL);
 	imshow("dilate", dilate);
 
-
 	//label
 	Mat label = im::binaryLabel(dilate);
 	namedWindow("balls - label", CV_WINDOW_NORMAL);
 	imshow("balls - label", label);
 
-//	Mat erode = im::morphOpen(close);
-//	namedWindow("erode", CV_WINDOW_NORMAL);
-//	imshow("erode", erode);
-
-//	namedWindow("highpass", CV_WINDOW_NORMAL);
-//	Mat highpass = im::divideMatrix(gray, average);
-//	imshow("highpass", highpass);
-//
-//	namedWindow("lowContrast", CV_WINDOW_NORMAL);
-//	Mat lowContrast = im::divideMatrix(gray, stretch);
-//	imshow("lowContrast", lowContrast);
-//
-//	namedWindow("minMax", CV_WINDOW_NORMAL);
-//	Mat minMax = im::localMinimumOfMaximum(gray, 5, 5);
-//	imshow("minMax", minMax);
-//
-//	namedWindow("maxMin", CV_WINDOW_NORMAL);
-//	Mat maxMin = im::localMaximumOfMinimum(gray, 5, 5);
-//	imshow("maxMin", maxMin);
 }
 
-
-void solve::balls(const Mat &input){
-
-	Mat gray = im::grayscale(input);
-	namedWindow("balls - gray", CV_WINDOW_NORMAL);
-	imshow("balls - gray", gray);
-
-	// smoothing
-	Mat smooth = im::medianFilter(gray, 3, 9);
-	namedWindow("balls - smooth", CV_WINDOW_NORMAL);
-	imshow("balls - smooth", smooth);
-
-	//histogram
-	Mat histogram = im::showHist(smooth);
-	namedWindow("balls - histogram", CV_WINDOW_NORMAL);
-	imshow("balls - histogram", histogram);
-
-	//thresholding
-	Mat threshold = im::threshold(smooth, 90);
-	namedWindow("balls - thresholded 1", CV_WINDOW_NORMAL);
-	imshow("balls - thresholded 1", threshold);
-
-	//erode
-	Mat erode;
-	threshold.copyTo(erode);
-	for (int i =0; i<25;i++){
-		erode = im::morphErode(erode);
-	}
-	namedWindow("balls - eroded", CV_WINDOW_NORMAL);
-	imshow("balls - eroded", erode);
-
-	//dilate a couple times
-	Mat dilate;
-	erode.copyTo(dilate);
-	for (int i =0; i<25;i++){
-		dilate = im::morphDilate(dilate);
-	}
-	namedWindow("balls - dilated", CV_WINDOW_NORMAL);
-	imshow("balls - dilated", dilate);
-
-	//label
-	Mat label = im::binaryLabel(dilate);
-	namedWindow("balls - label", CV_WINDOW_NORMAL);
-	imshow("balls - label", label);
-}
 
 void solve::cheese(const Mat &input){
 
@@ -340,9 +272,17 @@ void solve::road(const Mat &input){
 	namedWindow("road - dilate", CV_WINDOW_NORMAL);
 	imshow("road - dilate", dilate);
 
-	Mat labeled = im::binaryLabel(dilate);
-	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
-	imshow("labeledCircles", labeled);
+	Mat closing;
+	dilate.copyTo(closing);
+	for(int i =0; i < 30; i++){
+		closing = im::morphClose(closing);
+	}
+	namedWindow("road - closing", CV_WINDOW_NORMAL);
+	imshow("road - closing", closing);
+
+//	Mat labeled = im::binaryLabel(dilate);
+//	namedWindow("labeledCircles", CV_WINDOW_NORMAL);
+//	imshow("labeledCircles", labeled);
 
 //	Mat skel;
 //	im::normalizeLetter(threshold, skel);
