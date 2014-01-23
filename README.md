@@ -29,8 +29,8 @@ Using the Mat class causes quite some overhead because OpenCV offers a lot more 
 
 - testing images
 
--- [imagesPractical1]
---- images from practical1
+- - [imagesPractical1]
+- - - images from practical1
 
--- [assignmentPictures]
---- pictures for the actual program
+- - [assignmentPictures]
+- - - pictures for the actual program

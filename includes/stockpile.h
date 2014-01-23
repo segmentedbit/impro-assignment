@@ -21,15 +21,16 @@ const int PREPLICATE = 2;
 
 const int UNEVEN = 1;
 
-/* Inverses an image. Should be able to handle both grey scale and binary
- * images.
+/*
+ * NOTE
+ * ====
  * The namespace 'cv' is written explicitly instead of writing 'using namespace cv'
  * on top of the file. If we set 'using namespace cv' the setting would
  * propagate through to the calling file which could lead to unexpected results.
  * Furthermore, the input is passed by reference and defined as const, because
  * it won't be modified.
  */
-//TODO cv::Mat invert(const cv::Mat &input);
+
 
 /* Segments an image into pixelvalues of either 1 or 0. The pixels of value
  * <threshold> and higher are convertedto 1, values below are converted to zero.
@@ -45,6 +46,7 @@ cv::Mat threshold(const cv::Mat &input, int threshold);
 
 /*
  * Inverts a Gray-scale image, also known as a negative image.
+ * Is able to handle both grey scale and binary images.
  */
 cv::Mat invertGray(const cv::Mat &input);
 
@@ -111,17 +113,17 @@ cv::Mat matFloatToUchar(const cv::Mat &input);
 cv::Mat deleteBorderObjects(const cv::Mat &input);
 
 /*
- * Get time in nano seconds
- * TODO DO NOT USE THIS
+ * Checks if kernel has an odd height and width in order
+ * to have a absolute middle pixel
  */
-long int getTime();
-
 int validateKernel(const cv::Mat &kernel, int flags);
 
+/*
+ * Old functions, here for debugging purposes only,
+ * working not guaranteed
+ */
 cv::Mat addMatrixOld(const cv::Mat &original, const cv::Mat &input);
 cv::Mat subtractMatrixOld(const cv::Mat &original, const cv::Mat &input);
-
-
 
 }
 #endif /* STOCKPILE_H_ */

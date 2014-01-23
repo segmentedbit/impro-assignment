@@ -137,3 +137,11 @@ Added deleteBorderObjects function.<br>
 
 ##22-01-2014 segmentedbit<br>
 Added gaussianFilter().<br>
+
+###23-01-2014 Ardillo<br>
+Mde some standard image solutions.<br>
+Cleaned a lot of code. <br>
+Cleaned all TODO comments, only a coule left.<br>
+After cleaning main.cc, I put the left code in notepad.md<br>
+Tested the available images<br>
+Almost ready....pffff<br>

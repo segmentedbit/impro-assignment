@@ -283,13 +283,6 @@ Mat im::matFloatToUchar(const cv::Mat &input) {
 	return output;
 }
 
-long int im::getTime() {
-	struct timespec get_time;
-	clock_gettime(CLOCK_REALTIME, &get_time);
-	long int time = get_time.tv_nsec;
-	return time;
-}
-
 Mat im::deleteBorderObjects(const cv::Mat &input){
 	int borderpixelValue = input.at<uchar>(0,0);
 	Mat temp;

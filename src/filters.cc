@@ -6,7 +6,7 @@
  */
 
 #include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"	// TODO only for debugging
+#include "opencv2/highgui/highgui.hpp"
 #include "includes/filters.h"
 #include "includes/stockpile.h"
 #include "includes/statistics.h"
@@ -68,7 +68,6 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 	}
 	return output;
 }
-
 
 Mat im::medianFilter(const Mat& input, const int rows, const int cols) {
 	Mat output = Mat::zeros(input.size(), CV_8UC1);
@@ -133,7 +132,11 @@ Mat im::gaussianFilter(const Mat& input, const int size, const int sigma) {
 
 Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor) {
 
-	// TODO kernel check
+	int status = validateKernel(kernel, im::UNEVEN);
+	if (status != 0) {
+		cerr << "im::filter kernel element does not validate" << endl;
+		exit(1);
+	}
 	int pWidth = round(kernel.cols/2);
 	int pHeight = round(kernel.rows/2);
 
@@ -146,8 +149,7 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_f
 	if (config::DEBUG) {
 		cout << "kernel: " << endl << kernel << endl << endl;
 		cout << "matrix with padding: " << endl << temp_float << endl << endl;
-		//namedWindow("DEBUG - temp", CV_WINDOW_NORMAL);
-		//imshow("DEBUG - temp", temp_float);
+
 	}
 
 	/*
@@ -377,8 +379,10 @@ Mat im::localMaximumOfMinimum(const cv::Mat &input, const int window_width, cons
 	return maxOfMin;
 }
 
-// Look here for explanation on the 2D isotropic gaussian formula
-// http://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm
+/*
+ *  Look here for explanation on the 2D isotropic gaussian formula
+ *   http://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm
+ */
 Mat im::gaussianKernel(const int size, const int sigma) {
 	if (size % 2 == 0) { // size is even
 		cerr << "gaussianKernel: Structuring element does not validate" << endl;

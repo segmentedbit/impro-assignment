@@ -70,8 +70,4 @@ float minFloatValue(const cv::Mat &input);
 
 }
 
-int maxValue(const cv::Mat &input);
-
-int minValue(const cv::Mat &input);
-
 #endif /* STATISTICS_H_ */
