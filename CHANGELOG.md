@@ -135,13 +135,13 @@ started to segment the cheese.png image so that I can test a label function.<br>
 Labeling function is finished<br>
 Added deleteBorderObjects function.<br>
 
-##22-01-2014 segmentedbit<br>
+###22-01-2014 segmentedbit<br>
 Added gaussianFilter().<br>
 
 ###23-01-2014 Ardillo<br>
-Mde some standard image solutions.<br>
+Made some standard image solutions.<br>
 Cleaned a lot of code. <br>
-Cleaned all TODO comments, only a coule left.<br>
+Cleaned all TODO comments, only a couple left.<br>
 After cleaning main.cc, I put the left code in notepad.md<br>
-Tested the available images<br>
+Tested the available images, and the all worked<br>
 Almost ready....pffff<br>
