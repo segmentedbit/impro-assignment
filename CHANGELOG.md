@@ -148,7 +148,8 @@ Almost ready....pffff<br>
 
 ###24-01-2014 segmentedbit<br>
 Got the code windows-ready, will hopefully compile right away.
-To do this, introduced the im::round (yes! apparently that's not in the
+To do this, introduced the im::round (yes! apparently that's not in the C++
 standard), and made the program accept a second cli parameter because the paths
 in windows are obviously different from those in linux. The extra parameter
-will denote the procedure.
+will denote the procedure.<br>
+Cleaned the hell out of the code. Hopefully I didn't put it back somewhere :)
