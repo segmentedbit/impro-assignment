@@ -106,7 +106,7 @@ cv::Mat prune(const cv::Mat &input, int nTimes=-1);
  * parametarising it with E_GOLAY.
  *
  */
-std::vector<std::vector<cv::Mat>> createGolay(const int type=L_GOLAY);
+std::vector< std::vector<cv::Mat> > createGolay(const int type=L_GOLAY);
 void normalizeLetter(cv::Mat & inputarray, cv::Mat & outputarray);
 void thinning(cv::Mat& im);
 void thinningGuoHall(cv::Mat& im);

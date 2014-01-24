@@ -13,6 +13,7 @@
 #include <vector>
 #include <iostream>
 #include "config.h"
+#include "extra.h"
 
 using namespace std;
 using namespace cv;
@@ -33,8 +34,8 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 	Mat output(input.rows, input.cols, CV_8UC1);
 
 	int kPixels = kWidth * kHeight;
-	int hPadding = round(kWidth/2);
-	int vPadding = round(kHeight/2);
+	int hPadding = kWidth/2;
+	int vPadding = kHeight/2;
 	if (config::DEBUG) {
 		cout << "averageFilter debug information:" << endl <<
 				"\tkWidth: " << kWidth << endl <<
@@ -57,7 +58,7 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 				}
 			}
 			//  calculate the final result
-			output.at<uchar>(i,j) = round(static_cast<float>(middlePixel) / kPixels);
+			output.at<uchar>(i,j) = im::round(static_cast<float>(middlePixel) / kPixels);
 
 		}
 	}
@@ -134,8 +135,8 @@ Mat im::gaussianFilter(const Mat& input, const int size, const int sigma) {
 Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor) {
 
 	// TODO kernel check
-	int pWidth = round(kernel.cols/2);
-	int pHeight = round(kernel.rows/2);
+	int pWidth = kernel.cols/2;
+	int pHeight = kernel.rows/2;
 
 	Mat temp;
 
@@ -260,8 +261,8 @@ Mat im::localMinimumOfMaximum(const cv::Mat &input, const int window_width, cons
 		exit(1);
 	}
 
-	int pWidth = round(window_width/2);
-	int pHeight = round(window_height/2);
+	int pWidth = window_width/2;
+	int pHeight = window_height/2;
 
     Mat temp = im::copyWithPadding(input, pHeight, pWidth, PREPLICATE);
 	Mat max(input.rows, input.cols, CV_8UC1);
@@ -325,8 +326,8 @@ Mat im::localMaximumOfMinimum(const cv::Mat &input, const int window_width, cons
 		exit(1);
 	}
 
-	int pWidth = round(window_width/2);
-	int pHeight = round(window_height/2);
+	int pWidth = window_width/2;
+	int pHeight = window_height/2;
 
     Mat temp = im::copyWithPadding(input, pHeight, pWidth, PREPLICATE);
 	Mat min(input.rows, input.cols, CV_8UC1);

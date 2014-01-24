@@ -10,7 +10,7 @@
 #include <iostream>
 #include "includes/stockpile.h"
 #include "config.h"
-
+#include "extra.h"
 
 using namespace std;
 using namespace cv;

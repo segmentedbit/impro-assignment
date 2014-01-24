@@ -65,8 +65,8 @@ struct im::boundaryStruct im::boundary(const Mat& input, Mat& output, const int 
 	//}
 	output = Mat::zeros(input.size(), CV_8UC1);
 
-	uint perimeterLength = 0;
-	uint objectPixels = 0;
+	unsigned int perimeterLength = 0;
+	unsigned int objectPixels = 0;
 	vector<Mat> elements = createUElements();
 	Mat temp = im::copyWithPadding(input, 1, 1, im::PWHITE);
 	bool isBoundary = false;
@@ -443,7 +443,7 @@ Mat im::morphSkeleton(const Mat &input, int nTimes) {
 
 
 
-vector<vector<Mat>> im::createGolay(const int type) {
+vector< vector<Mat> > im::createGolay(const int type) {
 	vector< vector<Mat> > golay(8, vector<Mat>(2));
 
 	// Create the 8 3x3 Mat elements

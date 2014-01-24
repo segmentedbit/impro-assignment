@@ -284,9 +284,9 @@ void solve::road(const Mat &input){
 	namedWindow("road - Geo dilate", CV_WINDOW_NORMAL);
 	imshow("road - Geo dilate", geoDil);
 
-//	Mat labeled = im::binaryLabel(geoDil);
-//	namedWindow("road - label", CV_WINDOW_NORMAL);
-//	imshow("road - label", labeled);
+	Mat labeled = im::binaryLabel(geoDil);
+	namedWindow("road - label", CV_WINDOW_NORMAL);
+	imshow("road - label", labeled);
 
 }
 

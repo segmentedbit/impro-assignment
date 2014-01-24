@@ -13,7 +13,7 @@
 #include <string>
 #include <sstream>
 #include "config.h"
-
+#include "extra.h"
 
 using namespace cv;
 using namespace std;
@@ -21,7 +21,7 @@ using namespace std;
 Mat im::showHist(const cv::Mat &input) {
 	Mat histogram = Mat::zeros(256, 256, CV_8UC3);
 	int bins[256] = {};
-	int max =0 ;
+	int max = 0;
 	/* loop every value and increment the associating bin & keep count of the maximum. */
 	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){
@@ -42,7 +42,7 @@ Mat im::showHist(const cv::Mat &input) {
 
 	/* divide every bin-value so it will fit in the hist. matrix */
 	for (int i = 0; i < 256; i++){
-		int bin_value = round( (bins[i]*255 / max));
+		int bin_value = im::round((bins[i]*255.0) / max);
 		for (int j = (histogram.rows-1); j >=(histogram.rows-1) - bin_value; j--) {
 			histogram.at<Vec3b>(j, i)[1] = 255;
 	}	}
@@ -75,7 +75,7 @@ Mat im::equalize(const cv::Mat &input) {
 	int cummulative = 0;
 	for (int x = 0; x < 256; x++){
 		cummulative += bins[x];
-		remapper[x] = round(cummulative / alpha) - 1;
+		remapper[x] = im::round(static_cast<float>(cummulative) / alpha) - 1;
 		if (remapper[x] < 0){
 			remapper[x] = 0;
 		}
@@ -180,8 +180,8 @@ Mat im::binaryLabel(const cv::Mat &input){
 }
 
 float im::maxFloatValue(const cv::Mat &input){
-	float max;
-	float value;
+	float max = 0;
+	float value = 0;
 
 	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){
@@ -194,8 +194,8 @@ float im::maxFloatValue(const cv::Mat &input){
 }
 
 float im::minFloatValue(const cv::Mat &input) {
-	float min;
-	float value;
+	float min = 0;
+	float value = 0;
 
 	for (int i = 0; i < input.rows; i++){
 		for (int j = 0; j < input.cols; j++){

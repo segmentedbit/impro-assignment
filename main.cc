@@ -51,23 +51,23 @@ int segmentedbit() {
 	///// checks if standard picture method is applicable to image name
 
 	 if (!input.compare(balloons)) {
-			solve::balloons(image);
-		}
-		 else if (!input.compare(cheese)) {
-			solve::cheese(image);
-		 }
-		else if (!input.compare(balls)) {
-			solve::balls2(image);
-		}
-		else if (!input.compare(xray)) {
-			solve::xray(image);
-		}
-		else if (!input.compare(boltsnuts)) {
-			solve::boltsnuts(image);
-		}
-		else if(!input.compare(road)) {
-			solve::road(image);
-		}
+		 solve::balloons(image);
+	 }
+	 else if (!input.compare(cheese)) {
+		 solve::cheese(image);
+	 }
+	 else if (!input.compare(balls)) {
+		 solve::balls(image);
+	 }
+	 else if (!input.compare(xray)) {
+		 solve::xray(image);
+	 }
+	 else if (!input.compare(boltsnuts)) {
+		 solve::boltsnuts(image);
+	 }
+	 else if(!input.compare(road)) {
+		 solve::road(image);
+	 }
 
 
 	waitKey(0);
