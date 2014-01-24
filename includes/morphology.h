@@ -2,23 +2,19 @@
  * morphology.h
  *
  *  Created on: Jan 10, 2014
- *      Author: segmentedbit
+ *      Author: segmentedbit & Ardillo
  */
 
 #ifndef MORPHOLOGY_H_
 #define MORPHOLOGY_H_
 
-#include "opencv2/imgproc/imgproc.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
 
 namespace im {
 
-const int E_GOLAY = 0;
-const int L_GOLAY = 1;
-const int E_GOLAY2 = 2;
+const int L_GOLAY = 0;
+const int PRUNING_GOLAY = 1;
 
-// boundary() flags: only straight connections or also diagonal
-const int ALLDIRECTIONS = 0;
-const int STRAIGHT = 1;
 struct boundaryStruct {
 	int perimiterLength;
 	int objectPixels;
@@ -38,7 +34,7 @@ cv::Mat defaultElement();
  * Pass either ALLDIRECTIONS or STRAIGHT to determine the direction of boundary
  * matching.
  */
-boundaryStruct boundary(const cv::Mat& input, cv::Mat& output, const int direction=STRAIGHT);
+boundaryStruct boundary(const cv::Mat& input, cv::Mat& output);
 
 /*
  * Dilation function. Takes an optional Mat &kernel parameter, which can be of
@@ -82,15 +78,6 @@ cv::Mat morphClose(const cv::Mat &input,
 cv::Mat morphGeodesicDilate(const cv::Mat &input, const cv::Mat &control, int nTimes=-1);
 
 /*
- * Geodesic erosion. Takes two Mat images: the to-be-eroded image and the
- * control image. The function keeps eroding and comparing the target image
- * with the control image, unless an optional nTime parameter is supplied,
- * which will be the maximum amount of loops to be run. The default structuring
- * element is a 3x3 "+" shaped element.
- */
-cv::Mat morphGeodesicErode(const cv::Mat &input, const cv::Mat &control, const cv::Mat &element, int nTimes=-1);
-
-/*
  * Finds the skeleton of a given image.
  */
 cv::Mat morphSkeleton(const cv::Mat &input, int nTimes=-1);
@@ -102,14 +89,17 @@ cv::Mat prune(const cv::Mat &input, int nTimes=-1);
 
 /*
  * Creates a 2-dimensional Mat vector containing a golay alphabet. Returns
- * the L alphabet as a default, but can also return an e golay, by
- * parametarising it with E_GOLAY.
- *
+ * the L alphabet as a default, but can also return a pruning golay, by
+ * parametarising it with PRUNING_GOLAY.
  */
 std::vector< std::vector<cv::Mat> > createGolay(const int type=L_GOLAY);
+
+/*
+ * A skeleton function taken from the internet:
+ * http://answers.opencv.org/question/3207/what-is-a-good-thinning-algorithm-for-getting-the/
+ * The probable author goes by the name of ZachTM on the opencv answers website.
+ */
 void normalizeLetter(cv::Mat & inputarray, cv::Mat & outputarray);
-void thinning(cv::Mat& im);
-void thinningGuoHall(cv::Mat& im);
 
 
 } // end namespace im

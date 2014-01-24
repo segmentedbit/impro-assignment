@@ -8,7 +8,7 @@
 #ifndef IMAGES_H_
 #define IMAGES_H_
 
-#include "opencv2/imgproc/imgproc.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
 
 namespace solve {
 
@@ -17,6 +17,7 @@ namespace solve {
  * It does:
  *  - gray level
  *  - x-derivative function   ++ - SKIZ
+ *  TODO not working yet
  */
 void balloons(const cv::Mat &input);
 
@@ -47,9 +48,15 @@ void balls(const cv::Mat &input);
 void cheese(const cv::Mat &input);
 
 /*
- * Solve the xray.png search for steel objects in the image.
+ * Solve the xray.png search for steel objects within the person centered in the image.
  * it does:
- * TODO
+ * - to gray scale
+ * - inverse of thresholding
+ * - inverse of gray scale image
+ * - geoDesicDilate from background
+ * - subtract geoDesicDilate output from inverse thresholded image
+ * - threshold of above, for silhoutte determination and detection
+ * - labelling
  */
 void xray(const cv::Mat &input);
 
@@ -61,7 +68,17 @@ void xray(const cv::Mat &input);
 void boltsnuts(const cv::Mat &input);
 
 /*
- *
+ * Solve road.png, detect highway in picture
+ * it does:
+ * - to gray scale
+ * - gaussian filter
+ * - quantization with 8 levels
+ * - histogram
+ * - histogram equalize
+ * - histogram to determine differences
+ * - thresholding
+ * - dilation 3x
+ * - geoDesicDilate
  */
 void road(const cv::Mat &input);
 }

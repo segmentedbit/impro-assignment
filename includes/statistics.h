@@ -2,13 +2,13 @@
  * statistics.h
  *
  *  Created on: Dec 11, 2013
- *      Author: segmented bit / Ardillo
+ *      Author: segmentedbit & Ardillo
  */
 
 #ifndef STATISTICS_H_
 #define STATISTICS_H_
 
-#include "opencv2/imgproc/imgproc.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
 
 // Our own namespace to be sure that our names don't cause conflicts.
 namespace im {
@@ -19,21 +19,20 @@ const int DISPLAY_BOTH = 2;
 
 const int INCREASE = 1, DECREASE = 0;
 
-/* Shows histogram of given input image. Uses a plain Mat image to display the
+/*
+ * Shows histogram of given input image. Uses a plain Mat image to display the
  * height of all the bins.
- * The debug boolean  prints the found bin values in the console followed by the found
- * maximum bin value.
  */
 cv::Mat showHist(const cv::Mat &input );
 
-/* Equalizes the given input image
- *
+/*
+ * Equalizes the given input image
  */
 cv::Mat equalize(const cv::Mat &input);
 
-/* Enhances contrast on given interval. Intervals are interpreted as
- * [left, right). Mode can be either INCREASE or DECREASE, which are const ints
- * defined to be 1 or 0, respectively.
+/*
+ * Enhances contrast on given interval. Intervals are interpreted as
+ * [left, right). Mode can be either INCREASE or DECREASE.
  */
 cv::Mat enhanceConstrast(const cv::Mat &input, int left, int right, int mode);
 
@@ -43,10 +42,10 @@ cv::Mat enhanceConstrast(const cv::Mat &input, int left, int right, int mode);
  *  DISPLAY_MATRIX and DISPLAY_LIST; which only print the matrix form or list
  *  form, respectively.
  */
-void displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType=DISPLAY_BOTH );
+void displayPixels(const cv::Mat &input, bool Color, bool debug, const int dType=DISPLAY_BOTH);
 
 /*
- *  Label a binary image, returns an Matrix with a different
+ *  Labels a binary image, returns an Matrix with a different
  *  gray value for each object.
  */
 cv::Mat binaryLabel(const cv::Mat &input);
@@ -69,9 +68,5 @@ float minFloatValue(const cv::Mat &input);
 
 
 }
-
-int maxValue(const cv::Mat &input);
-
-int minValue(const cv::Mat &input);
 
 #endif /* STATISTICS_H_ */

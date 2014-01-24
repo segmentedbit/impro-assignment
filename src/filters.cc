@@ -2,16 +2,16 @@
  * filters.cc
  *
  *  Created on: Dec 29, 2013
- *      Author: ardillo
+ *      Author: Ardillo & segmentedbit
  */
 
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"	// TODO only for debugging
+#include <vector>
+#include <iostream>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include "includes/filters.h"
 #include "includes/stockpile.h"
 #include "includes/statistics.h"
-#include <vector>
-#include <iostream>
 #include "config.h"
 #include "extra.h"
 
@@ -62,14 +62,9 @@ Mat im::averageFilter(const cv::Mat &input, int kWidth, int kHeight, const int p
 
 		}
 	}
-	if (config::DEBUG) {
-		namedWindow("Debug: averageFilter return image", CV_WINDOW_NORMAL);
-		imshow("Debug: averageFilter return image",output);
-		waitKey(0);
-	}
+
 	return output;
 }
-
 
 Mat im::medianFilter(const Mat& input, const int rows, const int cols) {
 	Mat output = Mat::zeros(input.size(), CV_8UC1);
@@ -133,8 +128,11 @@ Mat im::gaussianFilter(const Mat& input, const int size, const int sigma) {
 }
 
 Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_factor) {
-
-	// TODO kernel check
+	int status = validateKernel(kernel, im::UNEVEN);
+	if (status != 0) {
+		cerr << "im::filter kernel element does not validate" << endl;
+		exit(1);
+	}
 	int pWidth = kernel.cols/2;
 	int pHeight = kernel.rows/2;
 
@@ -147,8 +145,6 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_f
 	if (config::DEBUG) {
 		cout << "kernel: " << endl << kernel << endl << endl;
 		cout << "matrix with padding: " << endl << temp_float << endl << endl;
-		//namedWindow("DEBUG - temp", CV_WINDOW_NORMAL);
-		//imshow("DEBUG - temp", temp_float);
 	}
 
 	/*
@@ -166,7 +162,6 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_f
 			temp.at<float>(i,j) = middlePixel/divide_factor;
 	} }
 
-
 	Mat output_uchar(input.rows, input.cols, CV_8UC1);
 	output_uchar = im::matFloatToUchar(temp);
 	if(config::DEBUG){
@@ -177,8 +172,16 @@ Mat im::filter(const cv::Mat &input, const cv::Mat &kernel, const float divide_f
 	return output_uchar;
 }
 
+/*
+ * Converts an image to floating point notation.
+ * Then searches the max and min value of the image, using this info it
+ * will calculate the pixel delta and divide them into equal spaces.
+ * It then loops over the floating point matrix and gives a pixel the corresponding
+ * middle space value of the space it belongs to.
+ * After that it converts the floating point matrix back to uchar matrix, which acts as
+ * the output image.
+ */
 Mat im::quantization(const cv::Mat &input, const int levels){
-
 	Mat floatingInput = im::matUcharToFloat(input);
 	float max = im::maxFloatValue(floatingInput);
 	max += 0.000001;
@@ -249,7 +252,6 @@ Mat im::quantization(const cv::Mat &input, const int levels){
 }
 
 Mat im::localMinimumOfMaximum(const cv::Mat &input, const int window_width, const int window_height){
-
 	// Check parameter values
 	if (window_width < 0 || window_height < 0) {
 		cerr << "localMinOfMax: input parameter window_width or window_height is  negative)" << endl;
@@ -314,7 +316,6 @@ Mat im::localMinimumOfMaximum(const cv::Mat &input, const int window_width, cons
 }
 
 Mat im::localMaximumOfMinimum(const cv::Mat &input, const int window_width, const int window_height){
-
 	// Check parameter values
 	if (window_width < 0 || window_height < 0) {
 		cerr << "localMaxOfMin: input parameter window_width or window_height is negative)" << endl;
@@ -378,8 +379,10 @@ Mat im::localMaximumOfMinimum(const cv::Mat &input, const int window_width, cons
 	return maxOfMin;
 }
 
-// Look here for explanation on the 2D isotropic gaussian formula
-// http://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm
+/*
+ *  Look here for explanation on the 2D isotropic gaussian formula
+ *   http://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm
+ */
 Mat im::gaussianKernel(const int size, const int sigma) {
 	if (size % 2 == 0) { // size is even
 		cerr << "gaussianKernel: Structuring element does not validate" << endl;

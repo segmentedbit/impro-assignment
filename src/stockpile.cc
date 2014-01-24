@@ -5,9 +5,9 @@
  *      Author: fenrir / Ardillo
  */
 
-#include "opencv2/imgproc/imgproc.hpp"
 #include <vector>
 #include <iostream>
+#include <opencv2/imgproc/imgproc.hpp>
 #include "includes/stockpile.h"
 #include "config.h"
 #include "extra.h"
@@ -30,7 +30,6 @@ Mat im::segmentize(const Mat &input, int threshold) {
 	}
 	return output;
 }
-
 
 Mat im::threshold(const cv::Mat &input, int threshold) {
 	Mat binary;
@@ -148,7 +147,6 @@ Mat im::divideMatrix(const cv::Mat &first, const cv::Mat &second) {
 	return outcome;
 }
 
-// Needs work on the PHREPLICATE option; corners are not yet handled.
 Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadding, const int pType) {
 	int oWidth = original.size().width;
 	int oHeight = original.size().height;
@@ -206,7 +204,6 @@ Mat im::copyWithPadding(const Mat &original, const int hPadding, const int vPadd
 				for (int i=oWidth+vPadding; i<oHeight+2*vPadding; i++) {
 					output.row(i) = original.row(oHeight-1);
 				}
-				//TODO corners
 				break;
 			default: ;
 
@@ -228,7 +225,6 @@ int im::validateKernel(const Mat &kernel, const int flags) {
 	int status = 0;
 
 	// Check if kernel width and height are uneven
-
 	if(flags & im::UNEVEN) {
 		if (!(kernel.rows % 2 == 1 && kernel.cols % 2 == 1)){
 			if (config::DEBUG)
@@ -256,8 +252,7 @@ bool im::equal(const Mat &first, const Mat &second) {
 }
 
 Mat im::matUcharToFloat(const cv::Mat &input) {
-	// code below is necessary,  converting does not have influence
-	// pixel values
+	// code below is necessary, converting does not influence pixel values
 	Mat output = input;
 	output.convertTo(output, CV_32FC1);
 	for ( int i = 0; i < (output.rows); i++) {
@@ -281,13 +276,6 @@ Mat im::matFloatToUchar(const cv::Mat &input) {
 			output.at<uchar>(i,j) = value;
 	}	}
 	return output;
-}
-
-long int im::getTime() {
-	struct timespec get_time;
-	clock_gettime(CLOCK_REALTIME, &get_time);
-	long int time = get_time.tv_nsec;
-	return time;
 }
 
 Mat im::deleteBorderObjects(const cv::Mat &input){

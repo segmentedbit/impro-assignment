@@ -2,15 +2,13 @@
  * stockpile.h
  *
  *  Created on: Dec 11, 2013
- *      Author: segmented bit / Ardillo
+ *      Author: segmentedbit & Ardillo
  */
 
 #ifndef STOCKPILE_H_
 #define STOCKPILE_H_
 
-#include "opencv2/imgproc/imgproc.hpp"
-#include <ctime> // for timing code snippets
-
+#include <opencv2/imgproc/imgproc.hpp>
 
 // Our own namespace to be sure that our names don't cause conflicts.
 namespace im {
@@ -21,41 +19,39 @@ const int PREPLICATE = 2;
 
 const int UNEVEN = 1;
 
-/* Inverses an image. Should be able to handle both grey scale and binary
- * images.
+/* NOTE
+ * ====
  * The namespace 'cv' is written explicitly instead of writing 'using namespace cv'
  * on top of the file. If we set 'using namespace cv' the setting would
  * propagate through to the calling file which could lead to unexpected results.
- * Furthermore, the input is passed by reference and defined as const, because
+ * Furthermore, the input is passed by reference and defined as const, so
  * it won't be modified.
  */
-//TODO cv::Mat invert(const cv::Mat &input);
 
-/* Segments an image into pixelvalues of either 1 or 0. The pixels of value
+
+/*
+ * Segments an image into pixelvalues of either 1 or 0. The pixels of value
  * <threshold> and higher are convertedto 1, values below are converted to zero.
  */
 cv::Mat segmentize(const cv::Mat &input, int threshold);
 
-/* Thresholds an image. The pixels of value <threshold> and higher are converted
- * to 1, values below are converted to zero, as by convention (is this true?)
- * Ardillo: changed it in 0 or 255 instead of 1, this is easier to use with the 'Mat'
- * type. Mat doesn't except binary images with only two values.
+/*
+ * Thresholds an image. The pixels of value <threshold> and higher are converted
+ * to 255, values below are converted to zero.
  */
 cv::Mat threshold(const cv::Mat &input, int threshold);
 
 /*
  * Inverts a Gray-scale image, also known as a negative image.
+ * Is able to handle both grey scale and binary images.
  */
 cv::Mat invertGray(const cv::Mat &input);
 
-/* Converts a color image to a greyscale image.
+/*
+ * Converts a color image to a greyscale image.
  * This sums up the different color channels and divide it by three
  * This has a deviation of exactly 1, so apparently opencv does
  * something different with their ToGrayScale operand.
- * Has some other strange artifact, try to run program with checkerColor13_0_37.png?
- *
- * <note>
- * Problem fixed, is some ISO standard CIE1931 color spectrum thing see Changelog.md
  */
 cv::Mat grayscale(const cv::Mat &input);
 
@@ -111,17 +107,10 @@ cv::Mat matFloatToUchar(const cv::Mat &input);
 cv::Mat deleteBorderObjects(const cv::Mat &input);
 
 /*
- * Get time in nano seconds
- * TODO DO NOT USE THIS
+ * Checks if kernel has an odd height and width in order
+ * to have a absolute middle pixel
  */
-long int getTime();
-
 int validateKernel(const cv::Mat &kernel, int flags);
-
-cv::Mat addMatrixOld(const cv::Mat &original, const cv::Mat &input);
-cv::Mat subtractMatrixOld(const cv::Mat &original, const cv::Mat &input);
-
-
 
 }
 #endif /* STOCKPILE_H_ */

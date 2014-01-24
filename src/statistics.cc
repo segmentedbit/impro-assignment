@@ -2,16 +2,16 @@
  * statistics.cc
  *
  *  Created on: Dec 11, 2013
- *      Author: segmented bit / Ardillo
+ *      Author: segmentedbit & Ardillo
  */
 
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "includes/statistics.h"
-#include "includes/morphology.h"
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include "includes/statistics.h"
+#include "includes/morphology.h"
 #include "config.h"
 #include "extra.h"
 
@@ -221,29 +221,43 @@ Mat im::binaryLabelCircle(const cv::Mat &input){
 				marker.at<uchar>(i,j) = 255;
 				Mat object = im::morphGeodesicDilate(marker, input);
 
+				Mat unused;
+				struct im::boundaryStruct s = im::boundary(object, unused);
 
-				Mat useless;
-				struct im::boundaryStruct s = im::boundary(object, useless, im::STRAIGHT);
+
 				float compactness = float(s.objectPixels) / float(s.perimiterLength);
 
-				cout << "element " << count_value << " has values: \nperimeter length: " << s.perimiterLength << "\nobject pixels: " << s.objectPixels << "total: " << (compactness) << endl ;
+				if (config::DEBUG) {
+					cout << "element " << count_value << " has values:" << endl <<
+							"perimeter length: " << s.perimiterLength << endl <<
+							"object pixels: " << s.objectPixels << endl <<
+							"total: " << (compactness) << endl << endl;
+				}
+
 				if (compactness < 5.0L) {
-					cerr << "throwing out "  << compactness << endl;
+					if (config::DEBUG) {
+						cout << "\tthrowing out "  << compactness << endl;
+					}
+
 					for ( int x =0; x < object.rows; x++){
 						for (int y = 0; y < object.rows; y++){
 							if (object.at<uchar>(x,y) == 255 ){
 								temp.at<uchar>(x, y) = 0;
 							}
-					}	}
+						}
+					}
 				} else {
-					cerr << "keeping " << compactness << endl;
+					if (config::DEBUG) {
+						cerr << "\tkeeping " << compactness << endl;
+					}
 
 					for ( int x =0; x < object.rows; x++){
 						for (int y = 0; y < object.rows; y++){
 							if (object.at<uchar>(x,y) == 255 ){
 								temp.at<uchar>(x, y) = count_value;
 							}
-					}	}
+						}
+					}
 				}
 				count_value += 1;
 				objCount++;
@@ -251,11 +265,10 @@ Mat im::binaryLabelCircle(const cv::Mat &input){
 				if (config::DEBUG){
 					std::ostringstream count;
 					count << "object: " << objCount;
-					namedWindow(count.str(), CV_WINDOW_NORMAL);
-					imshow(count.str(), object);
 				}
 			}
-	} }
+		}
+	}
 
 	for (int i = 0; i < input.rows ; i++){
 		for (int j = 0; j < input.cols ; j++){

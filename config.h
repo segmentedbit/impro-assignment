@@ -9,9 +9,9 @@
 #define CONFIG_H_
 
 namespace config {
-const bool DEBUG = false;
+
+extern bool DEBUG;
+
 }
-
-
 
 #endif /* CONFIG_H_ */
