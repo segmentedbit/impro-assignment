@@ -17,27 +17,6 @@
 using namespace std;
 using namespace cv;
 
-void solve::balloons(const Mat &input){
-
-	// obviously not completed
-	Mat gray = im::grayscale(input);
-
-	namedWindow("ballloons - gray", CV_WINDOW_NORMAL);
-	imshow("ballloons - gray", gray);
-
-	Mat kernel = ( Mat_<float>(1,5) <<
-		1, -8, 0, 8, -1);
-		float divide_fact = 12;
-
-	Mat output = im::filter(gray, kernel, divide_fact);
-	namedWindow("balloons", CV_WINDOW_NORMAL);
-		imshow("balloons", output);
-
-	Mat thresholded = im::threshold(gray, 50);
-	namedWindow("thresholded", CV_WINDOW_NORMAL);
-	imshow("thresholded", thresholded);
-}
-
 void solve::balls(const Mat &input){
 
 	//gray value

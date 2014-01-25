@@ -13,15 +13,6 @@
 namespace solve {
 
 /*
- * This function will solve the picture balloons.png
- * It does:
- *  - gray level
- *  - x-derivative function   ++ - SKIZ
- *  TODO not working yet
- */
-void balloons(const cv::Mat &input);
-
-/*
  * Solve the picture balls.png
  *  it does:
  *  - gray level
@@ -64,7 +55,13 @@ void xray(const cv::Mat &input);
 /*
  * Solve the boltsnuts.png search for the nuts in the image
  * it does:
- * TODO
+ * - to gray scale
+ * - segment image at 245
+ * - obtain the background, geodesic dilated from the border
+ * - remove background: keep enclosed areas
+ * - erode the objects to keep only (markers of) the largest ones
+ * - geodesic dilation of the probable circles
+ * - label the circles
  */
 void boltsnuts(const cv::Mat &input);
 

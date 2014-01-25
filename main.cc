@@ -86,12 +86,9 @@ int program(int argc, char** argv) {
 	}
 
 	///// checks what procedure should be run.
-	 if (!input.compare("balloons")) {
-		solve::balloons(image);
-	}
-	 else if (!input.compare("cheese")) {
+	if (!input.compare("cheese")) {
 		solve::cheese(image);
-	 }
+	}
 	else if (!input.compare("balls")) {
 		solve::balls(image);
 	}
