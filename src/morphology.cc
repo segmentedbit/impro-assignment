@@ -121,7 +121,6 @@ struct im::boundaryStruct im::boundary(const Mat& input, Mat& output) {
 	im::boundaryStruct s;
 	s.perimiterLength = perimeterLength;
 	s.objectPixels = objectPixels;
-	cout << "in " << &input << endl;
 	return s;
 }
 

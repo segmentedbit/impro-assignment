@@ -57,7 +57,7 @@ void cheese(const cv::Mat &input);
  * - geoDesicDilate from background on inverse grayscale
  * - subtract geoDesicDilate output from inverse thresholded image
  * - threshold of above, for silhoutte determination and detection
- * - labelling
+ * - labeling
  */
 void xray(const cv::Mat &input);
 
