@@ -9,8 +9,8 @@
 #include <iostream>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "includes/stockpile.h"
+#include "includes/extra.h"
 #include "config.h"
-#include "extra.h"
 
 using namespace std;
 using namespace cv;
