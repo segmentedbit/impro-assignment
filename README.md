@@ -20,20 +20,19 @@ Using the Mat class causes quite some overhead because OpenCV offers a lot more 
 
 
 ###Project structure:
-- [Documents]
- 
-- user manual
-- supporting documentation
-- pictures of output
+- [Documents] 
+ - user manual
+ - supporting documentation
+ - pictures of output
 
 - [images]
-- testing images
+ - testing images
 
 - [includes] 
-- header files
+ - header files
 
 - [src] 
-- source files
+ - source files
 
 
 
