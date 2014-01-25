@@ -12,8 +12,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "includes/statistics.h"
 #include "includes/morphology.h"
+#include "includes/extra.h"
 #include "config.h"
-#include "extra.h"
 
 using namespace cv;
 using namespace std;

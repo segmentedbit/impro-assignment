@@ -213,56 +213,66 @@ void solve::boltsnuts(const Mat &input){
 
 void solve::road(const Mat &input){
 
+	//grayscale
 	Mat gray = im::grayscale(input);
-	namedWindow("road - gray", CV_WINDOW_NORMAL);
-	imshow("road - gray", gray);
+	namedWindow("1 - road - gray", CV_WINDOW_NORMAL);
+	imshow("1 - road - gray", gray);
 
+	//gaussian smoothing filter
 	Mat smooth = im::gaussianFilter(gray, 3, 1);
-	namedWindow("road - smooth", CV_WINDOW_NORMAL);
-	imshow("road - smooth", smooth);
+	namedWindow("2 - road - smooth", CV_WINDOW_NORMAL);
+	imshow("2 - road - smooth", smooth);
 
+	//quantization with 8 levels
 	Mat quant = im::quantization(smooth, 8);
-	namedWindow("road - quantization", CV_WINDOW_NORMAL);
-	imshow("road - quantization", quant);
+	namedWindow("3 - road - quantization", CV_WINDOW_NORMAL);
+	imshow("3 - road - quantization", quant);
 
-	//histogram
+	//histogram of quantization
 	Mat histogram = im::showHist(quant);
-	namedWindow("road - histogram quant", CV_WINDOW_NORMAL);
-	imshow("road - histogram quant", histogram);
+	namedWindow("3a - road - histogram quant", CV_WINDOW_NORMAL);
+	imshow("3a - road - histogram quant", histogram);
 
+	//histogram equalize
 	Mat eq = im::equalize(quant);
-	namedWindow("road - equalized", CV_WINDOW_NORMAL);
-	imshow("road - equalized", eq);
+	namedWindow("4 - road - equalized", CV_WINDOW_NORMAL);
+	imshow("4 - road - equalized", eq);
 
-	//histogram
+	//histogram to check difference
 	Mat histogram2 = im::showHist(eq);
-	namedWindow("road - histogram eq-quant", CV_WINDOW_NORMAL);
-	imshow("road - histogram eq-quant", histogram2);
+	namedWindow("4a - road - histogram eq-quant", CV_WINDOW_NORMAL);
+	imshow("4a - road - histogram eq-quant", histogram2);
 
 	//thresholding
 	Mat threshold = im::threshold(eq, 225);
-	namedWindow("road - thresholded", CV_WINDOW_NORMAL);
-	imshow("road - thresholded", threshold);
+	namedWindow("5 - road - thresholded", CV_WINDOW_NORMAL);
+	imshow("5 - road - thresholded", threshold);
 
+	//dilation 3x
 	Mat dilate;
 	threshold.copyTo(dilate);
 	for(int i =0; i < 3; i++){
 		dilate = im::morphDilate(dilate);
 	}
-	namedWindow("road - dilate", CV_WINDOW_NORMAL);
-	imshow("road - dilate", dilate);
+	namedWindow("6 - road - dilate", CV_WINDOW_NORMAL);
+	imshow("6 - road - dilate", dilate);
 
+	//inverse
 	Mat invert = im::invertGray(dilate);
+	namedWindow("7 - road - inverse of dilation", CV_WINDOW_NORMAL);
+	imshow("7 - road -inverse of dilation", invert);
 
+	//making a mask for geodesic dilate
 	Mat mask = Mat::zeros(invert.rows, invert.cols, CV_8UC1);
 	mask.row(0) = 255;
 	mask.col(0) = 255;
 	mask.row(mask.rows - 1) = 255;
 	mask.col(mask.cols - 1) = 255;
 
+	//geodesic dilate
 	Mat geoDil = im::morphGeodesicDilate(mask, dilate);
-	namedWindow("road - Geo dilate", CV_WINDOW_NORMAL);
-	imshow("road - Geo dilate", geoDil);
+	namedWindow("8 - road - Geo dilate", CV_WINDOW_NORMAL);
+	imshow("8 - road - Geo dilate", geoDil);
 
 }
 

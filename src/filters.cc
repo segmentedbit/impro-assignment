@@ -12,8 +12,9 @@
 #include "includes/filters.h"
 #include "includes/stockpile.h"
 #include "includes/statistics.h"
+#include "includes/extra.h"
 #include "config.h"
-#include "extra.h"
+
 
 using namespace std;
 using namespace cv;

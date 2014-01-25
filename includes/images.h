@@ -78,6 +78,7 @@ void boltsnuts(const cv::Mat &input);
  * - histogram to determine differences
  * - thresholding
  * - dilation 3x
+ * - inverse of dilation result
  * - geoDesicDilate
  */
 void road(const cv::Mat &input);
