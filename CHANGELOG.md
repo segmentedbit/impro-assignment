@@ -153,3 +153,6 @@ standard), and made the program accept a second cli parameter because the paths
 in windows are obviously different from those in linux. The extra parameter
 will denote the procedure.<br>
 Cleaned the hell out of the code. Hopefully I didn't put it back somewhere :)
+
+###25-01-2014 segmentedbit<br>
+Cleaned images.cc, except for the roads routine (and balloons, of course)
