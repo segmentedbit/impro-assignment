@@ -41,7 +41,7 @@ int program(int argc, char** argv) {
 		if (loc != myName.npos) {
 			myName = myName.substr(loc + 1);
 		}
-		std::cout << "Not enough parameters. Usage:\n" << myName << " <procedure> <image>\nFor usage information, please see the supplied \"Usage document\"" << endl;
+		std::cout << "Not enough parameters. Usage:\n" << myName << " <sequence> <image>\nFor usage information, please see the supplied \"Usage document\"" << endl;
 		return -1;
 	}
 
