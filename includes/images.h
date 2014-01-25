@@ -51,9 +51,10 @@ void cheese(const cv::Mat &input);
  * Solve the xray.png search for steel objects within the person centered in the image.
  * it does:
  * - to gray scale
- * - inverse of thresholding
+ * - thresholding
+ * - inverse of thresholded
  * - inverse of gray scale image
- * - geoDesicDilate from background
+ * - geoDesicDilate from background on inverse grayscale
  * - subtract geoDesicDilate output from inverse thresholded image
  * - threshold of above, for silhoutte determination and detection
  * - labelling
