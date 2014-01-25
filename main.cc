@@ -41,10 +41,9 @@ int program(int argc, char** argv) {
 		if (loc != myName.npos) {
 			myName = myName.substr(loc + 1);
 		}
-		std::cout << "\n\nNot enough parameters. Usage:\n\n" << myName << " <pipeline> <image> (-d)\nFor usage information, please see the supplied \"user manual\"\n"
+		std::cout << "\n\nNot enough parameters. Usage:\n\n" << myName << " <pipeline> <image> [-d]\nFor usage information, please see the supplied \"user manual\"\n"
 				<< "The program needs at least two parameters in order to run. The third option '-d'\nis optional.\n\n"
-				<< "\t<pipeline_name>\n\tThere are six different names, according with each image, these are:\n"
-				<<"\t- balloons\n"
+				<< "\t<pipeline_name>\n\tThere are five different names, according with each image, these are:\n"
 				<<"\t- cheese\n"
 				<<"\t- balls\n"
 				<<"\t- xray\n"
@@ -53,13 +52,12 @@ int program(int argc, char** argv) {
 				<<"\t<image>\n"
 				<<"\tAccording to the chosen pipeline, you need to give the path of the\n"
 				<<"\timage located in the 'images' directory, the possible options are:\n"
-				<<"\t- images/balloons.png\n"
 				<<"\t- images/cheese.png\n"
 				<<"\t- images/balls.png\n"
 				<<"\t- images/xray.png ; images/xray2.png ; images/xray3.png\n"
 				<<"\t- images/boltsnuts.png\n"
 				<<"\t- images/road.png\n\n"
-				<<"\t(-d)\n"
+				<<"\t[-d]\n"
 				<<"\tConcluding the command with '-d' gives the debug output of the chosen\n"
 				<<"\tpipeline. We have kept the default output to a minimum and made an\n"
 				<<"\textra option to print some pipeline information if wanted.\n"
@@ -68,7 +66,6 @@ int program(int argc, char** argv) {
 	}
 
 	// Turn debug on when requested
-	cout << argc;
 	if (argc == 4) {
 		string debug = argv[3];
 		if (!debug.compare("-d"))
@@ -86,12 +83,9 @@ int program(int argc, char** argv) {
 	}
 
 	///// checks what procedure should be run.
-	 if (!input.compare("balloons")) {
-		solve::balloons(image);
-	}
-	 else if (!input.compare("cheese")) {
+	if (!input.compare("cheese")) {
 		solve::cheese(image);
-	 }
+	}
 	else if (!input.compare("balls")) {
 		solve::balls(image);
 	}
