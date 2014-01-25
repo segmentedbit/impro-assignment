@@ -68,7 +68,6 @@ int program(int argc, char** argv) {
 	}
 
 	// Turn debug on when requested
-	cout << argc;
 	if (argc == 4) {
 		string debug = argv[3];
 		if (!debug.compare("-d"))
