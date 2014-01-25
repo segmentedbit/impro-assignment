@@ -22,8 +22,6 @@ using namespace cv;
 
 int program(int argc, char** argv);
 
-typedef chrono::high_resolution_clock highc;
-
 int main(int argc, char** argv) {
 
 	// starting the program //
