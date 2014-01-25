@@ -42,8 +42,8 @@ void solve::balls(const Mat &input){
 
 	//gray value
 	Mat gray = im::grayscale(input);
-	namedWindow("1 - gray", CV_WINDOW_NORMAL);
-	imshow("1 - gray", gray);
+	namedWindow("1 - balls - gray", CV_WINDOW_NORMAL);
+	imshow("1 - balls - gray", gray);
 
 	///////////// x-Derivative ////////////////////
 	Mat kernelX1 = ( Mat_<float>(1,5) <<
@@ -68,18 +68,18 @@ void solve::balls(const Mat &input){
 			im::filter(gray, kernelX2, divide_fact) +
 			im::filter(gray, kernelY1, divide_fact) +
 			im::filter(gray, kernelY2, divide_fact);
-	namedWindow("2 - derivative", CV_WINDOW_NORMAL);
-	imshow("2 - derivative", derivative);
+	namedWindow("2 - balls - derivative", CV_WINDOW_NORMAL);
+	imshow("2 - balls - derivative", derivative);
 
 	//blur the image with a gaussian filter (size 15, sigma 3), multiply with 255
 	Mat gauss = im::gaussianFilter(derivative, 15, 3) * 255;
-	namedWindow("3 - gauss * 255", CV_WINDOW_NORMAL);
-	imshow("3 - gauss * 255", gauss);
+	namedWindow("3 - balls - gauss * 255", CV_WINDOW_NORMAL);
+	imshow("3 - balls - gauss * 255", gauss);
 
 	//invert image for further processing
 	Mat inverted = im::invertGray(gauss);
-	namedWindow("4 - inverted", CV_WINDOW_NORMAL);
-	imshow("4 - inverted", inverted);
+	namedWindow("4 - balls - inverted", CV_WINDOW_NORMAL);
+	imshow("4 - balls - inverted", inverted);
 
 	//eroded 15 times
 	Mat eroded;
@@ -87,13 +87,13 @@ void solve::balls(const Mat &input){
 	for (int i =0; i< 15; i++){
 		 eroded = im::morphErode(eroded);
 	}
-	namedWindow("5 - eroded", CV_WINDOW_NORMAL);
-	imshow("5 - eroded", eroded);
+	namedWindow("5 - balls - eroded", CV_WINDOW_NORMAL);
+	imshow("5 - balls - eroded", eroded);
 
 	//thresholded at 240
 	Mat thresholded = im::threshold(eroded, 240 );
-	namedWindow("6 - thresholded", CV_WINDOW_NORMAL);
-	imshow("6 - thresholded", thresholded);
+	namedWindow("6 - balls - thresholded", CV_WINDOW_NORMAL);
+	imshow("6 - balls - thresholded", thresholded);
 
 	//dilated the image 22 times
 	Mat dilated;
@@ -101,13 +101,13 @@ void solve::balls(const Mat &input){
 	for (int i =0; i<22; i++){
 		 dilated = im::morphDilate(dilated);
 	}
-	namedWindow("7 - dilated", CV_WINDOW_NORMAL);
-	imshow("7 - dilated", dilated);
+	namedWindow("7 - balls - dilated", CV_WINDOW_NORMAL);
+	imshow("7 - balls - dilated", dilated);
 
 	//label
 	Mat labeled = im::binaryLabel(dilated);
-	namedWindow("8 - labeled", CV_WINDOW_NORMAL);
-	imshow("8 - labeled", labeled);
+	namedWindow("8 - balls - labeled", CV_WINDOW_NORMAL);
+	imshow("8 - balls - labeled", labeled);
 }
 
 void solve::cheese(const Mat &input){
@@ -168,13 +168,13 @@ void solve::boltsnuts(const Mat &input){
 
 	Mat gray = im::grayscale(input);
 	gray = im::averageFilter(gray, 5, 5, im::PWHITE);
-	namedWindow("boltsnuts - gray", CV_WINDOW_NORMAL);
-	imshow("boltsnuts - gray", gray);
+	namedWindow("1 - boltsnuts - gray", CV_WINDOW_NORMAL);
+	imshow("1 - boltsnuts - gray", gray);
 
 	//segment image at 245
 	Mat segmented = im::threshold(gray, 245 );
-	namedWindow("1 - segmented", CV_WINDOW_NORMAL);
-	imshow("1 - segmented", segmented);
+	namedWindow("2 - boltsnuts - segmented", CV_WINDOW_NORMAL);
+	imshow("2 - boltsnuts - segmented", segmented);
 
 	//obtain the background, geodesic dilated from the border
 	Mat expandedBorder = Mat::zeros(segmented.size(), CV_8UC1);
@@ -183,32 +183,33 @@ void solve::boltsnuts(const Mat &input){
 	expandedBorder.row(segmented.rows-1) = 255;
 	expandedBorder.col(segmented.cols-1) = 255;
 	expandedBorder = im::morphGeodesicDilate(expandedBorder, segmented);
-	namedWindow("(2) - expandedBorder", CV_WINDOW_NORMAL);
-	imshow("(2) - expandedBorder", expandedBorder);
+	namedWindow("3a - boltsnuts - expandedBorder", CV_WINDOW_NORMAL);
+	imshow("3a - boltsnuts - expandedBorder", expandedBorder);
 
 	//remove background: keep enclosed areas
 	Mat objects = im::subtractMatrix(segmented, expandedBorder);
-	namedWindow("2 - objects: border removed", CV_WINDOW_NORMAL);
-	imshow("2 - objects: border removed", objects);
+	namedWindow("3 - boltsnuts - objects: border removed", CV_WINDOW_NORMAL);
+	imshow("3 - boltsnuts - objects: border removed", objects);
 
 	//erode the objects to keep only (markers of) the largest ones
 	Mat openedCircles = im::morphErode(objects);
 	openedCircles = im::morphErode(openedCircles);
 	openedCircles = im::morphErode(openedCircles);
 	openedCircles = im::morphErode(openedCircles);
-	namedWindow("3 - openedCircles", CV_WINDOW_NORMAL);
-	imshow("3 - openedCircles", openedCircles);
+	namedWindow("4 - boltsnuts - openedCircles", CV_WINDOW_NORMAL);
+	imshow("4 - boltsnuts - openedCircles", openedCircles);
 
+	/*
 	//geodesic dilation of the probable circles
 	Mat bigObjects = im::morphGeodesicDilate(openedCircles, objects);
-	namedWindow("4 - bigObjects", CV_WINDOW_NORMAL);
-	imshow("4 - bigObjects", bigObjects);
+	namedWindow("5 - boltsnuts - bigObjects", CV_WINDOW_NORMAL);
+	imshow("5 - boltsnuts - bigObjects", bigObjects);
 
 	//label the circles
 	Mat labeledCircles = im::binaryLabelCircle(bigObjects);
-	namedWindow("5 - labeledCircles", CV_WINDOW_NORMAL);
-	imshow("5 - labeledCircles", labeledCircles);
-
+	namedWindow("6 - boltsnuts - labeledCircles", CV_WINDOW_NORMAL);
+	imshow("6 - boltsnuts - labeledCircles", labeledCircles);
+*/
 }
 
 void solve::road(const Mat &input){
@@ -312,8 +313,9 @@ void solve::xray(const cv::Mat &input){
 
 	//subtract tresholded from the expandedborder
 	Mat edge = im::subtractMatrix(inverse_thresholded, expandedBorder);
-	namedWindow("4 - xray - end", CV_WINDOW_NORMAL);
-	imshow("4 - xray - end", edge);
+	namedWindow("4 - xray - edge", CV_WINDOW_NORMAL);
+	imshow("4 - xray - edge", edge);
+
 
 	//thresholded the edges
 	Mat silhoutte = im::threshold(edge, 35);
