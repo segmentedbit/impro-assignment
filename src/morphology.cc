@@ -11,7 +11,7 @@
 #include "includes/morphology.h"
 #include "includes/stockpile.h"
 #include "includes/statistics.h"
-#include "config.h"
+#include "includes/config.h"
 
 using namespace std;
 using namespace cv;

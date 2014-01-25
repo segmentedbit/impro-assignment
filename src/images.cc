@@ -12,7 +12,7 @@
 #include "includes/statistics.h"
 #include "includes/morphology.h"
 #include "includes/filters.h"
-#include "config.h"
+#include "includes/config.h"
 
 using namespace std;
 using namespace cv;

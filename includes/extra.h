@@ -8,6 +8,8 @@
 #ifndef EXTRA_H_
 #define EXTRA_H_
 
+#include <cmath>
+
 namespace im {
 
 inline int round(double r) {

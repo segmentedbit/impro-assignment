@@ -5,7 +5,7 @@
  *      Author: segmentedbit
  */
 
-#include "config.h"
+#include "includes/config.h"
 
 bool config::DEBUG = false;
 
