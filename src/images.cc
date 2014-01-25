@@ -199,7 +199,6 @@ void solve::boltsnuts(const Mat &input){
 	namedWindow("4 - boltsnuts - openedCircles", CV_WINDOW_NORMAL);
 	imshow("4 - boltsnuts - openedCircles", openedCircles);
 
-	/*
 	//geodesic dilation of the probable circles
 	Mat bigObjects = im::morphGeodesicDilate(openedCircles, objects);
 	namedWindow("5 - boltsnuts - bigObjects", CV_WINDOW_NORMAL);
@@ -209,7 +208,7 @@ void solve::boltsnuts(const Mat &input){
 	Mat labeledCircles = im::binaryLabelCircle(bigObjects);
 	namedWindow("6 - boltsnuts - labeledCircles", CV_WINDOW_NORMAL);
 	imshow("6 - boltsnuts - labeledCircles", labeledCircles);
-*/
+
 }
 
 void solve::road(const Mat &input){

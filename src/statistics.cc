@@ -234,7 +234,7 @@ Mat im::binaryLabelCircle(const cv::Mat &input){
 							"total: " << (compactness) << endl << endl;
 				}
 
-				if (compactness < 5.0L) {
+				if (compactness < 4.0L) {
 					if (config::DEBUG) {
 						cout << "\tthrowing out "  << compactness << endl;
 					}
