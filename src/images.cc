@@ -283,10 +283,20 @@ void solve::xray(const cv::Mat &input){
 	namedWindow("1 - xray - grayscale", CV_WINDOW_NORMAL);
 	imshow("1 - xray - grayscale", gray);
 
+	//threshold the image at 100 and invert
+	Mat thresholded = im::threshold(gray, 100);
+	namedWindow("2a - xray - thresholded original", CV_WINDOW_NORMAL);
+	imshow("2a - xray - thresholded original", thresholded);
+
+	//inverse threshold
+	Mat inverse_thresholded = im::invertGray(thresholded);
+	namedWindow("2b - xray - inverse thresholded", CV_WINDOW_NORMAL);
+	imshow("2b - xray - inverse thresholded", inverse_thresholded);
+
 	//take inverse from original gray image
 	Mat inverse = im::invertGray(gray);
-	namedWindow("2a - xray - inverse", CV_WINDOW_NORMAL);
-	imshow("2a - xray - inverse", inverse);
+	namedWindow("3a - xray - inverse grayscale", CV_WINDOW_NORMAL);
+	imshow("3a - xray - inverse grayscale", inverse);
 
 	//create a mask of the border
 	Mat borderMask = Mat::zeros(gray.rows, gray.cols, CV_8UC1);
@@ -297,28 +307,22 @@ void solve::xray(const cv::Mat &input){
 
 	//geodesic dilate the border with the inverse of the original
 	Mat expandedBorder = im::morphGeodesicDilate(borderMask, inverse);
-	namedWindow("2b - xray - expandedBorder", CV_WINDOW_NORMAL);
-	imshow("2b - xray - expandedBorder", expandedBorder);
-
-	//threshold the image at 100 and invert
-	Mat thresholded = im::threshold(gray, 100);
-	thresholded = im::invertGray(thresholded);
-	namedWindow("2c - xray - thresholded original", CV_WINDOW_NORMAL);
-	imshow("2c - xray - thresholded original", thresholded);
+	namedWindow("3b - xray - geodesic dilate", CV_WINDOW_NORMAL);
+	imshow("3b - xray - geodesic dilate", expandedBorder);
 
 	//subtract tresholded from the expandedborder
-	Mat edge = im::subtractMatrix(thresholded, expandedBorder);
-	namedWindow("2 - xray - end", CV_WINDOW_NORMAL);
-	imshow("2 - xray - end", edge);
+	Mat edge = im::subtractMatrix(inverse_thresholded, expandedBorder);
+	namedWindow("4 - xray - end", CV_WINDOW_NORMAL);
+	imshow("4 - xray - end", edge);
 
 	//thresholded the edges
 	Mat silhoutte = im::threshold(edge, 35);
-	namedWindow("3 - xray - silhoutte", CV_WINDOW_NORMAL);
-	imshow("3 - xray - silhoutte", silhoutte);
+	namedWindow("5 - xray - silhoutte", CV_WINDOW_NORMAL);
+	imshow("5 - xray - silhoutte", silhoutte);
 
 	//label the objects
 	Mat label = im::binaryLabel(silhoutte);
-	namedWindow("4 - xray - label", CV_WINDOW_NORMAL);
-	imshow("4 - xray - label", label);
+	namedWindow("6 - xray - label", CV_WINDOW_NORMAL);
+	imshow("6 - xray - label", label);
 
 }
