@@ -260,7 +260,7 @@ void solve::road(const Mat &input){
 	//inverse
 	Mat invert = im::invertGray(dilate);
 	namedWindow("7 - road - inverse of dilation", CV_WINDOW_NORMAL);
-	imshow("7 - road -inverse of dilation", invert);
+	imshow("7 - road - inverse of dilation", invert);
 
 	//making a mask for geodesic dilate
 	Mat mask = Mat::zeros(invert.rows, invert.cols, CV_8UC1);
