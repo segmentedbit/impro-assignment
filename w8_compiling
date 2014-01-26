@@ -1,0 +1,33 @@
+You need the following applications:
+Git
+http://git-scm.com/download/win
+
+Visual Studio (I used 2012, which uses, and automatically comes with, VC11
+http://e5.onthehub.com/WebStore/ProductsByMajorVersionList.aspx?ws=63c52eae-846f-e011-971f-0030487d8897&vsro=8
+
+Opencv (don't build yourself, builds for vc11 are included and work)
+http://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.8/opencv-2.4.8.exe/download
+
+--------------------------------------------------------------------------------------
+
+Install all applications. VS will ask you to perform some extra updating shit. Even better, you get an update when you download the package.
+
+--------------------------------------------------------------------------------------
+
+Git:
+Get the repo. the git terminal understands linux commands
+it will complain about not knowing your email:
+git config --global user.email "bla@bla.com"
+
+VS:
+1 Create a new empty c++ project
+2 Click on the project's name in the viewer (solution <something>) on the left and go for project > properties or hit the wrench icon above the name
+3 Get into the "<something> directories tab in this new window and include ~/Downloads/opencv/something/include. Click ok or whatever. Also, add the root folder of the git repo (that is, the parent of the 'includes' folder. thats important.
+4 In this same view, fill in the library path. For vs2012, which uses vc11, you use the build/x86/vc11/lib folder. Now return to the properties window
+5 In this window, expand the c++ thing and click on the first, second, or third entry you see (not sure, dont know the name, sorry). In the view that opens up, the uppermost entry is for entering individual libraries, same as in eclipse. Obiously, you take these from the same folder as the one you filled in for library path. Don't forget the .lib suffix!
+6 Now your done setting libraries (if im not mistaken) ok your way back to the main screen
+7 browse your way to the git repo in windows explorer and select and drag the .c files from src on top of the bolded project name in vs.
+8 do the same for main.cc
+9 And drag main.cc from its current location alongside the other cc files again on top of the bolded project's name. Now it is in the root where it should be.
+9 RUN, RUN FOR YOUR LIFE
+10 And if I didnt forget something, which i probably have, youll have the application complain about not having enough imput parameters
