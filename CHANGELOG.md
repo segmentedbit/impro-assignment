@@ -156,3 +156,8 @@ Cleaned the hell out of the code. Hopefully I didn't put it back somewhere :)
 
 ###25-01-2014 segmentedbit<br>
 Cleaned images.cc, except for the roads routine (and balloons, of course)
+
+###26-01-2014 segmentedbit<br>
+Should be all done now: in the past days, all windows requirements have been met, the 
+robustness routines have been created and a windows release built is included.
+Documentatin written as well.
