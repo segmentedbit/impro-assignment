@@ -1,11 +1,12 @@
 impro-assignment
-
 ================
 
 
 
 Assignment for image processing
 
+University of Utrecht
+INFOIBV 2013/2014
 
 
 Using the Mat class causes quite some overhead because OpenCV offers a lot more functionality and different types than we need. Playing around with loops and type casts can get you a better idea of what values you are dealing with.
