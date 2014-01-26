@@ -7,11 +7,16 @@ year: 2013/2014 <br>
 
 Practical assignment for image processing
 
-This repository is part of the practical assignment application. We made different pipelines for segmenting different images. For a quick start we used OpenCV for reading and displaying the images. All the image processing is done by handmade code.
+This repository is part of the practical assignment application. We made different 
+pipelines for segmenting different images. For a quick start we used OpenCV for 
+reading and displaying the images. All the image processing is done by handmade code.
+- url: https://github.com/segmentedbit/impro-assignment
 
 ###Program
-The program can be found in the 'Release' directory. It is programmed in C++ and compiled with
-Visual C++ 11. It was mandatory to deliver a Windows executable. The GetARealOS.exe is Windows 8.1 64 bit executable, in order to run correctly you need the Visual c++ 2012 redistributable, which can be downloaded here:
+The program can be found in the 'Release' directory. It is programmed in C++ and c
+ompiled with Visual C++ 11. It was mandatory to deliver a Windows executable. 
+The GetARealOS.exe is Windows 8.1 64 bit executable, in order to run correctly you 
+need the Visual c++ 2012 redistributable, which can be downloaded here:
 - http://www.microsoft.com/en-us/download/details.aspx?id=30679
 
 The application we have developed is commandline operated only. 

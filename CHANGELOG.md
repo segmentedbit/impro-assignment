@@ -161,3 +161,9 @@ Cleaned images.cc, except for the roads routine (and balloons, of course)
 Should be all done now: in the past days, all windows requirements have been met, the 
 robustness routines have been created and a windows release built is included.
 Documentatin written as well.
+
+###26-1-2014 Ardillo<br>
+Tested it in van fresh VM with Windows 8.1 - 64 bit, and Visual c++ 2012
+redistributable. It worked like a charm.
+Made an archive with the files that are needed an placed them in a 
+deliverable directory in the repo.
