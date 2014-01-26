@@ -14,6 +14,9 @@ Using the Mat class causes quite some overhead because OpenCV offers a lot more 
 The program can be found in the 'Release' directory. It was mandatory to deliver a Windows executable. The GetARealOS.exe is Windows 8.1 64 bit executable, in order to run correctly you need the Visual c++ 2012 redistributable, which can be downloaded here:
 - http://www.microsoft.com/en-us/download/details.aspx?id=30679
 
+###Documents
+We made an user manual and an supporting document which describes the different programmed pipelines.
+They can be found in the 'Documents' directory.
 
 ###Interesting links:
 
